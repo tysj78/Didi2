@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.yangyong.striking_arithmetic.DiDiUtil;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
