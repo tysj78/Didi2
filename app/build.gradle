@@ -120,6 +120,8 @@ dependencies {
         exclude group: 'androidx.annotation', module: 'annotation'
     }
 
+//    implementation 'com.github.tysj78:Didi2:Tag'
+
 //    implementation 'com.android.support:cardview-v7:28.0.0'
 //    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }
