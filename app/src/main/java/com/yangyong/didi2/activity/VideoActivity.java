@@ -99,7 +99,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
             }
             return diffTime.toString();
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
         return "";
     }
@@ -108,7 +108,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
         try {
             return millisecond / 1000;
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
         return 0;
     }

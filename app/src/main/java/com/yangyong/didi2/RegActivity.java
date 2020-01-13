@@ -68,7 +68,7 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
             LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
         return isOpen;
     }

@@ -101,8 +101,8 @@ public class Main5Activity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void run() {
                         boolean b = isServiceRunning(Main5Activity.this, "com.yangyong.didi2.MyService");
-                        Log.e("yy", "服务运行状态：" + b);
-                        Log.e("yy", "监测线程开启，5分钟后再次检测服务运行状态.....");
+                        Log.e(Constants.TAG, "服务运行状态：" + b);
+                        Log.e(Constants.TAG, "监测线程开启，5分钟后再次检测服务运行状态.....");
                     }
                 }, 2000, 1000 * 60 * 3);
                 break;

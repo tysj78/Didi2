@@ -148,9 +148,9 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
 
 //                writerExter();
 //                readExter();
-//                Log.e("yy", "onClick1: " + b);
+//                Log.e(Constants.TAG, "onClick1: " + b);
 //                if (b) {
-//                    Log.e("yy", "onClick2: ");
+//                    Log.e(Constants.TAG, "onClick2: ");
 ////                    writerExter();
 ////                    readExter();
 //                }
@@ -253,7 +253,7 @@ public class PermissionActivity extends AppCompatActivity implements View.OnClic
 
     private void readExter() {
 //        String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-//        Log.e("yy", "readExter: "+absolutePath );
+//        Log.e(Constants.TAG, "readExter: "+absolutePath );
         // 读取SD卡文件里面的内容
         FileReader fr = null;
         try {

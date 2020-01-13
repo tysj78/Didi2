@@ -47,7 +47,7 @@ public class OkHttpUtil {
         //创建OkHttpClient请求对象
         mContext = MyApp.mContext;
 //        okHttpClient = getOkHttpClient();
-//        Log.e("yy", "=============: " + okHttpClient);
+//        Log.e(Constants.TAG, "=============: " + okHttpClient);
     }
 
     public static OkHttpUtil getInstance() {
@@ -71,7 +71,7 @@ public class OkHttpUtil {
 
                 @Override
                 public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                    Log.e("yy", "开始验证=====");
+                    Log.e(Constants.TAG, "开始验证=====");
                     boolean verifyResult = false;
                     try {
                         InputStream certInputStream = new BufferedInputStream(mContext.getAssets().open("tomcat.cer"));
@@ -87,9 +87,9 @@ public class OkHttpUtil {
 
                         for (X509Certificate cert : chain) {
                             String string = cert.getPublicKey().toString();
-                            Log.e("yy", "---服务器证公钥：" + string);
+                            Log.e(Constants.TAG, "---服务器证公钥：" + string);
                             String string2 = serverCertificate.getPublicKey().toString();
-                            Log.e("yy", "---本地证书公钥：" + string2);
+                            Log.e(Constants.TAG, "---本地证书公钥：" + string2);
                             cert.checkValidity();
                             cert.verify(serverCertificate.getPublicKey());
 //                            if (string.equals(string2)) {
@@ -98,7 +98,7 @@ public class OkHttpUtil {
 //                            }
                         }
                     } catch (Exception e) {
-                        Log.e("yy", "---验证异常" + e.toString());
+                        Log.e(Constants.TAG, "---验证异常" + e.toString());
                         throw new CertificateException("证书校验异常");
                     }
 //                    if (!verifyResult) {
@@ -218,7 +218,7 @@ public class OkHttpUtil {
                 }
             });
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.toString());
+            Log.e(Constants.TAG, "Exception: " + e.toString());
         }
     }
 

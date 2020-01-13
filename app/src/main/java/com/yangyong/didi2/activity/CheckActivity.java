@@ -35,7 +35,7 @@ public class CheckActivity extends AppCompatActivity {
         try {
             exTest();
         } catch (Exception e) {
-            Log.e("yy", "Exception2: " + e.toString());
+            Log.e(Constants.TAG, "Exception2: " + e.toString());
         }
     }
 
@@ -43,7 +43,7 @@ public class CheckActivity extends AppCompatActivity {
 //        try {
         throw new IOException("我是自定义的ioexception");
 //        } catch (Exception e) {
-//            Log.e("yy", "Exception1: " + e.getMessage());
+//            Log.e(Constants.TAG, "Exception1: " + e.getMessage());
 //        }
     }
 

@@ -67,7 +67,7 @@ public class DbActivity extends AppCompatActivity implements View.OnClickListene
 //                            SQLiteDatabase.loadLibs(DbActivity.this);
 //                            userDao = new UserDao(DbActivity.this);
 //                        } catch (Exception e) {
-//                            Log.e("yy", "初始化加密数据库异常: " + e.getMessage());
+//                            Log.e(Constants.TAG, "初始化加密数据库异常: " + e.getMessage());
 //                        }
 //                    }
 //                }

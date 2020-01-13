@@ -232,9 +232,9 @@ public class Main12Activity extends Activity implements OnClickListener,
 //        wifiManager.disconnect();
 //        wifiManager.disconnect(); //断开当前连接, 一段时间后还会自动连接
 //        int mNetworkId = connectionInfo.getNetworkId();
-//        Log.e("yy", "connectWifi2: " + mNetworkId);
+//        Log.e(Constants.TAG, "connectWifi2: " + mNetworkId);
 //        boolean b = wifiManager.disableNetwork(mNetworkId);//指定热点断开连接，同时不再连接
-//        Log.e("yy", "disableNetwork :" + b);
+//        Log.e(Constants.TAG, "disableNetwork :" + b);
 
         WifiConfiguration wifiConfig = new WifiConfiguration();
         wifiConfig.SSID = "\"" + ssid + "\"";
@@ -258,30 +258,30 @@ public class Main12Activity extends Activity implements OnClickListener,
         }
         WifiConfiguration tempConfig = IsExsits(wifiConfig.SSID);
         if (tempConfig != null) {
-            Log.e("yy", "检测到wifi已存在: " + wifiConfig.SSID + "开始删除。。");
+            Log.e(Constants.TAG, "检测到wifi已存在: " + wifiConfig.SSID + "开始删除。。");
 //            wifiManager.removeNetwork(tempConfig.networkId);
 
 //            int mNetworkId = connectionInfo.getNetworkId();
 //            wifiManager.disableNetwork(mNetworkId); //指定热点断开连接，同时不再连接
 //            wifiManager.disconnect(); //断开当前连接, 一段时间后还会自动连接
-//            Log.e("yy", "检测到wifi已存在: " + tempConfig.networkId);
+//            Log.e(Constants.TAG, "检测到wifi已存在: " + tempConfig.networkId);
 //            wifiManager.disconnect();
 //            boolean enabled = wifiManager.enableNetwork(tempConfig.networkId, true);
 //            wifiManager.reconnect();
-//            Log.e("yy", "enableNetwork status enable=" + enabled);
+//            Log.e(Constants.TAG, "enableNetwork status enable=" + enabled);
 //            return;
             boolean b = wifiManager.removeNetwork(tempConfig.networkId);
-            Log.e("yy", "removeNetwork: " + b);
+            Log.e(Constants.TAG, "removeNetwork: " + b);
             if (!b) {
-                Log.e("yy", "删除他人创建网络失败，开始直连networkId: " + tempConfig.networkId);
+                Log.e(Constants.TAG, "删除他人创建网络失败，开始直连networkId: " + tempConfig.networkId);
                 wifiManager.disconnect();
                 SystemClock.sleep(1000);
                 boolean b1 = wifiManager.enableNetwork(tempConfig.networkId, true);
-                Log.e("yy", "直连: " + b1);
+                Log.e(Constants.TAG, "直连: " + b1);
                 return;
             }
         }
-        Log.e("yy", "正在连接至新的wifi: " + wifiConfig.SSID);
+        Log.e(Constants.TAG, "正在连接至新的wifi: " + wifiConfig.SSID);
 
 //        wifiManager.disconnect();
 
@@ -291,14 +291,14 @@ public class Main12Activity extends Activity implements OnClickListener,
 
 
         try {
-            Log.e("yy", "检测到wifi不存在: " + wifiConfig.SSID + "开始添加。。");
+            Log.e(Constants.TAG, "检测到wifi不存在: " + wifiConfig.SSID + "开始添加。。");
             int netID = wifiManager.addNetwork(wifiConfig);
-            Log.e("yy", "addNetworknetID: " + netID);
+            Log.e(Constants.TAG, "addNetworknetID: " + netID);
             if (netID > 0) {
                 wifiManager.disconnect();
                 SystemClock.sleep(1000);
                 boolean b = wifiManager.enableNetwork(netID, true);
-                Log.e("yy", "enableNetwork: " + b);
+                Log.e(Constants.TAG, "enableNetwork: " + b);
 //                wifiManager.reconnect();
             }
         } catch (Exception e) {
@@ -311,16 +311,16 @@ public class Main12Activity extends Activity implements OnClickListener,
      * 判断以前是否配置过该ssid的网络
      */
     public WifiConfiguration IsExsits(String SSID) {
-        Log.e("yy", "传入的ssid: " + SSID);
+        Log.e(Constants.TAG, "传入的ssid: " + SSID);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         List<WifiConfiguration> existingConfigs = wifiManager.getConfiguredNetworks();
-//        Log.e("yy", "existingConfigs: "+existingConfigs.size() );
+//        Log.e(Constants.TAG, "existingConfigs: "+existingConfigs.size() );
         if (existingConfigs == null) {
             return null;
         }
         for (WifiConfiguration existingConfig : existingConfigs) {
             String ssid = existingConfig.SSID;
-            Log.e("yy", "系统已保存的ssid: " + ssid);
+            Log.e(Constants.TAG, "系统已保存的ssid: " + ssid);
             if (SSID.equals(ssid)) {
                 return existingConfig;
             }

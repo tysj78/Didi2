@@ -136,7 +136,7 @@ public class LeakActivity extends BaseActivity implements View.OnClickListener {
             uri = Uri.parse("file://" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/downloadfile/hanxin.mp4");
         }
 //        uri = Uri.parse(Environment.getExternalStorageDirectory().getAbsolutePath() + "/downloadfile/hanxin.mp4");
-        Log.e("yy", "uri: " + uri);
+        Log.e(Constants.TAG, "uri: " + uri);
         Intent intent = new Intent(Intent.ACTION_VIEW);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setDataAndType(uri, "video/mp4");
@@ -180,7 +180,7 @@ public class LeakActivity extends BaseActivity implements View.OnClickListener {
                 requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1); //后面的1为请求码
             } else {
                 main_txt.setText(getPhoneIMEI());
-                Log.e("yy", "imei: " + getPhoneIMEI());
+                Log.e(Constants.TAG, "imei: " + getPhoneIMEI());
             }
         }
     }

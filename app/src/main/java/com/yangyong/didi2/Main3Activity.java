@@ -35,16 +35,16 @@ public class Main3Activity extends BaseActivity {
             if (checkPermission != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 1); //后面的1为请求码
             }else {
-                Log.e("yy", "imei: " +getPhoneIMEI());
+                Log.e(Constants.TAG, "imei: " +getPhoneIMEI());
             }
         }*/
         String pseudoId = getPseudoId();
 
         main3_zlj.setText("cpu指令集："+Build.CPU_ABI);
-        Log.e("yy", "pseudoId: " + pseudoId);
+        Log.e(Constants.TAG, "pseudoId: " + pseudoId);
 
         String phoneIMEI = getPhoneIMEI();
-        Log.e("yy", "imei: "+phoneIMEI );
+        Log.e(Constants.TAG, "imei: "+phoneIMEI );
 
 
 //        String serial = Build.SERIAL;
@@ -82,31 +82,31 @@ public class Main3Activity extends BaseActivity {
                 Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
                 //用户
                 Build.USER.length() % 10; //13 位
-        Log.e("yy", "主板: " + Build.BOARD);
-        Log.e("yy", "cpu指令集: " + Build.CPU_ABI);
-        Log.e("yy", "设置参数: " + Build.DEVICE);
-        Log.e("yy", "显示屏参数: " + Build.DISPLAY);
-        Log.e("yy", "主机: " + Build.HOST);
-        Log.e("yy", "修订版本列表: " + Build.ID);
-        Log.e("yy", "硬件制造商: " + Build.MANUFACTURER);
-        Log.e("yy", "版本: " + Build.MODEL);
-        Log.e("yy", "手机制造商: " + Build.PRODUCT);
-        Log.e("yy", "描述build的标签: " + Build.TAGS);
-        Log.e("yy", "builder的类型: " + Build.TYPE);
-        Log.e("yy", "用户: " + Build.USER);
+        Log.e(Constants.TAG, "主板: " + Build.BOARD);
+        Log.e(Constants.TAG, "cpu指令集: " + Build.CPU_ABI);
+        Log.e(Constants.TAG, "设置参数: " + Build.DEVICE);
+        Log.e(Constants.TAG, "显示屏参数: " + Build.DISPLAY);
+        Log.e(Constants.TAG, "主机: " + Build.HOST);
+        Log.e(Constants.TAG, "修订版本列表: " + Build.ID);
+        Log.e(Constants.TAG, "硬件制造商: " + Build.MANUFACTURER);
+        Log.e(Constants.TAG, "版本: " + Build.MODEL);
+        Log.e(Constants.TAG, "手机制造商: " + Build.PRODUCT);
+        Log.e(Constants.TAG, "描述build的标签: " + Build.TAGS);
+        Log.e(Constants.TAG, "builder的类型: " + Build.TYPE);
+        Log.e(Constants.TAG, "用户: " + Build.USER);
         String serial = "";
         try {
             //            serial = android.os.Build.class.getField("SERIAL").get(null).toString();
             serial = Build.SERIAL;
             main3_ch.setText(serial);
             //API>=9 使用serial号
-            Log.e("yy", "m_szDevIDShort: " + m_szDevIDShort);
-            Log.e("yy", "m_szDevIDShort_hash: " + m_szDevIDShort.hashCode());
-            Log.e("yy", "serial: " + serial);
-            Log.e("yy", "serial_hash: " + serial.hashCode());
+            Log.e(Constants.TAG, "m_szDevIDShort: " + m_szDevIDShort);
+            Log.e(Constants.TAG, "m_szDevIDShort_hash: " + m_szDevIDShort.hashCode());
+            Log.e(Constants.TAG, "serial: " + serial);
+            Log.e(Constants.TAG, "serial_hash: " + serial.hashCode());
             return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
         } catch (Exception exception) {
-            Log.e("yy", "获取失败: " + exception.getMessage());
+            Log.e(Constants.TAG, "获取失败: " + exception.getMessage());
             //serial需要一个初始化
             serial = "serial"; // 随便一个初始化
         }

@@ -40,7 +40,7 @@ public class InstanceActivity extends AppCompatActivity implements View.OnClickL
                     new Runnable() {
                         @Override
                         public void run() {
-//                            Log.e("yy", "threadid: "+Thread.currentThread().getId() );
+//                            Log.e(Constants.TAG, "threadid: "+Thread.currentThread().getId() );
                         }
                     }
             ).start();

@@ -65,7 +65,7 @@ public class MyApp extends Application {
 //                            SQLiteDatabase.loadLibs(mContext);
                             SQLiteDatabase.loadLibs(mContext);
 //                        } catch (Exception e) {
-//                            Log.e("yy", "初始化加密数据库异常: " + e.getMessage());
+//                            Log.e(Constants.TAG, "初始化加密数据库异常: " + e.getMessage());
 //                        }
 //                    }
 //                }

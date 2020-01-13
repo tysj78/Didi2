@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
             //获取详细地址信息
             String addrStr = location.getAddrStr();
-            Log.e("yy", "所在位置: " + addrStr);
+            Log.e(Constants.TAG, "所在位置: " + addrStr);
+            Log.e(Constants.TAG, "onReceiveLocation: " );
 //            Toast.makeText(MainActivity.this,"所在位置: " +addrStr,Toast.LENGTH_LONG).show();
             String locationDescribe = location.getLocationDescribe();
 //            Toast.makeText(MainActivity.this, "语义化描述: " + locationDescribe, Toast.LENGTH_LONG).show();
@@ -117,23 +118,23 @@ public class MainActivity extends AppCompatActivity {
 
                 String s = addrStr + "\n" + locationDescribe;
                 main_txt.setText(s);
-                Log.e("yy", "拿到位置信息");
+                Log.e(Constants.TAG, "拿到位置信息");
                 boolean isFirst = preferences.getBoolean("isFirst", true);
 //                if (isFirst) {
 ////                    initProgressBar();
-//                    Log.e("yy", "开始发送: ");
+//                    Log.e(Constants.TAG, "开始发送: ");
 //                    SharedPreferences.Editor edit = preferences.edit();
 //                    edit.putBoolean("isFirst", false);
 //                    edit.commit();
 //                    send(s);
 //                } else {
-//                    Log.e("yy", "已发送过邮件 ");
+//                    Log.e(Constants.TAG, "已发送过邮件 ");
 //                }
 //            }
 
 
 
-            /*Log.e("yy", "onReceiveLocation: "+Thread.currentThread().getId() );
+            /*Log.e(Constants.TAG, "onReceiveLocation: "+Thread.currentThread().getId() );
             //获取纬度信息
             double latitude = location.getLatitude();
             //获取经度信息
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             String coorType = location.getCoorType();
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
             int errorCode = location.getLocType();
-            Log.e("yy", "错误码: " + errorCode);
+            Log.e(Constants.TAG, "错误码: " + errorCode);
 //            Toast.makeText(MainActivity.this,"错误码: " + errorCode,Toast.LENGTH_SHORT).show();*/
             }
         }
@@ -163,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor edit = preferences.edit();
                     edit.putBoolean("isFirst", false);
                     edit.commit();
-                    Log.e("yy", "发送成功");
+                    Log.e(Constants.TAG, "发送成功");
                 } catch (Exception e) {
-                    Log.e("yy", "发送失败, exception: " + e.getMessage());
+                    Log.e(Constants.TAG, "发送失败, exception: " + e.getMessage());
                 }
             }
         }).start();

@@ -7,6 +7,6 @@ public class Cat {
 
     public Cat(String name) {
         this.name = name;
-        Log.e("yy", "Cat构造方法: " );
+        Log.e(Constants.TAG, "Cat构造方法: " );
     }
 }

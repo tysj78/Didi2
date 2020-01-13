@@ -39,7 +39,7 @@ public class DownActivity extends AppCompatActivity implements View.OnClickListe
             count += what;
             if (count == 3) {
 //                Toast.makeText(DownActivity.this, "下载完成。", Toast.LENGTH_SHORT).show();
-                Log.e("yy", "下载完成: ");
+                Log.e(Constants.TAG, "下载完成: ");
             }
         }
     };
@@ -81,7 +81,7 @@ public class DownActivity extends AppCompatActivity implements View.OnClickListe
                             connection.setReadTimeout(5000);
                             connection.setRequestMethod("GET");
                             int contentLength = connection.getContentLength();
-                            Log.e("yy", "文件长度: " + contentLength);
+                            Log.e(Constants.TAG, "文件长度: " + contentLength);
                             int block = contentLength / 3;
                             for (int i = 0; i < 3; i++) {
                                 long start = i * block;
@@ -133,7 +133,7 @@ public class DownActivity extends AppCompatActivity implements View.OnClickListe
                 while ((len = inputStream.read(bytes)) != -1) {
                     access.write(bytes, 0, len);
                     start+=len;
-                    Log.e("yy", "len: "+start );
+                    Log.e(Constants.TAG, "len: "+start );
                 }
                 inputStream.close();
                 access.close();

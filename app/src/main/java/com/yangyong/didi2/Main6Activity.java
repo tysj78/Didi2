@@ -43,10 +43,10 @@ public class Main6Activity extends AppCompatActivity implements View.OnClickList
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);
                     for (File file : files) {
-                        Log.e("yy", file.getAbsolutePath());
+                        Log.e(Constants.TAG, file.getAbsolutePath());
                     }
                     String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    Log.e("yy", "getExternalStorageDirectory:" + absolutePath);
+                    Log.e(Constants.TAG, "getExternalStorageDirectory:" + absolutePath);
                 }
                 break;
             case R.id.main_move:

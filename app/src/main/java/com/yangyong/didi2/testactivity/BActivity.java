@@ -18,6 +18,6 @@ public class BActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("yy", "BActivityonDestroy: " );
+        Log.e(Constants.TAG, "BActivityonDestroy: " );
     }
 }

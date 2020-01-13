@@ -15,7 +15,7 @@ public class DidiAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()){
             case "com.didi.yangyong.alarm":
-                Log.e("yy", "onReceive开始执行任务: " );
+                Log.e(Constants.TAG, "onReceive开始执行任务: " );
                 break;
         }
     }

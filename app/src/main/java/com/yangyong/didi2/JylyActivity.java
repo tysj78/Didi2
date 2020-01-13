@@ -39,7 +39,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_jyly);
         context = this;
         initView();
-        Log.e("yy", "onCreate");
+        Log.e(Constants.TAG, "onCreate");
         mScreenOn = false;
         /*Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -47,7 +47,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
 //                String currentPkgName1 = getCurrentPkgName(context);
                 String foregroundActivityName = ForegroundAppUtil.getForegroundActivityName(context);
-                Log.e("yy", "run: "+foregroundActivityName);
+                Log.e(Constants.TAG, "run: "+foregroundActivityName);
             }
         };
         timer.schedule(timerTask,0,2000);*/
@@ -59,9 +59,9 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
             ActivityManager.RunningAppProcessInfo info = new ActivityManager.RunningAppProcessInfo();
             String[] packagesForUid = getPackageManager().getPackagesForUid(info.uid);
             String s = packagesForUid[0];
-            Log.e("yy", s);
+            Log.e(Constants.TAG, s);
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
 
 
 //                String currentPkgName1 = getCurrentPkgName(context);
-//                Log.e("yy", "run: "+currentPkgName1);
+//                Log.e(Constants.TAG, "run: "+currentPkgName1);
                 break;
         }
     }
@@ -94,26 +94,26 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
 //        String currentPkgName = getCurrentPkgName(this);
-//        Log.e("yy", "onStop:=========== " + currentPkgName);
+//        Log.e(Constants.TAG, "onStop:=========== " + currentPkgName);
         String foregroundActivityName = ForegroundAppUtil.getForegroundActivityName(context);
 //        String currentPkgName = getCurrentPkgName(this);
-        Log.e("yy", "onStoprun: "+foregroundActivityName);
+        Log.e(Constants.TAG, "onStoprun: "+foregroundActivityName);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.e("yy", "onRestart: ");
+        Log.e(Constants.TAG, "onRestart: ");
         //休眠100毫秒再去查询，为了系统将使用信息存储完毕
 //        SystemClock.sleep(100);
 //        String currentPkgName = getCurrentPkgName(this);
-//        Log.e("yy", "onRestart:=========== " + currentPkgName);
+//        Log.e(Constants.TAG, "onRestart:=========== " + currentPkgName);
         String foregroundActivityName = ForegroundAppUtil.getForegroundActivityName(context);
 
-        Log.e("yy", "run: "+foregroundActivityName);
+        Log.e(Constants.TAG, "run: "+foregroundActivityName);
         if (mScreenOn) {
-            Log.e("yy", "true: ");
+            Log.e(Constants.TAG, "true: ");
         }
     }
 
@@ -122,10 +122,10 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 //        SystemClock.sleep(100);
-//        Log.e("yy", "onPause: ");
+//        Log.e(Constants.TAG, "onPause: ");
 //        String foregroundActivityName = ForegroundAppUtil.getForegroundActivityName(context);
 //        String currentPkgName = getCurrentPkgName(this);
-//        Log.e("yy", "run: "+foregroundActivityName);
+//        Log.e(Constants.TAG, "run: "+foregroundActivityName);
     }
 
 
@@ -141,12 +141,12 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
             UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
             long time = System.currentTimeMillis();
-//            Log.e("yy", ""+time );
-//            Log.e("yy", time - 1000 * 60 * 60 * 24+"" );
+//            Log.e(Constants.TAG, ""+time );
+//            Log.e(Constants.TAG, time - 1000 * 60 * 60 * 24+"" );
             List<UsageStats> stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
                     time - 1000 * 60 * 60 * 24, time);
-//            Log.e("yy", "stats.size: " + stats.size());
-//            Log.e("yy", "time: " + time);
+//            Log.e(Constants.TAG, "stats.size: " + stats.size());
+//            Log.e(Constants.TAG, "time: " + time);
             if (stats != null&&stats.size()>0) {
                 SortedMap<Long, UsageStats> mySortedMap = new TreeMap<Long, UsageStats>();
                 for (UsageStats usageStats : stats) {
@@ -155,7 +155,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
                 /*for (Map.Entry<Long, UsageStats> entry : mySortedMap.entrySet()) {
                     Long mapKey = entry.getKey();
                     String mapValue = entry.getValue().getPackageName();
-                    Log.e("yy", mapKey + ":" + mapValue);
+                    Log.e(Constants.TAG, mapKey + ":" + mapValue);
                 }*/
                 if (mySortedMap != null && !mySortedMap.isEmpty()) {
                     topPackageName = mySortedMap.get(mySortedMap.lastKey()).getPackageName();
@@ -181,8 +181,8 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
         String topPackageName = null;
         UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
         long time = System.currentTimeMillis();
-//            Log.e("yy", ""+time );
-//            Log.e("yy", time - 1000 * 60 * 60 * 24+"" );
+//            Log.e(Constants.TAG, ""+time );
+//            Log.e(Constants.TAG, time - 1000 * 60 * 60 * 24+"" );
         List<UsageStats> stats = mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY,
                 time - 1000 * 60 * 60 * 24, time);
         if (stats != null) {
@@ -211,7 +211,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
                             break;
                         }
                         if (lastEvent == 1) {
-                            Log.e("yy", "lastEvent == 1: ");
+                            Log.e(Constants.TAG, "lastEvent == 1: ");
                             topPackageName = usageStats.getPackageName();
                             break;
                         }
@@ -225,7 +225,7 @@ public class JylyActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         long nd = System.currentTimeMillis();
-        Log.e("yy", "获取用时: " + (nd - start));
+        Log.e(Constants.TAG, "获取用时: " + (nd - start));
         return topPackageName;
 
     }

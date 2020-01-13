@@ -58,7 +58,7 @@ public class UIActivity extends AppCompatActivity implements View.OnClickListene
         context = this;
         initView();
 //        String serviceUrl = UrlConfig.getServiceUrl();
-//        Log.e("yy", "onCreate: "+serviceUrl );
+//        Log.e(Constants.TAG, "onCreate: "+serviceUrl );
 //        UrlConfig urlConfig = new UrlConfig();
 //        moe();
 //        regBroadcast();
@@ -103,7 +103,7 @@ public class UIActivity extends AppCompatActivity implements View.OnClickListene
                     InputStream inputStream = conn.getInputStream();
 
                     int lent = conn.getContentLength();
-                    Log.e("yy", "文件开始下载的长度================：" + lent + "====响应码：" + responseCode);
+                    Log.e(Constants.TAG, "文件开始下载的长度================：" + lent + "====响应码：" + responseCode);
                 } catch (Exception e) {
                     Log.e(TAG, "请求异常: " + e.getMessage());
                 }

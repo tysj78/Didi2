@@ -20,7 +20,7 @@ public class Main9Activity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main9);
         initView();
-
+        ////new String();
     }
 
     private void initView() {

@@ -32,7 +32,7 @@ public class KongActivity extends AppCompatActivity {
 //        params.height = 1;
 //        params.width = 1;
 //        window.setAttributes(params);
-        Log.e("yy", "onCreate: " );
+        Log.e(Constants.TAG, "onCreate: " );
     }
 
 }

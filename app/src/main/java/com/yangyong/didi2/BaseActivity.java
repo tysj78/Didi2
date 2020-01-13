@@ -21,9 +21,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                return;
 //            }
 //        } catch (Exception e) {
-//            Log.e("yy", "Exception: " + e.getMessage());
+//            Log.e(Constants.TAG, "Exception: " + e.getMessage());
 //        }
-//        Log.e("yy", "BaseActivity_onStop: ");
+//        Log.e(Constants.TAG, "BaseActivity_onStop: ");
     }
 
     @Override

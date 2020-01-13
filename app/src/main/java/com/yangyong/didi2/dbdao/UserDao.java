@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.bean.User;
 import com.yangyong.didi2.util.DataBaseHelper;
 
@@ -36,7 +37,7 @@ public class UserDao {
 //            Log.e(TAG, "UserDao旧版数据库加密完成: ");
             new DataBaseHelper(context).encrypt(context, "didi2.db", "didi20700");
             db = new DataBaseHelper(context).getWritableDatabase("didi20700");
-//            Log.e("yy", "旧版数据库加密Exception: " + e.getMessage());
+//            Log.e(Constants.TAG, "旧版数据库加密Exception: " + e.getMessage());
         }
         /*try {
             File dbPath = context.getDatabasePath("didi2.db");
@@ -44,7 +45,7 @@ public class UserDao {
 //            dbPath.delete();
             db = SQLiteDatabase.openOrCreateDatabase(dbPath, "didi20700", null);
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.toString());
+            Log.e(Constants.TAG, "Exception: " + e.toString());
         }*/
     }
 
@@ -86,9 +87,10 @@ public class UserDao {
                 User user = new User(name, password, sex);
                 Log.e(TAG, "queryAllUser: " + user.toString());
                 list.add(user);
+                ////new String();
             }
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -107,7 +109,7 @@ public class UserDao {
                 pwd = cursor.getString(cursor.getColumnIndex("pwd"));
             }
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();

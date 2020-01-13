@@ -55,7 +55,7 @@ public class QueryCallActivity extends AppCompatActivity implements View.OnClick
             final MyAdapter adapter = new MyAdapter(infos);
             callView.setAdapter(adapter);
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
             exx.setText(e.getMessage());
         }*/
 

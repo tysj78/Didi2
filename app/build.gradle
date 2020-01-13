@@ -109,21 +109,18 @@ dependencies {
     debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation files('libs/commons-io-2.4.jar')
-//    implementation 'com.lahm.library:easy-protector-release:latest.release'
-
+    //    implementation 'com.lahm.library:easy-protector-release:latest.release'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
     implementation 'net.zetetic:android-database-sqlcipher:4.3.0@aar'
     implementation('androidx.sqlite:sqlite:2.0.1') {
         exclude group: 'androidx.annotation', module: 'annotation'
     }
-
     implementation 'com.github.tysj78:didi2_library:1.0'
-
-//    implementation 'com.android.support:cardview-v7:28.0.0'
-//    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    //    implementation 'com.android.support:cardview-v7:28.0.0'
+    //    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation files('libs/xposed82.jar')
 }
 
 //configurations.all {

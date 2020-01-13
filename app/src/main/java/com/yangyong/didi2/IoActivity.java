@@ -144,20 +144,20 @@ public class IoActivity extends AppCompatActivity implements View.OnClickListene
             int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
             switch (status) {
                 case DownloadManager.STATUS_PAUSED:
-                    Log.e("yy", ">>>下载暂停");
+                    Log.e(Constants.TAG, ">>>下载暂停");
                 case DownloadManager.STATUS_PENDING:
-                    Log.e("yy", ">>>下载延迟");
+                    Log.e(Constants.TAG, ">>>下载延迟");
                 case DownloadManager.STATUS_RUNNING:
-                    Log.e("yy", ">>>正在下载");
+                    Log.e(Constants.TAG, ">>>正在下载");
                     break;
                 case DownloadManager.STATUS_SUCCESSFUL:
-                    Log.e("yy", ">>>下载完成");
+                    Log.e(Constants.TAG, ">>>下载完成");
                     //下载完成安装APK
                     String downloadPath = Environment.getExternalStoragePublicDirectory("/downloadfile/").getAbsolutePath() + File.separator + "yyb.apk";
                     installAPK(new File(downloadPath));
                     break;
                 case DownloadManager.STATUS_FAILED:
-                    Log.e("yy", ">>>下载失败");
+                    Log.e(Constants.TAG, ">>>下载失败");
                     break;
             }
         }
@@ -179,15 +179,15 @@ public class IoActivity extends AppCompatActivity implements View.OnClickListene
                 uri = Uri.parse("file://" + file.toString());
             }
 
-            Log.e("yy", "filepath: " + file.getAbsolutePath());
-            Log.e("yy", "uri: " + uri);
+            Log.e(Constants.TAG, "filepath: " + file.getAbsolutePath());
+            Log.e(Constants.TAG, "uri: " + uri);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
             //在服务中开启activity必须设置flag,后面解释
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (Exception e) {
-            Log.e("yy", "安装异常: " + e.getMessage());
+            Log.e(Constants.TAG, "安装异常: " + e.getMessage());
         }
 
     }

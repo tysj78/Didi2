@@ -52,7 +52,7 @@ public class ClipboardActivity extends BaseActivity implements View.OnClickListe
 
 
 //        String s = NetUtils.getInstance(getApplicationContext()).name;
-//        Log.e("yy", "onClick: "+s );
+//        Log.e(Constants.TAG, "onClick: "+s );
 
         startActivity(new Intent(this, HookActivity.class));
     }
@@ -62,7 +62,7 @@ public class ClipboardActivity extends BaseActivity implements View.OnClickListe
         try {
             MultiDexUtils dexUtils = new MultiDexUtils();
             List<String> des = dexUtils.getLoadedExternalDexClasses(this);
-            Log.e("yy", "coppyToSd: " + des.size());
+            Log.e(Constants.TAG, "coppyToSd: " + des.size());
             String sdCardDir = Environment.getExternalStorageDirectory().getAbsolutePath();
             File saveFile = new File(sdCardDir, "aaaa.txt");
 

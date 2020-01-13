@@ -190,7 +190,7 @@ public class DeviceAdminActivity extends AppCompatActivity implements View.OnCli
                     public void run() {
 //                        String currentPkgName = getCurrentPkgName(context);
                         String currentPkgName = getTname();
-                        Log.e("yy", "当前应用: " + currentPkgName);
+                        Log.e(Constants.TAG, "当前应用: " + currentPkgName);
                     }
                 }, 0, 600);
 //                paixu();
@@ -287,7 +287,7 @@ public class DeviceAdminActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         }
-//        Log.e("yy", lists.toString());
+//        Log.e(Constants.TAG, lists.toString());
 
         return lists;
     }
@@ -305,7 +305,7 @@ public class DeviceAdminActivity extends AppCompatActivity implements View.OnCli
         Collections.sort(stuList);  // 调用排序方法
 
         for (Student student : stuList) {
-            Log.e("yy", student.getAge() + "");
+            Log.e(Constants.TAG, student.getAge() + "");
         }
     }
 
@@ -376,7 +376,7 @@ public class DeviceAdminActivity extends AppCompatActivity implements View.OnCli
         // WIFI管理器
         WifiInfo connectionInfo = wifiManager.getConnectionInfo();
         String connectSsid = connectionInfo.getSSID();
-        Log.e("yy", "当前wifissid: " + connectSsid);
+        Log.e(Constants.TAG, "当前wifissid: " + connectSsid);
         int mNetworkId = connectionInfo.getNetworkId();
         Log.e(TAG, "mNetworkId: " + mNetworkId);
 
@@ -405,7 +405,7 @@ public class DeviceAdminActivity extends AppCompatActivity implements View.OnCli
             ConnectivityManager mConnectivityManager = (ConnectivityManager) this.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo wifiInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             String wifiName = wifiInfo.getExtraInfo();
-            Log.e("yy", "当前wifissid: " + wifiName);
+            Log.e(Constants.TAG, "当前wifissid: " + wifiName);
         } catch (Exception e) {
             e.printStackTrace();
         }

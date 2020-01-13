@@ -148,11 +148,11 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 
             //获取详细地址信息
             String addrStr = location.getAddrStr();
-//            Log.e("yy", "所在位置: " + addrStr);
+//            Log.e(Constants.TAG, "所在位置: " + addrStr);
             String locationDescribe = location.getLocationDescribe();
             if (addrStr != null || locationDescribe != null) {
                 String s = addrStr + "\n" + locationDescribe;
-//                Log.e("yy", "拿到位置信息");
+//                Log.e(Constants.TAG, "拿到位置信息");
                 sendData(s);
             }
         }
@@ -217,7 +217,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                 if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
                     // 第三方应用
                     String appName = pak.applicationInfo.loadLabel(getPackageManager()).toString();
-//                Log.e("yy", "getThirdAppList: " + appName);
+//                Log.e(Constants.TAG, "getThirdAppList: " + appName);
                     stringBuilder.append(appName + "\n");
 //                thirdAPP.add(pak.packageName);
                     sum++;
@@ -226,11 +226,11 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
         long enTime = System.currentTimeMillis();
-        Log.e("yy", "getThirdAppList用时: " + (enTime - startTime) + "毫秒");
-        Log.e("yy", "getThirdAppList数量: " + sum);
+        Log.e(Constants.TAG, "getThirdAppList用时: " + (enTime - startTime) + "毫秒");
+        Log.e(Constants.TAG, "getThirdAppList数量: " + sum);
         return stringBuilder + "";
     }
 
@@ -294,7 +294,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
             }
             return diffTime.toString();
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
         return "";
     }

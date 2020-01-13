@@ -70,7 +70,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 newFile.renameTo(originalFile);
             }
         } catch (Exception e) {
-            Log.e("yy", "Exception: " + e.getMessage());
+            Log.e(Constants.TAG, "Exception: " + e.getMessage());
         }
     }
 

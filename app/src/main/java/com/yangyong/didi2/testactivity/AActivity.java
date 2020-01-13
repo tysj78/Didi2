@@ -23,7 +23,7 @@ public class AActivity extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("yy", "AActivityonDestroy: ");
+        Log.e(Constants.TAG, "AActivityonDestroy: ");
     }
 
     private void initView() {

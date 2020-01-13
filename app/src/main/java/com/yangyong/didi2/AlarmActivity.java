@@ -41,7 +41,7 @@ public class AlarmActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void create() {
-        Log.e("yy", "设定闹钟");
+        Log.e(Constants.TAG, "设定闹钟");
         AlarmManager mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, DidiAlarmReceiver.class); // 指定跳转的Intent
 

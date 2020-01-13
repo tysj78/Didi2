@@ -126,12 +126,12 @@ public class MultiDexUtils {
                         classList.add(clazz.replaceAll("\\.", "/").replaceAll("$", ".class"));
                     }
                 }
-                Log.e("yy", "getLoadedExternalDexClasses: "+classList.size() );
+                Log.e(Constants.TAG, "getLoadedExternalDexClasses: "+classList.size() );
                 return classList;
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-            Log.e("yy", "getLoadedExternalDexClasses: "+e.getMessage() );
+            Log.e(Constants.TAG, "getLoadedExternalDexClasses: "+e.getMessage() );
         }
         return null;
     }
