@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
 
 public class AActivity extends AppCompatActivity implements View.OnClickListener {

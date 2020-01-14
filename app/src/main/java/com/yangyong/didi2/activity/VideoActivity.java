@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
 

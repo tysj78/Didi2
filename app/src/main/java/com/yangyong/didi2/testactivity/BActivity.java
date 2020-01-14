@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
 
 public class BActivity extends AppCompatActivity {

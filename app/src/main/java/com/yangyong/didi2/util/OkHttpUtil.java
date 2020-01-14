@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.MyApp;
 
 import java.io.BufferedInputStream;

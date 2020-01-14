@@ -13,6 +13,7 @@ import com.tencent.tinker.entry.ApplicationLike;
 import com.tinkerpatch.sdk.TinkerPatch;
 import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
 import com.yangyong.didi2.BuildConfig;
+import com.zhangke.zlog.ZLog;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -46,6 +47,8 @@ public class MyApp extends Application {
         mContext = this;
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
+        ZLog.Init(String.format("%s/log/", getExternalFilesDir(null).getPath()));
+        ZLog.openSaveToFile();
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            return;
 //        }

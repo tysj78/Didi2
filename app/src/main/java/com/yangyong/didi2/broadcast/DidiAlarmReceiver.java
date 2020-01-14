@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.yangyong.didi2.Constants;
+
 /**
  * Created by yangyong on 2019/12/10/0010.
  */

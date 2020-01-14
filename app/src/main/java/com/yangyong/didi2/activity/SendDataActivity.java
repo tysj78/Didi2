@@ -28,6 +28,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.MainActivity;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.OkHttpUtil;

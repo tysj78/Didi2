@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
+import com.yangyong.didi2.Constants;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteDatabaseHook;
 import net.sqlcipher.database.SQLiteOpenHelper;

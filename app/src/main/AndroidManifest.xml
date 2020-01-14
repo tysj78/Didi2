@@ -66,11 +66,7 @@
         <activity android:name=".UIActivity" />
         <activity android:name=".InstanceActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -281,7 +277,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".RegActivity"></activity>
+        <activity android:name=".RegActivity" />
         <activity android:name=".activity.MmCheckActivity">
 
             <!-- <intent-filter> -->
@@ -292,9 +288,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activity.VideoActivity" />
-        <activity android:name=".activity.DbActivity">
-
-        </activity>
+        <activity android:name=".activity.DbActivity"></activity>
         <activity android:name=".activity.CheckActivity">
 
             <!-- <intent-filter> -->
@@ -304,8 +298,15 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.JiamiActivity"></activity>
-        <activity android:name=".activity.DownLoadActivity"></activity>
+        <activity android:name=".activity.JiamiActivity" />
+        <activity android:name=".activity.DownLoadActivity" />
+        <activity android:name=".activity.ZlogActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
