@@ -44,10 +44,10 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String TAG = "yy";
     private Button send_data;
-    //    private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
+        private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
     //        private String rUrl = "http://shenyin.vipgz1.idcfengye.com/shenying/saveDeviceServlet";
     private TextView two_tip;
-    private String rUrl = "https://192.168.206.104/shenying/saveDeviceServlet";
+//    private String rUrl = "https://192.168.206.104/shenying/saveDeviceServlet";
 //    private String rUrl = "http://localhost:8080/shenying/saveDeviceServlet";
 
     private Handler mHandler = new Handler() {

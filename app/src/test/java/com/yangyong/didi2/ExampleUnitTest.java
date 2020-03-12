@@ -66,7 +66,7 @@ public class ExampleUnitTest {
 
 //        rxTest();
 //        jisuan();
-        getGapTime(36555555);
+//        getGapTime(36555555);
 //        try {
 //            exTest();
 //        } catch (Exception e) {
@@ -78,10 +78,28 @@ public class ExampleUnitTest {
 //        parm.put("weight","50kg");
 //        parmTest(parm);
 
-
+//        System.out.println("获取内r: " + Const.name);
+//        ArrayList<String> strings = new ArrayList<>();
+//        strings.add("111");
+//        for (int i = 0; i < strings.size(); i++) {
+//            String p=null;
+//            System.out.println(p);
+//        }
+        //=============================
+        int a=5;
+        int b=6;
+        if (a==1) {
+            System.out.println(a);
+        }else if (a==2) {
+            System.out.println(a);
+        }else if (a==5) {
+            System.out.println(a);
+        }else if (b==6) {
+            System.out.println(b);
+        }
     }
 
-    private void parmTest(Map<String,String> params) {
+    private void parmTest(Map<String, String> params) {
         //3.x版本post请求换成FormBody 封装键值对参数
         FormBody.Builder builder = new FormBody.Builder();
         //遍历集合

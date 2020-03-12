@@ -47,8 +47,9 @@ public class MyApp extends Application {
         mContext = this;
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
-        ZLog.Init(String.format("%s/log/", getExternalFilesDir(null).getPath()));
-        ZLog.openSaveToFile();
+//        ZLog.Init(String.format("%s/log/", getExternalFilesDir(null).getPath()));
+//        ZLog.openSaveToFile();
+//        handleSSLHandshake();
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            return;
 //        }
@@ -66,7 +67,7 @@ public class MyApp extends Application {
 //                    public void run() {
 //                        try {
 //                            SQLiteDatabase.loadLibs(mContext);
-                            SQLiteDatabase.loadLibs(mContext);
+        SQLiteDatabase.loadLibs(mContext);
 //                        } catch (Exception e) {
 //                            Log.e(Constants.TAG, "初始化加密数据库异常: " + e.getMessage());
 //                        }

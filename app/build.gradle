@@ -6,9 +6,9 @@ android {
     defaultConfig {
         applicationId "com.yangyong.didi2"
         minSdkVersion 17
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 26
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // 开启分包
         multiDexEnabled false
@@ -125,7 +125,9 @@ dependencies {
 
 
 }
-
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 //configurations.all {
 //    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 //}

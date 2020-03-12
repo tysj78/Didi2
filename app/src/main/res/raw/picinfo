@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datas>
+    <retCode>0</retCode>
+    <retMsg></retMsg>
+    <pojoList>
+        <onOffs>
+            <onOff>拆下件</onOff>
+            <imtypes>
+                <imType>
+                    <val>1001</val>
+                    <desc>铭牌</desc>
+                </imType>
+                <imType>
+                    <val>1002</val>
+                    <desc>主视图</desc>
+                </imType>
+                <imType>
+                    <val>1003</val>
+                    <desc>俯视图</desc>
+                </imType>
+                <imType>
+                    <val>1004</val>
+                    <desc>左视图</desc>
+                </imType>
+            </imtypes>
+        </onOffs>
+        <onOffs>
+            <onOff>装上件</onOff>
+            <imtypes>
+                <imType>
+                    <val>1001</val>
+                    <desc>铭牌</desc>
+                </imType>
+                <imType>
+                    <val>1002</val>
+                    <desc>主视图</desc>
+                </imType>
+            </imtypes>
+        </onOffs>
+    </pojoList>
+</datas>
