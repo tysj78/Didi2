@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yangyong.didi2.MainActivity;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.InstallUtils;

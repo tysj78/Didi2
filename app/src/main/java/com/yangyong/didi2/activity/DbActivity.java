@@ -8,15 +8,15 @@ import android.widget.Button;
 
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.bean.User;
-import com.yangyong.didi2.dbdao.UserDao;
+//import com.yangyong.didi2.dbdao.UserDao;
 
-import net.sqlcipher.database.SQLiteDatabase;
+//import net.sqlcipher.database.SQLiteDatabase;
 
 public class DbActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button adduser;
     private Button queryuser;
-    private UserDao userDao;
+//    private UserDao userDao;
     private Button initdb;
 
     @Override
@@ -28,7 +28,7 @@ public class DbActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     private void dbOpen() {
-        userDao = new UserDao(this);
+//        userDao = new UserDao(this);
     }
 
     private void initView() {
@@ -46,12 +46,12 @@ public class DbActivity extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.adduser:
 //                userDao.addUser(new User("天天", "51230"));
-                userDao.addUser(new User("井野", "51230", "女"));
-                userDao.addUser(new User("李洛克", "51230", "男"));
-                userDao.addUser(new User("春野樱", "51230", "女"));
+//                userDao.addUser(new User("井野", "51230", "女"));
+//                userDao.addUser(new User("李洛克", "51230", "男"));
+//                userDao.addUser(new User("春野樱", "51230", "女"));
                 break;
             case R.id.queryuser:
-                userDao.queryAllUser();
+//                userDao.queryAllUser();
                 break;
             case R.id.initdb:
 //                loadJiaMi();

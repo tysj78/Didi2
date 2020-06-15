@@ -1,21 +1,25 @@
 package com.yangyong.didi2;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.tencent.tinker.entry.ApplicationLike;
-import com.tinkerpatch.sdk.TinkerPatch;
-import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
+//import com.squareup.leakcanary.LeakCanary;
+import com.tencent.mars.xlog.Log;
+import com.tencent.mars.xlog.Xlog;
+//import com.tencent.tinker.entry.ApplicationLike;
+//import com.tinkerpatch.sdk.TinkerPatch;
+//import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
 import com.yangyong.didi2.BuildConfig;
-import com.zhangke.zlog.ZLog;
+import com.yangyong.didi2.util.CrashCollector;
+import com.yangyong.didi2.zlog.ZLog;
 
-import net.sqlcipher.database.SQLiteDatabase;
+//import net.sqlcipher.database.SQLiteDatabase;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -27,6 +31,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+
 /**
  * Created by yangyong on 2019/9/4/0004.
  */
@@ -34,8 +39,9 @@ import javax.net.ssl.X509TrustManager;
 public class MyApp extends Application {
     private static final String TAG = "yy";
 
-    private ApplicationLike tinkerApplicationLike;
+//    private ApplicationLike tinkerApplicationLike;
     public static Context mContext;
+    public static Activity mActivity;
 
     public MyApp() {
 
@@ -47,8 +53,16 @@ public class MyApp extends Application {
         mContext = this;
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
-//        ZLog.Init(String.format("%s/log/", getExternalFilesDir(null).getPath()));
+        CrashCollector.getInstance().init(this);
+//        ZLog.Init(Environment.getExternalStorageDirectory().getPath()+"/emm_crashFolder");
 //        ZLog.openSaveToFile();
+
+
+//        initXlog();
+
+
+
+
 //        handleSSLHandshake();
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //            return;
@@ -60,6 +74,13 @@ public class MyApp extends Application {
 //        Debug.stopMethodTracing();
     }
 
+    private void initXlog() {
+        String logPath = Environment.getExternalStorageDirectory().getPath() + "/logsample/xlog";
+        Log.d("test", logPath);
+        Xlog.setConsoleLogOpen(true);
+        Xlog.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logPath, "LOGSAMPLE", 0, "");
+    }
+
     private void loadJiaMi() {
 //        new Thread(
 //                new Runnable() {
@@ -67,7 +88,7 @@ public class MyApp extends Application {
 //                    public void run() {
 //                        try {
 //                            SQLiteDatabase.loadLibs(mContext);
-        SQLiteDatabase.loadLibs(mContext);
+//        SQLiteDatabase.loadLibs(mContext);
 //                        } catch (Exception e) {
 //                            Log.e(Constants.TAG, "初始化加密数据库异常: " + e.getMessage());
 //                        }
@@ -90,7 +111,7 @@ public class MyApp extends Application {
     /**
      * 我们需要确保至少对主进程跟patch进程初始化 TinkerPatch
      */
-    private void initTinkerPatch() {
+    /*private void initTinkerPatch() {
         // 我们可以从这里获得Tinker加载过程的信息
         if (BuildConfig.TINKER_ENABLE) {
             tinkerApplicationLike = TinkerPatchApplicationLike.getTinkerPatchApplicationLike();
@@ -113,7 +134,7 @@ public class MyApp extends Application {
             // 不同的是，会通过handler的方式去轮询
             TinkerPatch.with().fetchPatchUpdateAndPollWithInterval();
         }
-    }
+    }*/
 
 
     public static void handleSSLHandshake() {

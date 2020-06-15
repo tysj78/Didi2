@@ -131,7 +131,10 @@ public class Main7Activity extends AppCompatActivity implements View.OnClickList
         Intent itins = new Intent(Intent.ACTION_VIEW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             File apkFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/emmappstore/apkloads/Didi2.apk");
-            itins.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            itins.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            itins.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
             Uri contentUri = FileProvider.getUriForFile(ths, getPackageName() + ".fileProvider", apkFile);
             itins.setDataAndType(contentUri, "application/vnd.android.package-archive");
         } else {
@@ -183,10 +186,12 @@ public class Main7Activity extends AppCompatActivity implements View.OnClickList
         HttpService httpService = new HttpService();
         httpService.postHttpImageRequest(url, params, files, new HttpService.HttpCallBackListener() {
 
+            @Override
             public void onFinish(String response) {
 
             }
 
+            @Override
             public void onError(Exception e) {
 
             }

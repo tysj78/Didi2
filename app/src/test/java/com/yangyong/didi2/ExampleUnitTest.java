@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.logging.Handler;
 
 import io.reactivex.Observable;
@@ -37,6 +38,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     private volatile static boolean flag = false;
+    private ArrayList<Integer> lists;
 
     @Test
     public void addition_isCorrect() throws Exception {
@@ -86,21 +88,69 @@ public class ExampleUnitTest {
 //            System.out.println(p);
 //        }
         //=============================
-        int a=5;
-        int b=6;
-        if (a==1) {
-            System.out.println(a);
-        }else if (a==2) {
-            System.out.println(a);
-        }else if (a==5) {
-            System.out.println(a);
-        }else if (b==6) {
-            System.out.println(b);
-        }
+//        int a=5;
+//        int b=6;
+//        if (a==1) {
+//            System.out.println(a);
+//        }else if (a==2) {
+//            System.out.println(a);
+//        }else if (a==5) {
+//            System.out.println(a);
+//        }else if (b==6) {
+//            System.out.println(b);
+//        }
+        //=============================
+//        for (int i=0;i<21;i++){
+//            long l = System.currentTimeMillis();
+//        }
+
+//        Const aConst = new Const();
+//        System.out.println(aConst.au);
+//        List<Const> list = new ArrayList<Const>();
+//        list.add(new Const("22", "男"));
+//        list.add(new Const("23", "男"));
+//        list.add(new Const("25", "男"));
+
+
+//        Const aConst2 =new Const("","");
+//        aConst2=list.get(1);
+//        aConst2.age = "21";
+
+//        for (Const a : list) {
+//            System.out.println(a.toString());
+//        }
+//        reust();
+//        lists = new ArrayList<>();
+//        uum(1);
+//        uum(3);
+//        uum(4);
+//        uum(5);
+//        Integer num=3;
+//        lists.remove(num);
+
+//        uum(6);
+//        for (Integer o : lists) {
+//            System.out.println(o);
+//        }
+
+//        String aname="更多";
+//        String bname="更多1";
+//        if (bname.contains(aname)) {
+//            System.out.println("检索到"+bname);
+//        }
+//        String name = "更多3";
+//        System.out.println(name.substring(name.length() - 1));//输出d
+//        boolean b = Const.contain2("Af", null);
+//        System.out.println(b);
+
+//        test1();
+//        testLinkedQueue();
+        get10();
     }
 
     private void parmTest(Map<String, String> params) {
         //3.x版本post请求换成FormBody 封装键值对参数
+
         FormBody.Builder builder = new FormBody.Builder();
         //遍历集合
         for (String key : params.keySet()) {
@@ -199,7 +249,7 @@ public class ExampleUnitTest {
         File file = new File(str_filepath);
         BufferedReader reader;
         StringBuilder text = new StringBuilder("");
-        String code = " ";
+        String code = null;
         try {
             FileInputStream fis = new FileInputStream(file);
             BufferedInputStream in = new BufferedInputStream(fis);
@@ -354,10 +404,98 @@ public class ExampleUnitTest {
         return tempInfo;
     }
 
+
+    void reust() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 5; i++) {
+                            try {
+                                System.out.println(i + "============1");
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                System.out.println(e.toString());
+//                                e.printStackTrace();
+                            }
+                        }
+//                        for (int i=0;i<2;i++){
+//                            try {
+//                                System.out.println(i+"============2");
+//                                Thread.sleep(1000);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+                        System.out.println("循环结束=======");
+                    }
+                }
+        ).start();
+
+    }
+
+
+    int uum(int num) {
+        if (num > 5) {
+            for (int a = 1; a < 6; a++) {
+                if (!lists.contains(a)) {
+                    num = a;
+                    lists.add(num);
+                    break;
+                }
+            }
+        } else {
+            lists.add(num);
+        }
+        return num;
+    }
+
     void format() {
-        String number = " 1";
+        String number = "1";
         String s = number.replaceAll("\\s*", "");
         String replace = s.replace("+86", "");
         System.out.print(replace);
+    }
+
+    void test1() {
+        int sum = 0;
+        for (int i = 0; i < 255; i++) {
+            for (int j = 0; j < 255; j++) {
+                for (int k = 0; k < 255; k++) {
+                    System.out.println(sum++);
+                }
+            }
+        }
+    }
+
+    void testLinkedQueue() {
+        LinkedBlockingDeque<Integer> blockingDeque = new LinkedBlockingDeque<>(15);
+        for (int i = 0; i < 5; i++) {
+            blockingDeque.add(i);
+        }
+        System.out.println("add结束，当前队列大小：" + blockingDeque.size());
+        for (int i = 0; i < 5; i++) {
+            blockingDeque.offer(i);
+        }
+        System.out.println("offer结束，当前队列大小：" + blockingDeque.size());
+        for (int i = 0; i < 20; i++) {
+            try {
+                blockingDeque.put(i);
+            } catch (InterruptedException e) {
+                System.out.println("put异常：" + e.toString());
+            }
+            System.out.println("put入队，当前队列大小：" + blockingDeque.size());
+        }
+        System.out.println("blockingDeque入队完成，当前队列大小：" + blockingDeque.size());
+    }
+
+    public static int MSG_ERROR = 0x0011;
+    public static int MSG_ERRO = 0x0022;
+    public static int MSG_ERRO1 = 0x00f1;
+
+    void get10() {
+        System.out.println("MSG_ERROR：" + MSG_ERROR);
+        System.out.println("MSG_ERROR：" + MSG_ERRO);
+        System.out.println("MSG_ERROR：" + MSG_ERRO1);
     }
 }

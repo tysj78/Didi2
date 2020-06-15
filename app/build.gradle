@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
-apply from: 'tinkerpatch.gradle'
+//apply from: 'tinkerpatch.gradle'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -11,7 +11,7 @@ android {
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // 开启分包
-        multiDexEnabled false
+        multiDexEnabled true
 //        // 设置分包配置文件
 //        multiDexKeepFile file('multidex.keep')
     }
@@ -87,10 +87,12 @@ android {
 
 }
 
+
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha1'
+    implementation 'com.android.support:design:28.0.0-alpha1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -104,31 +106,28 @@ dependencies {
     // 若使用annotation需要单独引用,对于tinker的其他库都无需再引用
     //    provided("com.tinkerpatch.tinker:tinker-android-anno:1.9.13.3")
     //无需引入tinker的任何库,使用tinkerpatch sdk即可
-    implementation 'com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.13.3'
-    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.jar')
-    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    //    implementation 'com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.13.3'
+    //    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.jar')
+    //    debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    //    releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation files('libs/commons-io-2.4.jar')
     //    implementation 'com.lahm.library:easy-protector-release:latest.release'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'net.zetetic:android-database-sqlcipher:4.3.0@aar'
-    implementation('androidx.sqlite:sqlite:2.0.1') {
-        exclude group: 'androidx.annotation', module: 'annotation'
-    }
-    implementation 'com.github.tysj78:didi2_library:1.0'
+    //    implementation 'net.zetetic:android-database-sqlcipher:4.3.0@aar'
+    //    implementation('androidx.sqlite:sqlite:2.0.1') {
+    //        exclude group: 'androidx.annotation', module: 'annotation'
+    //    }
+    //    implementation 'com.github.tysj78:didi2_library:1.0'
     //    implementation 'com.android.support:cardview-v7:28.0.0'
     //    implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation files('libs/xposed82.jar')
     implementation 'com.github.0xZhangKe:ZLog:3.0'
-
-
+    implementation 'com.tencent.mars:mars-xlog:1.2.3'
 }
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-//configurations.all {
-//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8"
 //}
+
 

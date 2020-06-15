@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.tinkerpatch.sdk.TinkerPatch;
+//import com.tinkerpatch.sdk.TinkerPatch;
 
 public class Main9Activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -42,7 +42,7 @@ public class Main9Activity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, (a / b) + "", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_pull:
-                TinkerPatch.with().fetchPatchUpdate(true);
+//                TinkerPatch.with().fetchPatchUpdate(true);
                 break;
             case R.id.main_go:
                 startActivity(new Intent(this,Main10Activity.class));
