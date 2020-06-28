@@ -20,14 +20,20 @@
         android:text="登录成功" />
 
     <TextView
-        android:text="开始检测人品。。。"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         />
+        android:text="开始检测人品。。。" />
 
-    <TextView
-        android:id="@+id/two_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="55dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/two_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
 </LinearLayout>

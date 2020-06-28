@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 public class Const {
     public static String name = "";
-    public String age;
-    public String sex;
+    public String age="";
+    public String sex="";
 
     public Const(String age, String sex) {
         this.age = age;

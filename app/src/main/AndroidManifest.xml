@@ -3,14 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yangyong.didi2">
 
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 安装未知来源应用的权限 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.yangyong.PROVIDER"
+        android:protectionLevel="normal" />
+    <!-- 安装未知来源应用的权限 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> -->
     <!-- <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS"/> -->
     <!-- &lt;!&ndash; 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 &ndash;&gt; -->
     <!-- <uses-permission android:name="android.permission.OVERRIDE_WIFI_CONFIG" /> -->
@@ -58,17 +62,24 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/qingge"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/qingge"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".KongActivity"
+            android:name=".activity.KongActivity"
             android:theme="@style/MyTransparent" />
-        <activity android:name=".UIActivity" />
-        <activity android:name=".InstanceActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.UIActivity" />
+        <activity android:name=".activity.InstanceActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.Main2Activity" />
+        <activity android:name=".activity.Main3Activity" />
+        <activity android:name=".activity.Main5Activity" />
+        <activity android:name=".activity.Main6Activity" />
+        <activity android:name=".activity.ClipboardActivity" />
+        <activity android:name=".activity.HookActivity" />
+        <activity android:name=".activity.DeviceAdminActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -77,32 +88,17 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".Main3Activity" />
-        <activity android:name=".Main5Activity" />
-        <activity android:name=".Main6Activity" />
-        <activity android:name=".ClipboardActivity" />
-        <activity android:name=".HookActivity" />
-        <activity android:name=".DeviceAdminActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".Main9Activity" />
-        <activity android:name=".RequestActivity" />
-        <activity android:name=".IoActivity" />
-        <activity android:name=".Main10Activity" />
-        <activity android:name=".LeakActivity" />
+        <activity android:name=".activity.Main9Activity" />
+        <activity android:name=".activity.RequestActivity" />
+        <activity android:name=".activity.IoActivity" />
+        <activity android:name=".activity.Main10Activity" />
+        <activity android:name=".activity.LeakActivity" />
         <activity android:name=".DownLoadActivity" />
-        <activity android:name=".DownActivity" />
-        <activity android:name=".JylyActivity" />
-        <activity android:name=".XrecyclerActivity" />
-        <activity android:name=".GbActivity" />
-        <activity android:name=".Main12Activity" />
+        <activity android:name=".activity.DownActivity" />
+        <activity android:name=".activity.JylyActivity" />
+        <activity android:name=".activity.XrecyclerActivity" />
+        <activity android:name=".activity.GbActivity" />
+        <activity android:name=".activity.Main12Activity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -163,7 +159,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
         <activity android:name=".testactivity.BActivity" />
-        <activity android:name=".ConnectWifiActivity">
+        <activity android:name=".activity.ConnectWifiActivity">
 
             <!--
             <intent-filter>
@@ -172,10 +168,10 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".ImeiActivity" />
-        <activity android:name=".CodingActivity" />
-        <activity android:name=".WifiConnectActivity" />
-        <activity android:name=".TimerActivity" />
+        <activity android:name=".activity.ImeiActivity" />
+        <activity android:name=".activity.CodingActivity" />
+        <activity android:name=".activity.WifiConnectActivity" />
+        <activity android:name=".activity.TimerActivity" />
 
         <receiver android:name=".broadcast.TimeChangeReceiver">
             <intent-filter>
@@ -198,7 +194,7 @@
                 android:resource="@xml/didi_service" />
         </service>
 
-        <activity android:name=".OpenFuZhuActivity">
+        <activity android:name=".activity.OpenFuZhuActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -207,7 +203,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ExceptionActivity">
+        <activity android:name=".activity.ExceptionActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -216,7 +212,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".QueryCallActivity">
+        <activity android:name=".activity.QueryCallActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -225,7 +221,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".DateActivity">
+        <activity android:name=".activity.DateActivity">
 
             <!--
             <intent-filter>
@@ -235,7 +231,7 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".TimeChangeActivity" />
+        <activity android:name=".activity.TimeChangeActivity" />
         <activity android:name=".AlarmActivity" />
 
         <receiver android:name=".broadcast.DidiAlarmReceiver">
@@ -244,7 +240,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".PermissionActivity">
+        <activity android:name=".activity.PermissionActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -271,25 +267,9 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.SendDataActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".RegActivity" />
-        <activity android:name=".activity.MmCheckActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".activity.SendDataActivity" />
+        <activity android:name=".activity.RegActivity" />
+        <activity android:name=".activity.MmCheckActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.DbActivity" />
         <activity android:name=".activity.CheckActivity">
@@ -305,9 +285,7 @@
         <activity android:name=".activity.DownLoadActivity" />
         <activity android:name=".activity.ZlogActivity" />
         <activity android:name=".activity.ZcActivity" />
-        <activity android:name=".activity.Main7Activity">
-
-        </activity>
+        <activity android:name=".activity.Main7Activity" />
         <activity android:name=".activity.DeBugActivity" />
 
         <provider
@@ -320,36 +298,53 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.EncryptActivity"></activity>
-        <activity android:name=".activity.ImageActivity">
+        <activity android:name=".activity.EncryptActivity" />
+        <activity android:name=".activity.ImageActivity" />
 
-        </activity>
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.AppInstallReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_ADDED" /> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REMOVED" /> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REPLACED" /> -->
 
-        <receiver
-            android:name=".broadcast.AppInstallReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
 
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
+        <!-- <data android:scheme="package" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
 
         <service
             android:name=".service.MyService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.ScreenActivity">
+        <activity android:name=".activity.ScreenActivity" />
+
+        <service
+            android:name=".service.Bind1Service"
+            android:enabled="true"
+            android:exported="true" />
+
+        <provider
+            android:name=".cp.MyContentProvider"
+            android:authorities="com.yangyong.mycp"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.yangyong.PROVIDER" />
+
+        <activity android:name=".activity.CpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.MyIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

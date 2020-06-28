@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yangyong.didi2.DownActivity">
+    tools:context="com.yangyong.didi2.activity.DownActivity">
 <Button
     android:text="下载"
     android:id="@+id/main_down"

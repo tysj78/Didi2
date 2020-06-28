@@ -145,7 +145,27 @@ public class ExampleUnitTest {
 
 //        test1();
 //        testLinkedQueue();
-        get10();
+//        get10();
+        test6();
+    }
+
+    private void test6() {
+        ArrayList<Const> objects = new ArrayList<>();
+        Const aConst1 = new Const("1", "2");
+        Const aConst2 = new Const("1", "2");
+        Const aConst3 = new Const("1", "2");
+        objects.add(aConst1);
+        objects.add(aConst2);
+        objects.add(aConst3);
+
+        for(Const co:objects){
+            co.age="";
+            co.sex="";
+        }
+
+        for(Const co:objects){
+            System.out.println(co.toString());
+        }
     }
 
     private void parmTest(Map<String, String> params) {

@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yangyong.didi2.CodingActivity">
+    tools:context="com.yangyong.didi2.activity.CodingActivity">
 
 </android.support.constraint.ConstraintLayout>

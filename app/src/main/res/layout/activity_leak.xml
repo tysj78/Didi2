@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.LeakActivity">
+    tools:context="com.yangyong.didi2.activity.LeakActivity">
 
     <Button
         android:id="@+id/main_leak"

@@ -2,16 +2,20 @@ package com.yangyong.didi2.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.RestrictionsManager;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
@@ -25,7 +29,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lahm.library.EasyProtectorLib;
+import com.lahm.library.EmulatorCheckCallback;
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.broadcast.AppInstallReceiver;
+import com.yangyong.didi2.service.Bind1Service;
+import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.PermissionUtils;
 import com.yangyong.didi2.zlog.ZLog;
 
@@ -33,12 +43,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import io.reactivex.functions.Consumer;
 
 public class ScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "yy";
     private LinearLayout llview;
     private Button btn_makelog;
     private Button btn_sendnotification;
@@ -71,6 +85,21 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tv_emui;
     private Button btn_getemui;
     private Button btn_booth;
+    private AppInstallReceiver appInstallReceiver;
+    private Button btn_create_error;
+    private Button btn_install;
+    private CountDownLatch latch;
+    private static long lastTi = 0;
+    private ServiceConnection mServiceConnection;
+    private Bind1Service.MyBinder myBinder;
+    private Bind1Service mServer;
+    private Button btn_bindService;
+    private Button btn_getCount;
+    private AlertDialog alertDialog;
+    private Button btn_stop;
+    private Intent intent;
+    private Button btn_open;
+    private Button btn_stp;
 
     private void xiaofei() {
         new Thread(
@@ -102,6 +131,9 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen);
         initView();
+
+        Log.e(TAG, "onCreate: ");
+        AppUtil.mActivity = this;
 //        requestPer();
 //        llview.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -112,7 +144,46 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
 //            }
 //        });
 //        startEmmSet();
+        appInstallReceiver = new AppInstallReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        intentFilter.addDataScheme("package");
+        registerReceiver(appInstallReceiver, intentFilter);
 
+//        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+//        startActivity(intent);
+//        startTimer();
+        initBind1Service();
+    }
+
+    private void initBind1Service() {
+        mServiceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                myBinder = (Bind1Service.MyBinder) service;
+                mServer = myBinder.getServer();
+                mServer.setMusic();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mServer = null;
+            }
+        };
+        intent = new Intent(this, Bind1Service.class);
+    }
+
+    private void startTimer() {
+        Timer ptimer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.e(TAG, "run: " + AppUtil.mActivity);
+            }
+        };
+        ptimer.schedule(timerTask, 0, 2000);
     }
 
     private void startEmmSet() {
@@ -169,6 +240,20 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         btn_getemui.setOnClickListener(this);
         btn_booth = (Button) findViewById(R.id.btn_booth);
         btn_booth.setOnClickListener(this);
+        btn_create_error = (Button) findViewById(R.id.btn_create_error);
+        btn_create_error.setOnClickListener(this);
+        btn_install = (Button) findViewById(R.id.btn_install);
+        btn_install.setOnClickListener(this);
+        btn_bindService = (Button) findViewById(R.id.btn_bindService);
+        btn_bindService.setOnClickListener(this);
+        btn_getCount = (Button) findViewById(R.id.btn_getCount);
+        btn_getCount.setOnClickListener(this);
+        btn_stop = (Button) findViewById(R.id.btn_stop);
+        btn_stop.setOnClickListener(this);
+        btn_open = (Button) findViewById(R.id.btn_open);
+        btn_open.setOnClickListener(this);
+        btn_stp = (Button) findViewById(R.id.btn_stp);
+        btn_stp.setOnClickListener(this);
     }
 
     float k = 500.0f;
@@ -255,9 +340,73 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_booth:
                 break;
+            case R.id.btn_create_error:
+                Log.e(TAG, "onClick: " + (0 / 0));
+                break;
+            case R.id.btn_install:
+//                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/emmappstore/apkloads/UDPTest_1.0.apk");
+//                AppUtil.installApk(this,file);
+//                test1();
+                boolean b = EasyProtectorLib.checkIsRunningInEmulator(this, new EmulatorCheckCallback() {
+                    @Override
+                    public void findEmulator(String emulatorInfo) {
+
+                    }
+                });
+                LogUtils.e(b ? "模拟器" : "非模拟器");
+                break;
+            case R.id.btn_bindService:
+                startService(intent);
+                bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+                break;
+            case R.id.btn_getCount:
+                if (mServer != null) {
+                    int count = mServer.getCount();
+                    LogUtils.e("获取到Bind1Service count:" + count);
+                } else {
+                    LogUtils.e("服务还未进行bind");
+                }
+                break;
+            case R.id.btn_stop:
+                unbindService(mServiceConnection);
+//                mServiceConnection=null;
+                stopService(intent);
+                break;
+            case R.id.btn_open:
+                mServer.start();
+                break;
+            case R.id.btn_stp:
+                mServer.stop();
+                break;
         }
     }
-    boolean boo=false;
+
+
+    private void showUpdateDialog() {
+        Log.e("tag", "showUpdateDialog: " + Thread.currentThread().getId());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(ScreenActivity.this);
+        builder.setTitle("版本更新");
+        builder.setCancelable(false);
+        builder.setMessage("111111");
+        builder.setPositiveButton("下载", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e("tag", "=======setPositiveButton-----");
+                alertDialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e("tag", "=======setNegativeButton-----");
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    boolean boo = false;
 
     private String getEMUI() {
         Class<?> classType = null;
@@ -392,6 +541,20 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
 //        return super.dispatchTouchEvent(ev);
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: ");
+        if (appInstallReceiver != null) {
+            unregisterReceiver(appInstallReceiver);
+        }
+//        if (mServer != null) {
+//            unbindService(mServiceConnection);
+//            mServer = null;
+//        }
+    }
+
     /**
      * 执行命令且得到结果
      */
@@ -500,6 +663,7 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
     private void toast(String content) {
         Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
     }
+
     public String getIMEI() {
         try {
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -512,5 +676,47 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         return "未知";
     }
 
+    private void test1() {
+        latch = new CountDownLatch(2);
+        Thread thread1 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.e("yy", "进入thread1");
+                try {
+                    Thread.sleep(5000);
+                    Log.e("yy", "退出thread1");
+                    latch.countDown();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread thread2 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.e("yy", "进入thread2");
+                try {
+                    Thread.sleep(8000);
+                    Log.e("yy", "退出thread2");
+                    latch.countDown();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "子线程统计完成:继续执行主线程 ");
+    }
 
 }

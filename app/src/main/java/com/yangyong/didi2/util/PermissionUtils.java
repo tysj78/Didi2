@@ -2,14 +2,10 @@ package com.yangyong.didi2.util;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Build;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yangyong.didi2.PermissionActivity;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
-
 import io.reactivex.functions.Consumer;
 
 /**

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yangyong.didi2.Main10Activity">
+    tools:context="com.yangyong.didi2.activity.Main10Activity">
 <TextView
     android:text="我是新增的activity"
     android:layout_width="wrap_content"

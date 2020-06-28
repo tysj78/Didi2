@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +17,7 @@ import java.io.InputStream;
 public class FileUtils {
 
     public static String getSDPath() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath()+"/apk/apps.apk";
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk/apps.apk";
 //        File file = new File(storageDirectory, "apk/apps.apk");
 //        if (!file.exists()) {
 //            file.mkdirs();
@@ -54,5 +56,52 @@ public class FileUtils {
             }
         }
         return file.getAbsolutePath();
+    }
+
+    public static void getDataFiles(Context context) {
+        File filesDir = context.getFilesDir();
+        LogUtils.e("filesDir:" + filesDir.getAbsolutePath());
+//        String[] strings = context.fileList();
+//        for (String fname : strings) {
+//            LogUtils.e(fname);
+//        }
+    }
+
+    public static void getDataFile(Context context) {
+        FileInputStream fileInputStream=null;
+        FileOutputStream fileOutputStream=null;
+        try {
+            File file = new File(context.getPackageManager().getApplicationInfo(context.getPackageName(), 0).sourceDir);
+            File targetFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk/didi2.apk");
+//            LogUtils.e("filedir:" + file.getAbsolutePath());
+
+            fileInputStream = new FileInputStream(file);
+            fileOutputStream = new FileOutputStream(targetFile);
+
+            LogUtils.e("文件copy开始");
+            int len;
+            byte[] bytes = new byte[1024];
+            while ((len = fileInputStream.read(bytes)) != -1) {
+                fileOutputStream.write(bytes, 0, len);
+            }
+            LogUtils.e("文件copy结束");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            if (fileInputStream!=null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fileOutputStream!=null) {
+                try {
+                    fileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

