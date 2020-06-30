@@ -23,7 +23,7 @@ public class NotificationUtils extends ContextWrapper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void createChannels() {
+    private void createChannels() {
         // create android channel
         NotificationChannel androidChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
                 ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
@@ -47,11 +47,18 @@ public class NotificationUtils extends ContextWrapper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public Notification.Builder getAndroidChannelNotification(String title, String body) {
+    private Notification getAndroidChannelNotification(String title, String body) {
         return new Notification.Builder(getApplicationContext(), ANDROID_CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setSmallIcon(android.R.drawable.stat_notify_more)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .build();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void sendNotification(String title, String body) {
+        Notification notification = getAndroidChannelNotification(title, body);
+        getManager().notify(1001, notification);
     }
 }

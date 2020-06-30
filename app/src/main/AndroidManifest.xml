@@ -4,10 +4,18 @@
     package="com.yangyong.didi2">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
         android:name="com.yangyong.PROVIDER"
         android:protectionLevel="normal" />
+
+    <permission
+        android:name="com.yangyong.permission"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.yangyong.permission" />
+
     <!-- 安装未知来源应用的权限 -->
     <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
@@ -78,7 +86,9 @@
         <activity android:name=".activity.Main5Activity" />
         <activity android:name=".activity.Main6Activity" />
         <activity android:name=".activity.ClipboardActivity" />
-        <activity android:name=".activity.HookActivity" />
+        <activity android:name=".activity.HookActivity">
+
+        </activity>
         <activity android:name=".activity.DeviceAdminActivity">
 
             <!-- <intent-filter> -->
@@ -334,7 +344,7 @@
             android:exported="true"
             android:permission="com.yangyong.PROVIDER" />
 
-        <activity android:name=".activity.CpActivity">
+        <activity android:name=".activity.CpActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -344,7 +354,28 @@
 
         <service
             android:name=".service.MyIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".activity.BroadcastActivity">
+
+        </activity>
+
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.LocalReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.yangyong.local"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!--<receiver-->
+        <!--android:name=".broadcast.NetInfoReceiver"-->
+        <!--android:enabled="true"-->
+        <!--android:exported="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+        <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.yangyong.didi2;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Debug;
@@ -17,10 +18,15 @@ import com.tencent.mars.xlog.Xlog;
 //import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
 import com.yangyong.didi2.BuildConfig;
 import com.yangyong.didi2.util.CrashCollector;
+import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.zlog.ZLog;
 
 //import net.sqlcipher.database.SQLiteDatabase;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
@@ -39,7 +45,7 @@ import javax.net.ssl.X509TrustManager;
 public class MyApp extends Application {
     private static final String TAG = "yy";
 
-//    private ApplicationLike tinkerApplicationLike;
+    //    private ApplicationLike tinkerApplicationLike;
     public static Context mContext;
     public static Activity mActivity;
 
@@ -59,8 +65,6 @@ public class MyApp extends Application {
 
 
 //        initXlog();
-
-
 
 
 //        handleSSLHandshake();
@@ -106,6 +110,7 @@ public class MyApp extends Application {
         super.attachBaseContext(base);
 //        MultiDex.install(this);
         Log.e(TAG, "attachBaseContext: ");
+        hookNotificationManager(base);
     }
 
     /**
@@ -135,8 +140,6 @@ public class MyApp extends Application {
             TinkerPatch.with().fetchPatchUpdateAndPollWithInterval();
         }
     }*/
-
-
     public static void handleSSLHandshake() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -164,6 +167,42 @@ public class MyApp extends Application {
                 }
             });
         } catch (Exception ignored) {
+        }
+    }
+
+    private void hookNotificationManager(Context context) {
+        try {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            // 得到系统的 sService
+            Method getService = NotificationManager.class.getDeclaredMethod("getService");
+            getService.setAccessible(true);
+            final Object sService = getService.invoke(notificationManager);
+
+            Class iNotiMngClz = Class.forName("android.app.INotificationManager");
+            // 动态代理 INotificationManager
+            Object proxyNotiMng = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
+
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    LogUtils.e("invoke(). method:{}" + method);
+                    if (args != null && args.length > 0) {
+                        for (Object arg : args) {
+                            LogUtils.e("拦截到通知：" + arg);
+                        }
+                    }
+                    // 操作交由 sService 处理，不拦截通知
+                     return method.invoke(sService, args);
+                    // 拦截通知，什么也不做
+//                    return null;
+                    // 或者是根据通知的 Tag 和 ID 进行筛选
+                }
+            });
+            // 替换 sService
+            Field sServiceField = NotificationManager.class.getDeclaredField("sService");
+            sServiceField.setAccessible(true);
+            sServiceField.set(notificationManager, proxyNotiMng);
+        } catch (Exception e) {
+            LogUtils.e("Hook NotificationManager failed!" + e.toString());
         }
     }
 }

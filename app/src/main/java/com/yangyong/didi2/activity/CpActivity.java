@@ -23,6 +23,8 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
     private ContentResolver contentResolver;
     private Uri uri;
     private Button bt_start;
+    private Button bt_add1;
+    private Button bt_query1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
         bt_query.setOnClickListener(this);
         bt_start = (Button) findViewById(R.id.bt_start);
         bt_start.setOnClickListener(this);
+        bt_add1 = (Button) findViewById(R.id.bt_add1);
+        bt_add1.setOnClickListener(this);
+        bt_query1 = (Button) findViewById(R.id.bt_query1);
+        bt_query1.setOnClickListener(this);
     }
 
     @Override
@@ -80,6 +86,30 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
                 Intent intent = new Intent(this, MyIntentService.class);
                 intent.setAction("writefile");
                 startService(intent);
+                break;
+            case R.id.bt_add1:
+                ContentValues values = new ContentValues();
+                values.put("name", "安林星");
+                values.put("level", 39);
+                values.put("power", 300000);
+                values.put("team", "火毒队");
+                values.put("htian", 174);
+                contentResolver.insert(uri, values);
+                break;
+            case R.id.bt_query1:
+                Cursor legion_cursor = contentResolver.query(uri, null, null, null, null);
+                while (legion_cursor.moveToNext()) {
+                    int id = legion_cursor.getInt(0);
+                    String name = legion_cursor.getString(1);
+                    int level = legion_cursor.getInt(2);
+                    int power = legion_cursor.getInt(3);
+                    String team = legion_cursor.getString(4);
+                    int huangtian = legion_cursor.getInt(5);
+                    LogUtils.e("id:" + id + "==name:" + name + "==level:" + level + "==power:" + power + "==team:" + team + "==hungtian:" + huangtian);
+                }
+                if (legion_cursor != null) {
+                    legion_cursor.close();
+                }
                 break;
         }
     }

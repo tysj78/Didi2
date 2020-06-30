@@ -12,6 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="增" />
+    <Button
+        android:id="@+id/bt_add1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新版本增加数据" />
 
     <Button
         android:id="@+id/bt_delete"
@@ -30,6 +35,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="查" />
+    <Button
+        android:id="@+id/bt_query1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询新版本" />
     <Button
         android:id="@+id/bt_start"
         android:layout_width="wrap_content"

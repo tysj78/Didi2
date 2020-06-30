@@ -5,22 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.activity.HookActivity">
+    tools:context="com.yangyong.didi2.activity.BroadcastActivity">
 
     <Button
-        android:text="hook点击事件"
-        android:id="@+id/main_hook"
+        android:id="@+id/bt_sendbroadcast"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:text="发送广播" />
     <Button
-        android:text="退出应用"
-        android:id="@+id/main_exit"
+        android:id="@+id/bt_sendlocal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="发送本地广播" />
     <Button
-        android:text="发通知"
-        android:id="@+id/bt_sendnoti"
+        android:id="@+id/bt_sendper"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="发送私有广播" />
 </LinearLayout>
