@@ -146,7 +146,13 @@ public class ExampleUnitTest {
 //        test1();
 //        testLinkedQueue();
 //        get10();
-        test6();
+//        test6();
+        test7();
+    }
+
+    private void test7() {
+        float rate = .0f;
+        System.out.println(rate);
     }
 
     private void test6() {
@@ -158,13 +164,19 @@ public class ExampleUnitTest {
         objects.add(aConst2);
         objects.add(aConst3);
 
-        for(Const co:objects){
-            co.age="";
-            co.sex="";
-        }
+        setValue(objects);
+
 
         for(Const co:objects){
             System.out.println(co.toString());
+        }
+    }
+
+    private void setValue(ArrayList<Const> objects) {
+        for(Const co:objects){
+            co.age="";
+            co.sex="";
+            break;
         }
     }
 

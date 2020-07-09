@@ -45,4 +45,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="启动服务" />
+    <Button
+        android:id="@+id/bt_fs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="反射赋值" />
 </LinearLayout>

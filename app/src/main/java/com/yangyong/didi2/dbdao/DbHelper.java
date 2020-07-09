@@ -10,7 +10,7 @@ import com.yangyong.didi2.util.LogUtils;
 /**
  * xxx class
  *
- * @author yangyong
+ * @author 数据库帮助类
  * @date 2020/6/28/0028
  */
 

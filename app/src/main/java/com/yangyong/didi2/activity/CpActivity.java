@@ -11,8 +11,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.bean.Legion;
 import com.yangyong.didi2.service.MyIntentService;
 import com.yangyong.didi2.util.LogUtils;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class CpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,6 +30,7 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
     private Button bt_start;
     private Button bt_add1;
     private Button bt_query1;
+    private Button bt_fs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
         bt_add1.setOnClickListener(this);
         bt_query1 = (Button) findViewById(R.id.bt_query1);
         bt_query1.setOnClickListener(this);
+        bt_fs = (Button) findViewById(R.id.bt_fs);
+        bt_fs.setOnClickListener(this);
     }
 
     @Override
@@ -111,6 +119,51 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
                     legion_cursor.close();
                 }
                 break;
+            case R.id.bt_fs:
+                fs();
+                break;
+        }
+    }
+
+    private void fs() {
+//        private String name;
+//        private int level;
+//        private int power;
+//        private String team;
+//        private int htian;
+        try {
+            //1.拿到class对象
+            Class<?> aClass = Class.forName("com.yangyong.didi2.bean.Legion");
+            Constructor<?> constructor = aClass.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Object legion = constructor.newInstance();
+            Field name = aClass.getDeclaredField("name");
+            Field level = aClass.getDeclaredField("level");
+            Field power = aClass.getDeclaredField("power");
+            Field team = aClass.getDeclaredField("team");
+            Field htian = aClass.getDeclaredField("htian");
+
+            name.setAccessible(true);
+            level.setAccessible(true);
+            power.setAccessible(true);
+            team.setAccessible(true);
+            htian.setAccessible(true);
+
+
+            name.set(legion,"安林星");
+            level.set(legion,39);
+            power.set(legion,330000);
+            team.set(legion,"火烧队");
+            htian.set(legion,174);
+
+            //2.反射私有方法
+            Method printInfo = aClass.getDeclaredMethod("printInfo");
+            printInfo.setAccessible(true);
+            String invoke = (String) printInfo.invoke(legion);
+            LogUtils.e(invoke);
+        } catch (Exception e) {
+            LogUtils.e(e.toString());
+            e.printStackTrace();
         }
     }
 }

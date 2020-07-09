@@ -13,12 +13,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -35,12 +39,14 @@ import com.yangyong.didi2.R;
 import com.yangyong.didi2.broadcast.AppInstallReceiver;
 import com.yangyong.didi2.service.Bind1Service;
 import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.PermissionUtils;
 import com.yangyong.didi2.zlog.ZLog;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Timer;
@@ -53,6 +59,7 @@ import io.reactivex.functions.Consumer;
 public class ScreenActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "yy";
+    private static final int INSTALL_PERMISS_CODE = 101;
     private LinearLayout llview;
     private Button btn_makelog;
     private Button btn_sendnotification;
@@ -339,21 +346,28 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
                 tv_emui.setText(getIMEI());
                 break;
             case R.id.btn_booth:
+                coppy();
+                openPer();
                 break;
             case R.id.btn_create_error:
-                Log.e(TAG, "onClick: " + (0 / 0));
+                try {
+//                    Log.e(TAG, "onClick: " + (0 / 0));
+                    throw new Exception("自定义异常");
+                } catch (Exception e) {
+                    Log.e("yy", "Exception: " + e.toString());
+                }
                 break;
             case R.id.btn_install:
-//                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/emmappstore/apkloads/UDPTest_1.0.apk");
-//                AppUtil.installApk(this,file);
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/emmappstore/apkloads/recordbox-v3.0.1478.apk");
+                AppUtil.installApk(this, file);
 //                test1();
-                boolean b = EasyProtectorLib.checkIsRunningInEmulator(this, new EmulatorCheckCallback() {
-                    @Override
-                    public void findEmulator(String emulatorInfo) {
-
-                    }
-                });
-                LogUtils.e(b ? "模拟器" : "非模拟器");
+//                boolean b = EasyProtectorLib.checkIsRunningInEmulator(this, new EmulatorCheckCallback() {
+//                    @Override
+//                    public void findEmulator(String emulatorInfo) {
+//
+//                    }
+//                });
+//                LogUtils.e(b ? "模拟器" : "非模拟器");
                 break;
             case R.id.btn_bindService:
                 startService(intent);
@@ -379,6 +393,30 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
                 mServer.stop();
                 break;
         }
+    }
+
+    private void openPer() {
+        boolean haveInstallPermission = false;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            haveInstallPermission = getPackageManager().canRequestPackageInstalls();
+        }
+        if (!haveInstallPermission) {
+            Uri packageURI = Uri.parse("package:" + getPackageName());
+            Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+            startActivityForResult(intent, INSTALL_PERMISS_CODE);
+        }
+    }
+
+
+    private void coppy() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+//                        FileUtils.getDataFile(ScreenActivity.this);
+                    }
+                }
+        ).start();
     }
 
 
@@ -631,6 +669,10 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
+        if (resultCode == RESULT_OK && requestCode == INSTALL_PERMISS_CODE) {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/emmappstore/apkloads/recordbox-v3.0.1478.apk");
+            AppUtil.installApk(this, file);
+        }
         if (requestCode == 100) {
 //            LogUtils.e("REQUEST_BIND_APPWIDGETid==" + appWidgetId);
             if (resultCode == RESULT_CANCELED) {
@@ -718,5 +760,4 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         }
         Log.e(TAG, "子线程统计完成:继续执行主线程 ");
     }
-
 }

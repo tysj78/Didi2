@@ -110,7 +110,7 @@ public class MyApp extends Application {
         super.attachBaseContext(base);
 //        MultiDex.install(this);
         Log.e(TAG, "attachBaseContext: ");
-        hookNotificationManager(base);
+//        hookNotificationManager(base);
     }
 
     /**
@@ -191,7 +191,7 @@ public class MyApp extends Application {
                         }
                     }
                     // 操作交由 sService 处理，不拦截通知
-                     return method.invoke(sService, args);
+                    return method.invoke(sService, args);
                     // 拦截通知，什么也不做
 //                    return null;
                     // 或者是根据通知的 Tag 和 ID 进行筛选
@@ -206,3 +206,4 @@ public class MyApp extends Application {
         }
     }
 }
+

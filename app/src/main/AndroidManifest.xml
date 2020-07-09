@@ -5,11 +5,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <permission
         android:name="com.yangyong.PROVIDER"
         android:protectionLevel="normal" />
-
     <permission
         android:name="com.yangyong.permission"
         android:protectionLevel="signature" />
@@ -86,9 +89,7 @@
         <activity android:name=".activity.Main5Activity" />
         <activity android:name=".activity.Main6Activity" />
         <activity android:name=".activity.ClipboardActivity" />
-        <activity android:name=".activity.HookActivity">
-
-        </activity>
+        <activity android:name=".activity.HookActivity" />
         <activity android:name=".activity.DeviceAdminActivity">
 
             <!-- <intent-filter> -->
@@ -330,7 +331,9 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.ScreenActivity" />
+        <activity android:name=".activity.ScreenActivity">
+
+        </activity>
 
         <service
             android:name=".service.Bind1Service"
@@ -344,21 +347,13 @@
             android:exported="true"
             android:permission="com.yangyong.PROVIDER" />
 
-        <activity android:name=".activity.CpActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.CpActivity" />
 
         <service
             android:name=".service.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".activity.BroadcastActivity">
-
-        </activity>
+        <activity android:name=".activity.BroadcastActivity" />
 
         <!-- <receiver -->
         <!-- android:name=".broadcast.LocalReceiver" -->
@@ -368,14 +363,26 @@
         <!-- <action android:name="com.yangyong.local"/> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <!--<receiver-->
-        <!--android:name=".broadcast.NetInfoReceiver"-->
-        <!--android:enabled="true"-->
-        <!--android:exported="true">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.NetInfoReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity android:name=".activity.RecordActivity" />
+        <activity android:name=".activity.DuanDianActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.JiaKeActivity"></activity>
+        <activity android:name=".activity.InstallActivity">
+
+        </activity>
     </application>
 
 </manifest>

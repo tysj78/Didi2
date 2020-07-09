@@ -2,6 +2,7 @@ package com.yangyong.didi2.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,15 +68,16 @@ public class FileUtils {
 //        }
     }
 
-    public static void getDataFile(Context context) {
-        FileInputStream fileInputStream=null;
+    public static void getDataFile(Context context, Handler mHandler) {
+        InputStream fileInputStream=null;
         FileOutputStream fileOutputStream=null;
         try {
-            File file = new File(context.getPackageManager().getApplicationInfo(context.getPackageName(), 0).sourceDir);
-            File targetFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk/didi2.apk");
-//            LogUtils.e("filedir:" + file.getAbsolutePath());
+//            File file = new File(context.getPackageManager().getApplicationInfo(context.getPackageName(), 0).sourceDir);
 
-            fileInputStream = new FileInputStream(file);
+            File targetFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/recordbox-v3.0.1478.apk");
+//            LogUtils.e("filedir:" + file.getAbsolutePath());
+             fileInputStream = context.getAssets().open("recordbox-v3.0.1478.apk");
+//            fileInputStream = new FileInputStream(file);
             fileOutputStream = new FileOutputStream(targetFile);
 
             LogUtils.e("文件copy开始");
@@ -85,6 +87,7 @@ public class FileUtils {
                 fileOutputStream.write(bytes, 0, len);
             }
             LogUtils.e("文件copy结束");
+            mHandler.sendEmptyMessage(1);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -103,5 +106,21 @@ public class FileUtils {
                 }
             }
         }
+    }
+    //判断是否安装SDCard
+    public static boolean isSdOk(){
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+            return true;
+        }
+        return false;
+    }
+    //创建一个文件夹，用来存放下载的文件
+    public static File getRootFile(){
+        File sd = Environment.getExternalStorageDirectory();
+        File rootFile = new File(sd,"apk");
+        if (!rootFile.exists()){
+            rootFile.mkdirs();
+        }
+        return rootFile;
     }
 }
