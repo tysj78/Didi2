@@ -5,18 +5,42 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.content.FileProvider;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yangyong.didi2.Constants;
-import com.yangyong.didi2.activity.MainActivity;
+import com.yangyong.didi2.bean.LocationModel;
+import com.yangyong.didi2.bean.OperationModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -36,19 +60,41 @@ import io.reactivex.functions.Consumer;
  */
 
 public class AppUtil {
-    public static Activity mActivity;
-    private static AppUtil instance;
+    //    public static Activity mActivity = null;
+    private static AppUtil instance = null;
+    private static final Object LUCK = new Object();
 
-    private AppUtil() {};
+    private AppUtil() {
+        LogUtils.e("创建apputil");
+    }
 
     public static AppUtil getInstance() {
         if (instance == null) {
-            instance = new AppUtil();
+            synchronized (LUCK) {
+                if (instance == null) {
+                    instance = new AppUtil();
+                }
+            }
         }
         return instance;
     }
 
-    ;
+    //==========================单例第二种方式，静态内部类
+//    private static class Inner {
+//        private static AppUtil instance = new AppUtil();
+//    }
+//
+//    public static AppUtil getInstance() {
+//        return Inner.instance;
+//    }
+
+    /**
+     * 释放内存
+     */
+    public void release() {
+        instance = null;
+//        Inner.instance = null;
+    }
 
     public static void requestPermissions(Activity activity, String[] permissions, Consumer<Boolean> consumer) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -94,7 +140,7 @@ public class AppUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //高于7.0安装方式改变
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(context, "com.yangyong.didi2.fileProvider", apkPath);
+            Uri contentUri = FileProvider.getUriForFile(context, "com.yangyong.didi2.appfileProvider", apkPath);
             i.setDataAndType(contentUri, "application/vnd.android.package-archive");
 
         } else {
@@ -175,4 +221,312 @@ public class AppUtil {
 
     }
 
+    /**
+     * 下拉状态栏
+     *
+     * @param context
+     */
+    public void pullStatus(Context context) {
+        try {
+            OperationModel operationModel = new OperationModel();
+            LocationModel locationModel1 = new LocationModel();
+            locationModel1.setX(600);
+            locationModel1.setY(0);
+            LocationModel locationModel2 = new LocationModel();
+            locationModel2.setX(600);
+            locationModel2.setY(2000);
+            List<LocationModel> lis = new ArrayList<>();
+            lis.add(locationModel1);
+            lis.add(locationModel2);
+            operationModel.setList(lis);
+            operationModel.setDurationTime(2000);
+
+            LogUtils.e("开始执行手势");
+            Intent intent = new Intent("com.yangyong.access.move");
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("operation", operationModel);
+            intent.putExtras(bundle);
+            context.sendBroadcast(intent);
+        } catch (Exception e) {
+            Log.e("yy", "Exception: " + e.toString());
+        }
+    }
+
+    public void openAccess(Context context) {
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public String getUrl() {
+        String myString = null;
+        StringBuffer sff = new StringBuffer();//一定要new一个，我刚开始搞忘了，出不来。
+        try {
+//            Document doc = Jsoup.connect("https://sku-market-gw.jd.com/css/pc/758288.css?t=1573053011900").get();
+            Document doc = Jsoup.connect("http://www.baidu.com").get();
+            Elements links = doc.select("a[href]");
+            //注意这里是Elements不是Element。同理getElementById返回Element，getElementsByClass返回时Elements
+            for (Element link : links) {
+                //这里没有什么好说的。
+                sff.append(link.attr("abs:href")).append("  ").append(link.text()).append(" ");
+            }
+            myString = sff.toString();
+        } catch (Exception e) {
+            myString = e.getMessage();
+            e.printStackTrace();
+        }
+        LogUtils.e(myString == null ? "null" : myString);
+        return myString;
+    }
+
+    public void startClick(Context context) {
+        try {
+            LogUtils.e("开始执行点击");
+            Intent intent = new Intent("com.yangyong.access.click");
+            context.sendBroadcast(intent);
+        } catch (Exception e) {
+            Log.e("yy", "Exception: " + e.toString());
+        }
+    }
+
+    /**
+     * 当前设备屏幕分辨率
+     *
+     * @param activity
+     * @return
+     */
+    public String getScreen(Activity activity) {
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return "Resolution: " + dm.widthPixels + "*" + dm.heightPixels;
+    }
+
+    public String webTransformAndroid(Activity activity, int x, int y) {
+        try {
+            DisplayMetrics dm = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int deviceWidth = dm.widthPixels;
+            int deviceHeight = dm.heightPixels;
+
+            float widthRate = 540f / (float) deviceWidth;
+            float heightRate = 960f / (float) deviceHeight;
+
+            int deviceX = (int) (x / widthRate);
+            int deviceY = (int) (y / heightRate);
+            return deviceX + "," + deviceY;
+        } catch (Exception e) {
+            Log.e("yy", "Exception: " + e.toString());
+        }
+        return "";
+    }
+
+    public void commdDevice() {
+        new Thread() {
+            @Override
+            public void run() {
+                String s = execByRuntime("input keyevent 26");
+                LogUtils.e("命令执行结果：" + s);
+            }
+        }.start();
+    }
+
+    /**
+     * 执行shell 命令， 命令中不必再带 adb shell
+     *
+     * @param cmd
+     * @return Sting  命令执行在控制台输出的结果
+     */
+    public String execByRuntime(String cmd) {
+        Process process = null;
+        BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader = null;
+        try {
+            process = Runtime.getRuntime().exec(cmd);
+            inputStreamReader = new InputStreamReader(process.getInputStream());
+            bufferedReader = new BufferedReader(inputStreamReader);
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuilder output = new StringBuilder();
+            while ((read = bufferedReader.read(buffer)) > 0) {
+                output.append(buffer, 0, read);
+            }
+            return output.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (null != inputStreamReader) {
+                try {
+                    inputStreamReader.close();
+                } catch (Throwable t) {
+                    //
+                }
+            }
+            if (null != bufferedReader) {
+                try {
+                    bufferedReader.close();
+                } catch (Throwable t) {
+                    //
+                }
+            }
+            if (null != process) {
+                try {
+                    process.destroy();
+                } catch (Throwable t) {
+                    //
+                }
+            }
+        }
+    }
+
+    /**
+     * 读取配置文件
+     *
+     * @param context
+     * @param key
+     * @return
+     */
+    public void getStringFromAssets(Context context, String key) {
+        StringBuffer stringBuffer = new StringBuffer();
+        AssetManager assetManager = context.getAssets();
+        try {
+            InputStream is = assetManager.open("config.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String str = null;
+            while ((str = br.readLine()) != null) {
+                stringBuffer.append(str);
+            }
+        } catch (IOException e) {
+            LogUtils.e(e.toString());
+        }
+        LogUtils.e(stringBuffer.toString());
+        Object value = null;
+        if (!stringBuffer.toString().isEmpty()) {
+            JSONObject jsonObject = null;     //返回的数据形式是一个Object类型，所以可以直接转换成一个Object
+            try {
+                jsonObject = new JSONObject(stringBuffer.toString());
+                JSONArray array = jsonObject.getJSONArray(key);
+            } catch (JSONException e) {
+                LogUtils.e(e.toString());
+            }
+        }
+//        return value;
+    }
+
+    public boolean checkRunOnAppPermission(Activity activity) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&& !Settings.canDrawOverlays(activity)) {
+//            Toast.makeText(activity, "当前无权限，请授权", Toast.LENGTH_SHORT).show();
+//            activity.startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,Uri.parse("package:" + activity.getPackageName())), 0);
+
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+        activity.startActivity(intent);
+//            return false;
+//        }
+        return true;
+    }
+
+    public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data, OnWindowPermissionListener onWindowPermissionListener) {
+        if (requestCode == 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(activity)) {
+                Toast.makeText(activity.getApplicationContext(), "授权失败", Toast.LENGTH_SHORT).show();
+                if (onWindowPermissionListener != null)
+                    onWindowPermissionListener.onFailure();
+            } else {
+                Toast.makeText(activity.getApplicationContext(), "授权成功", Toast.LENGTH_SHORT).show();
+                if (onWindowPermissionListener != null)
+                    onWindowPermissionListener.onSuccess();
+            }
+        }
+    }
+
+    public interface OnWindowPermissionListener {
+        void onSuccess();
+
+        void onFailure();
+    }
+
+    public String readConfig(Context context, String fileName) {
+        StringBuffer stringBuffer = new StringBuffer();
+        AssetManager assetManager = context.getAssets();
+        String configStr = "";
+
+        InputStream is = null;
+        BufferedReader br = null;
+        try {
+            is = assetManager.open(fileName);
+            br = new BufferedReader(new InputStreamReader(is));
+            String str = null;
+            while ((str = br.readLine()) != null) {
+                stringBuffer.append(str);
+            }
+        } catch (IOException e) {
+            LogUtils.e(e.toString());
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        configStr = stringBuffer.toString();
+        return configStr;
+    }
+
+    public String readConfig(Context context, String fileName, String key) {
+        StringBuffer stringBuffer = new StringBuffer();
+        AssetManager assetManager = context.getAssets();
+        String configStr = "";
+
+        try {
+            InputStream is = assetManager.open(fileName);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String str = null;
+            while ((str = br.readLine()) != null) {
+                stringBuffer.append(str);
+            }
+        } catch (IOException e) {
+            LogUtils.e(e.toString());
+        }
+        configStr = stringBuffer.toString();
+
+        String value = "";
+        if (!configStr.isEmpty()) {
+            JSONObject jsonObject = null;     //返回的数据形式是一个Object类型，所以可以直接转换成一个Object
+            try {
+                jsonObject = new JSONObject(configStr);
+                value = jsonObject.getString(key);
+            } catch (JSONException e) {
+                LogUtils.e(e.toString());
+            }
+        }
+        return value;
+    }
+
+    public String encrypt(byte[] bytes) {
+        return android.util.Base64.encodeToString(bytes, 0);
+    }
+
+    public byte[] decode(String m) {
+        return android.util.Base64.decode(m, 0);
+    }
+
+    public <T> T fromJsonToObject(String json, Class<T> type) {
+        try {
+            Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
+            return gson.fromJson(json, type);
+        } catch (Exception e) {
+            Log.e("yy", "json转换异常11: " + e.getMessage());
+        }
+        return null;
+    }
 }

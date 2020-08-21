@@ -10,7 +10,7 @@ import android.util.Log;
  */
 
 public class LogUtils {
-    private static final String TAG = "yy";
+    private static final String TAG = "yylog";
 
     public static void e(String content) {
         Log.e(TAG, content);

@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 class LogQueue {
 
-    private static final String TAG = "LogQueue";
+    private static final String TAG = "NoticeQueue";
 
     /**
      * 存储日志的队列

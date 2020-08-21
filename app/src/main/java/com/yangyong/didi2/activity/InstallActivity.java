@@ -64,7 +64,8 @@ public class InstallActivity extends AppCompatActivity implements View.OnClickLi
                 ).start();
                 break;
             case R.id.bt_install2:
-                openPer();
+//                openPer();
+                AppUtil.getInstance().commdDevice();
                 break;
         }
     }

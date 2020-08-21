@@ -13,6 +13,7 @@
     <string name="input_pwd_hint">请输入密码</string>
     <string name="wait_moment">操作进行中，请稍后</string>
     <string name="fangxiezai">一款防止应用卸载的服务</string>
+    <string name="moni">一款模拟手势的服务</string>
     <string name="classesdex_crc">251154365</string>
 
     <string name="generate">Generate New Key</string>
@@ -23,4 +24,8 @@
     <string name="initial_text">Initial Text</string>
     <string name="final_text">Encrypted Text</string>
     <string name="decrypt_result">Decrypted Text</string>
+    <string name="current_key">当前key列表</string>
+    <string name="encrypt_content">原文</string>
+    <string name="decrypt_content">密文</string>
+    <string name="plaintext">明文1111111111111</string>
 </resources>

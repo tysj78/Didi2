@@ -140,7 +140,7 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         initView();
 
         Log.e(TAG, "onCreate: ");
-        AppUtil.mActivity = this;
+//        AppUtil.mActivity = this;
 //        requestPer();
 //        llview.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -187,7 +187,7 @@ public class ScreenActivity extends AppCompatActivity implements View.OnClickLis
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.e(TAG, "run: " + AppUtil.mActivity);
+//                Log.e(TAG, "run: " + AppUtil.mActivity);
             }
         };
         ptimer.schedule(timerTask, 0, 2000);

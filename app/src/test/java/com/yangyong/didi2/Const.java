@@ -8,13 +8,24 @@ import java.util.regex.Pattern;
  */
 
 public class Const {
-    public static String name = "";
+    public static String name = "5";
     public String age="";
     public String sex="";
 
     public Const(String age, String sex) {
         this.age = age;
         this.sex = sex;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        Const.name = name;
+    }
+
+    public Const() {
     }
 
     @Override

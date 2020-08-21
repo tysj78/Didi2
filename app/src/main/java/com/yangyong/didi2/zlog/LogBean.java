@@ -13,6 +13,14 @@ public class LogBean {
         this.logType = logType;
     }
 
+    @Override
+    public String toString() {
+        return "LogBean{" +
+                "logText='" + logText + '\'' +
+                ", logType=" + logType +
+                '}';
+    }
+
     public String getLogText() {
         return logText;
     }

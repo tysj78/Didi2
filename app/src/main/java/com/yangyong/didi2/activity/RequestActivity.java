@@ -8,11 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.OkHttpUtil;
 
 public class RequestActivity extends AppCompatActivity implements View.OnClickListener {
-    private String url = "http://api.tianapi.com/txapi/poetry?key=e3d610dde0076bbc53d1421b12cfee35";
-    private String TAG="yy";
+    private String url = "https://api.tianapi.com/txapi/poetry?key=e3d610dde0076bbc53d1421b12cfee35";
+    private String TAG = "yy";
     private Button main_request;
     private TextView main_txt;
 
@@ -42,7 +43,8 @@ public class RequestActivity extends AppCompatActivity implements View.OnClickLi
 
                     @Override
                     public void onFailure(String f) {
-                        Toast.makeText(RequestActivity.this, "请求出错："+f, Toast.LENGTH_SHORT).show();
+                        LogUtils.e("请求数据异常：" + f);
+                        Toast.makeText(RequestActivity.this, "请求出错：" + f, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;

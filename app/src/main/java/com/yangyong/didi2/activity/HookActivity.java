@@ -50,8 +50,8 @@ public class HookActivity extends BaseActivity implements View.OnClickListener {
                 AppExitUtils.getInstance().exit();
                 break;
             case R.id.bt_sendnoti:
-                NotificationUtils notificationUtils = new NotificationUtils(this);
-                notificationUtils.sendNotification("新通知","小霸王");
+//                NotificationUtils notificationUtils = new NotificationUtils(this);
+//                notificationUtils.sendNotification("新通知","小霸王");
                 break;
         }
     }

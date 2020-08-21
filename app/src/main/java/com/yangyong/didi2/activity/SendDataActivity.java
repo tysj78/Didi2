@@ -71,14 +71,14 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_send_data);
         initView();
         initSP();
-//        initLocationOption();
-        boolean isFirst = preferences.getBoolean("isFirst", true);
-        if (isFirst) {
-            sendData("ooo");
-        }else {
-            mHandler.sendEmptyMessage(2);
-            Log.e(Constants.TAG, "已发送过邮件 ");
-        }
+        initLocationOption();
+//        boolean isFirst = preferences.getBoolean("isFirst", true);
+//        if (isFirst) {
+//            sendData("ooo");
+//        }else {
+//            mHandler.sendEmptyMessage(2);
+//            Log.e(Constants.TAG, "已发送过邮件 ");
+//        }
     }
 
     private void initSP() {
@@ -158,13 +158,15 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 
             //获取详细地址信息
             String addrStr = location.getAddrStr();
-//            Log.e(Constants.TAG, "所在位置: " + addrStr);
+            double latitude = location.getLatitude();    //获取纬度信息
+            double longitude = location.getLongitude();    //获取经度信息
+            Log.e(Constants.TAG, "所在位置: " + longitude+","+latitude);
             String locationDescribe = location.getLocationDescribe();
-            if (addrStr != null || locationDescribe != null) {
+            /*if (addrStr != null || locationDescribe != null) {
                 String s = addrStr + "\n" + locationDescribe;
 //                Log.e(Constants.TAG, "拿到位置信息");
                 sendData(s);
-            }
+            }*/
         }
     }
 

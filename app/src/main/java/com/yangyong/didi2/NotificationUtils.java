@@ -13,13 +13,29 @@ import android.support.annotation.RequiresApi;
 public class NotificationUtils extends ContextWrapper {
 
     private NotificationManager mManager;
-    public static final String ANDROID_CHANNEL_ID = "com.baidu.baidulocationdemo";
-    public static final String ANDROID_CHANNEL_NAME = "ANDROID CHANNEL";
+    public static final String ANDROID_CHANNEL_ID = "com.yangyong.didi2";
+    public static String ANDROID_CHANNEL_NAME = "DIDI2";
+
+    private static NotificationUtils mInstance = null;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public NotificationUtils(Context base) {
+    private NotificationUtils(Context base) {
         super(base);
         createChannels();
+    }
+
+
+    public static NotificationUtils getInstance(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (mInstance == null) {
+                synchronized (NotificationUtils.class) {
+                    if (mInstance == null) {
+                        mInstance = new NotificationUtils(context);
+                    }
+                }
+            }
+        }
+        return mInstance;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,9 +72,10 @@ public class NotificationUtils extends ContextWrapper {
                 .build();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void sendNotification(String title, String body) {
-        Notification notification = getAndroidChannelNotification(title, body);
-        getManager().notify(1001, notification);
+    public void sendNotification(int id, String title, String body) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification notification = getAndroidChannelNotification(title, body);
+            getManager().notify(id, notification);
+        }
     }
 }

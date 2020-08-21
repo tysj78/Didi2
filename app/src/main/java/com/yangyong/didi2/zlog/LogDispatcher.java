@@ -26,7 +26,7 @@ import java.util.zip.ZipOutputStream;
 
 class LogDispatcher extends Thread {
 
-    private static final String TAG = "LogDispatcher";
+    private static final String TAG = "NoticeDispatcher";
 
     private final int MAX_LOG_SIZE = 1024 * 1024;
 

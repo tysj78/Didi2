@@ -5,8 +5,12 @@ import android.util.Log;
 import com.yangyong.didi2.bean.CallLogInfo;
 import com.yangyong.didi2.bean.CallLogInfos;
 import com.yangyong.didi2.util.EncodingDetect;
+import com.yangyong.didi2.util.LogUtils;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.helper.StringUtil;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
@@ -16,11 +20,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.logging.Handler;
 
@@ -29,6 +38,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import okhttp3.FormBody;
 
+import static com.baidu.location.h.k.i;
 import static org.junit.Assert.*;
 
 /**
@@ -39,6 +49,8 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     private volatile static boolean flag = false;
     private ArrayList<Integer> lists;
+    private boolean isTrue;
+    private String str;
 
     @Test
     public void addition_isCorrect() throws Exception {
@@ -147,7 +159,232 @@ public class ExampleUnitTest {
 //        testLinkedQueue();
 //        get10();
 //        test6();
-        test7();
+//        test7();
+//        test9();
+//        test10();
+//        test11();
+//        test12();
+//        test13();
+//        test14();
+//        test15();
+//        test16();
+//        System.out.println(55);
+//        test16();
+//        System.out.println(59);
+//        ArrayList<String> str = new ArrayList<>();
+//        test17(str);
+//        System.out.println(str.get(0));
+//        System.out.println(str);
+//        test19();
+//        test21();
+//        test22();
+//        test25();
+//        test26();
+//        test27();
+//        test28();
+    }
+
+    private void test28() {
+        final CountDownLatch latch = new CountDownLatch(5);
+        for (int i = 0; i < 5; i++) {
+            new Thread(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println(Thread.currentThread().getId()+" end");
+                            latch.countDown();
+                        }
+                    }
+            ).start();
+        }
+
+        System.out.println("all over");
+    }
+
+    private void test27() {
+//        String str = "123456";
+        String[] strings = new String[0];
+        System.out.println(strings.length);
+    }
+
+    private void test26() {
+//        String str ="emm_suninfo_com_encrypt_";
+        String str = "123456";
+        String miStr = "ZW1tX3N1bmluZm9fY29tX2VuY3J5cHRf";
+//        int i = str.hashCode();
+        String s = Base64.getEncoder().encodeToString(str.getBytes());
+//        byte[] decode = Base64.getDecoder().decode(miStr);
+//        String s = null;
+//        try {
+//            s = new String(decode,"utf-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println(s);
+    }
+
+    private void test25() {
+        for (int i = 0; i < 10; i++) {
+            //0-59
+//            int r = (int) (Math.random() * 60);
+            SecureRandom random = new SecureRandom();
+            int r = random.nextInt(60);
+            System.out.println(r);
+        }
+//        Random random = new Random();
+//        int i = random.nextInt();
+    }
+
+    private void test22() {
+        //http://wwww.baidu.com https://wwww.baidu.com http://baidu.com https://baidu.com
+        String url = "http://baidu.com";
+        String substring = "";
+        if (url.startsWith("https://www")) {
+            substring = url.substring(8);
+        } else if (url.startsWith("http://www")) {
+            substring = url.substring(7);
+        } else if (url.startsWith("https://")) {
+            substring = "www." + url.substring(8);
+        } else if (url.startsWith("http://")) {
+            substring = "www." + url.substring(7);
+        }
+        System.out.println(substring);
+    }
+
+
+    private void test21() {
+        String mac = "40:e2:30:05:82:f7";
+        String replace = mac.replace(":", "-");
+        System.out.println(replace);
+    }
+
+    private void test19() {
+        String emmIp = "";
+        String emm_url = "https://192.168.220.58:443/rest";
+        try {
+            if (emm_url.startsWith("https://")) {
+                String[] split = emm_url.split(":");
+                if (split.length > 2) {
+                    //https://192.168.220.58:443/rest
+                    emmIp = split[1].substring(2);
+                } else {
+                    //https://192.168.220.58/rest
+                    String substring = split[1].substring(2);
+                    int indexOf = substring.lastIndexOf("/");
+                    emmIp = substring.substring(0, indexOf);
+                }
+            }
+            System.out.println(emmIp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void test17(ArrayList<String> str) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String gon = stringBuilder.append(" ").append("王府井").append("\r\n").append("经度116.333000").append(" 纬度35.241515")
+                .append(" 半径100").toString();
+
+        str.add(gon);
+//        System.out.println(gon);
+    }
+
+    private void test16() {
+        String s = "20200803";
+        StringBuilder stringBuilder = new StringBuilder();
+        String year = s.substring(0, 4);
+        String month = s.substring(4, 6);
+        String day = s.substring(6, 8);
+        StringBuilder date = stringBuilder.append(year).append("-").append(month).append("-").append(day);
+        System.out.println(date);
+        if (true) {
+            return;
+        }
+        System.out.println(57);
+    }
+
+    private void test15() {
+        System.out.println(isTrue);
+    }
+
+    private void test14() {
+        String s = "https://192.168.220.77:443/rest";
+        if (s.isEmpty()) {
+            return;
+        }
+        if (s.startsWith("https://")) {
+            String[] split = s.split(":");
+            String substring = split[1].substring(2);
+            System.out.println(substring);
+        }
+
+
+    }
+
+    private void test13() {
+        String s = "https://baidu.com";
+        if (s.isEmpty()) {
+            return;
+        }
+        if (s.startsWith("http://www.")) {
+            String substring = s.substring(11);
+            System.out.println(substring);
+        } else if (s.startsWith("https://www.")) {
+            String substring = s.substring(12);
+            System.out.println(substring);
+        } else if (s.startsWith("https://") || s.startsWith("http://")) {
+            String substring = s.substring(8);
+            System.out.println(substring);
+        }
+
+    }
+
+    private void test12() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("com.mobilewise.mobileware");
+        list.add("com.yangyong.didi2");
+        if (list.contains("com.mobilewise.mobilewar")) {
+            System.out.println(1);
+        }
+    }
+
+    private void test11() {
+        int sun = 2;
+
+        if (sun == 5) {
+            System.out.println(5);
+        } else if (sun > 2) {
+            System.out.println(2);
+        } else if (sun > 1) {
+            System.out.println(1);
+            if (true) {
+                return;
+            }
+            System.out.println(1);
+        } else if (sun > 0) {
+            System.out.println(0);
+        }
+    }
+
+    private void test10() {
+        String json = "{\"type\":\"0\",\"use\":\"true\",\"blueToothStr\":[\"12:34:56:23:65:47\",\"23:65:47:89:89:87\"]}";
+        try {
+            JSONObject object = new JSONObject(json);
+            String use = object.getString("use");
+            System.out.println(use);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void test9() {
+        float i = 540f / 1080f;
+        System.out.println(i);
     }
 
     private void test7() {
@@ -167,15 +404,15 @@ public class ExampleUnitTest {
         setValue(objects);
 
 
-        for(Const co:objects){
+        for (Const co : objects) {
             System.out.println(co.toString());
         }
     }
 
     private void setValue(ArrayList<Const> objects) {
-        for(Const co:objects){
-            co.age="";
-            co.sex="";
+        for (Const co : objects) {
+            co.age = "";
+            co.sex = "";
             break;
         }
     }

@@ -10,6 +10,7 @@ import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.MyApp;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -30,8 +31,11 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -64,7 +68,8 @@ public class OkHttpUtil {
 
     private OkHttpClient getOkHttpClient() throws Exception {
         //跳过ssl证书校验
-        if (okHttpClient == null) {
+//        if (okHttpClient == null) {
+        if (true) {
             X509TrustManager xtm = new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType) {
@@ -83,7 +88,7 @@ public class OkHttpUtil {
                             throw new IllegalArgumentException("checkServerTrusted x509Certificates is null ");
                         }
                         if (chain.length < 0) {
-                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is null ");
+                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is zero ");
                         }
 
                         for (X509Certificate cert : chain) {
@@ -100,7 +105,7 @@ public class OkHttpUtil {
                         }
                     } catch (Exception e) {
                         Log.e(Constants.TAG, "---验证异常" + e.toString());
-                        throw new CertificateException("证书校验异常");
+//                        throw new CertificateException("证书校验异常");
                     }
 //                    if (!verifyResult) {
 //                        throw new CertificateException("证书校验失败");
@@ -109,7 +114,7 @@ public class OkHttpUtil {
 
                 @Override
                 public X509Certificate[] getAcceptedIssuers() {
-                    X509Certificate[] x509Certificates = new X509Certificate[0];
+                    X509Certificate[] x509Certificates = new X509Certificate[1];
                     return x509Certificates;
                 }
             };
@@ -152,22 +157,26 @@ public class OkHttpUtil {
      */
 
     public void doGet(String url, final DataCallBack callback) {
-        //创建Request
-        Request request = new Request.Builder().url(url).build();
-        //得到Call对象
-        okhttp3.Call call = okHttpClient.newCall(request);
-        //执行异步请求
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runUI(callback, false, e.getMessage());
-            }
+        try {
+            //创建Request
+            Request request = new Request.Builder().url(url).build();
+            //得到Call对象
+            okhttp3.Call call = getOkHttpClient().newCall(request);
+            //执行异步请求
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runUI(callback, false, e.getMessage());
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                runUI(callback, true, response.body().string());
-            }
-        });
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runUI(callback, true, response.body().string());
+                }
+            });
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
     }
 
     private void runUI(final DataCallBack callback, final boolean isOK, final String json) {
@@ -222,6 +231,30 @@ public class OkHttpUtil {
             Log.e(Constants.TAG, "Exception: " + e.toString());
         }
     }
+
+    public void uploadFile() {
+        try {
+            String url = "/upload";
+            File file = new File("/sdcard/emm.zip");
+            RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+            MultipartBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("uploadfile", "emm.zip", fileBody)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .build();
+
+            Response response = getOkHttpClient().newCall(request).execute();
+            int code = response.code();
+            LogUtils.e("back code :" + code);
+        } catch (Exception e) {
+            LogUtils.e("error :" + e.toString());
+        }
+    }
+
 
     public DataCallBack callBack;
 
