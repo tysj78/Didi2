@@ -2,11 +2,14 @@ package com.yangyong.didi2.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
 
@@ -34,6 +38,7 @@ import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -61,39 +66,31 @@ import io.reactivex.functions.Consumer;
 
 public class AppUtil {
     //    public static Activity mActivity = null;
-    private static AppUtil instance = null;
-    private static final Object LUCK = new Object();
+//    private static AppUtil instance = null;
+//    private static final Object LUCK = new Object();
 
     private AppUtil() {
-        LogUtils.e("创建apputil");
+//        LogUtils.e("创建apputil");
+    }
+
+//    public static AppUtil getInstance() {
+//        if (instance == null) {
+//            synchronized (LUCK) {
+//                if (instance == null) {
+//                    instance = new AppUtil();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
+
+    //==========================单例第二种方式，静态内部类
+    private static class Inner {
+        private static AppUtil instance = new AppUtil();
     }
 
     public static AppUtil getInstance() {
-        if (instance == null) {
-            synchronized (LUCK) {
-                if (instance == null) {
-                    instance = new AppUtil();
-                }
-            }
-        }
-        return instance;
-    }
-
-    //==========================单例第二种方式，静态内部类
-//    private static class Inner {
-//        private static AppUtil instance = new AppUtil();
-//    }
-//
-//    public static AppUtil getInstance() {
-//        return Inner.instance;
-//    }
-
-    /**
-     * 释放内存
-     */
-    public void release() {
-        instance = null;
-//        Inner.instance = null;
+        return Inner.instance;
     }
 
     public static void requestPermissions(Activity activity, String[] permissions, Consumer<Boolean> consumer) {
@@ -415,19 +412,19 @@ public class AppUtil {
     }
 
     public boolean checkRunOnAppPermission(Activity activity) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M&& !Settings.canDrawOverlays(activity)) {
-//            Toast.makeText(activity, "当前无权限，请授权", Toast.LENGTH_SHORT).show();
-//            activity.startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,Uri.parse("package:" + activity.getPackageName())), 0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(activity)) {
+            Toast.makeText(activity, "当前无权限，请授权", Toast.LENGTH_SHORT).show();
+            activity.startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())), 100);
 
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-        activity.startActivity(intent);
-//            return false;
-//        }
+//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//            activity.startActivity(intent);
+            return false;
+        }
         return true;
     }
 
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data, OnWindowPermissionListener onWindowPermissionListener) {
-        if (requestCode == 0) {
+        if (requestCode == 100) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(activity)) {
                 Toast.makeText(activity.getApplicationContext(), "授权失败", Toast.LENGTH_SHORT).show();
                 if (onWindowPermissionListener != null)
@@ -529,4 +526,89 @@ public class AppUtil {
         }
         return null;
     }
+
+    public void toast(String msg) {
+        Toast.makeText(MyApp.mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 递归删除目录下的所有文件及子目录下所有文件
+     *
+     * @param dir 将要删除的文件目录
+     * @return boolean Returns "true" if all deletions were successful.
+     * If a deletion fails, the method stops attempting to
+     * delete and returns "false".
+     */
+    public boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            //递归删除目录中的子目录下
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
+
+    public void setWifiState(Context context, boolean state) {
+        WifiManager mWifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        boolean b = mWifiManager.setWifiEnabled(state);
+        LogUtils.e("设置wifi：" + b);
+    }
+
+    public boolean openWifi(Context context) {
+        LogUtils.e("判断开启wifi：" + Thread.currentThread().getId());
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        int i = 0;
+        if (wm == null) {
+            return false;
+        }
+        while (!wm.isWifiEnabled()) {
+            try {
+                if (i == 3) {
+                    return false;
+                }
+                LogUtils.e("正在打开WIFI");
+                Thread.sleep(1000);
+                i++;
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                LogUtils.e(e.toString());
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 检测一个android程序是否在运行
+     * @param context
+     * @param PackageName
+     * @return
+     */
+    public boolean isServiceStarted(Context context,String PackageName) {
+        boolean isStarted =false;
+        try {
+            ActivityManager mActivityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+            int intGetTastCounter = 1000;
+            List<ActivityManager.RunningServiceInfo> mRunningService = mActivityManager.getRunningServices(intGetTastCounter );
+            for (ActivityManager.RunningServiceInfo amService : mRunningService) {
+                String name = amService.service.getPackageName();
+                LogUtils.e("run app:"+name);
+                if(0 == name.compareTo(PackageName)) {
+                    isStarted = true;
+                    break;
+                }
+            }
+        }
+        catch(SecurityException e) {
+            LogUtils.e(e.toString());
+            e.printStackTrace();
+        }
+        return isStarted;
+    }
+
 }

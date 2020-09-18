@@ -7,9 +7,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.activity.BaseActivity;
 import com.yangyong.didi2.activity.DuanDianActivity;
+import com.yangyong.didi2.activity.Main5Activity;
+import com.yangyong.didi2.activity.MainActivity;
+import com.yangyong.didi2.util.AppExitUtils;
 
-public class T2Activity extends AppCompatActivity implements View.OnClickListener {
+public class T2Activity extends BaseActivity implements View.OnClickListener {
 
     private Button bt_tiao;
 
@@ -30,7 +34,16 @@ public class T2Activity extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_tiao:
-                startActivity(new Intent(this, DuanDianActivity.class));
+//                Intent intent = new Intent(this, Main5Activity.class);
+//                intent.putExtra("EXIT_TAG", "SINGLETASK");
+//                startActivity(intent);
+
+//                Intent intent = new Intent(Intent.ACTION_MAIN);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.addCategory(Intent.CATEGORY_HOME);
+//                startActivity(intent);
+
+                AppExitUtils.getInstance().exit();
                 break;
         }
     }

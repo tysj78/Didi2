@@ -31,7 +31,6 @@ public class TimeChangeReceiver extends BroadcastReceiver {
 //            uploadCallLogTimer.start();
 //            uploadSmsLogTimer.start();
 //            Toast.makeText(context,"监测到时间改变",Toast.LENGTH_SHORT).show();
-            MyService.getHandler().sendEmptyMessage(Constant.RECONFIG);
         }
     }
 }

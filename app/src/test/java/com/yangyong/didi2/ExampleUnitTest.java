@@ -182,6 +182,14 @@ public class ExampleUnitTest {
 //        test26();
 //        test27();
 //        test28();
+        test29();
+    }
+
+    private void test29() {
+        String str = null;
+        if (str.contains("key"))
+            System.out.println("suc");
+
     }
 
     private void test28() {
@@ -196,7 +204,7 @@ public class ExampleUnitTest {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            System.out.println(Thread.currentThread().getId()+" end");
+                            System.out.println(Thread.currentThread().getId() + " end");
                             latch.countDown();
                         }
                     }

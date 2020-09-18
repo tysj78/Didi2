@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
+import com.yangyong.didi2.util.LogUtils;
+
 /**
  * xxx class
  *
@@ -19,8 +21,20 @@ public class MyLinearLayout extends LinearLayout {
         super(context, attrs);
     }
 
+    /**
+     * 是否拦截子view的事件
+     * @param ev
+     * @return 返回false 不拦截，交由子view处理事件  true,拦截，由自身处理事件
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        LogUtils.e("MyLinearLayout onInterceptTouchEvent--");
         return false;
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        LogUtils.e("MyLinearLayout dispatchTouchEvent--");
+        return super.dispatchTouchEvent(ev);
     }
 }

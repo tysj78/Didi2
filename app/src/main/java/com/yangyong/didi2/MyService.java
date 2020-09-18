@@ -16,72 +16,32 @@ import android.util.Log;
 
 import com.yangyong.didi2.activity.TimeChangeActivity;
 import com.yangyong.didi2.util.Constant;
+import com.yangyong.didi2.util.LogUtils;
+import com.yangyong.didi2.util.SpUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MyService extends Service {
 
-    private String TAG = "yy";
-    private static final String ID = "channel_1";
-    private static final String NAME = "前台服务";
-    private static MyService mInstance;
-    private int io = 0;
-    private int io2 = 0;
-    private int io3 = 0;
-    private Handler mIMHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Constant.RECONFIG:
-//                    Log.e(TAG, "handleMessage收到: ");
-//                    Toast.makeText(mInstance, "我是myservice,收到message", Toast.LENGTH_SHORT).show();
-                    startTime();
-                    break;
-                case Constant.UPDATE:
-//                    String obj = (String) msg.obj;
-//                    Toast.makeText(mInstance, obj, Toast.LENGTH_SHORT).show();
-//                    TimeUtils.getInstance().onTimeChangListener(s1+"---"+s2+"---"+s3);
-                    break;
-                case Constant.UPDATE2:
-//                    String obj2 = (String) msg.obj;
-//                    Toast.makeText(mInstance, obj2, Toast.LENGTH_SHORT).show();
-//                    TimeUtils.getInstance().onTimeChangListener(obj2);
-                    break;
-                case Constant.UPDATE3:
-//                    String obj3 = (String) msg.obj;
-//                    Toast.makeText(mInstance, obj3, Toast.LENGTH_SHORT).show();
-//                    TimeUtils.getInstance().onTimeChangListener(obj3);
-                    break;
-            }
-        }
-    };
+    private static final String ID = "DIDI2SERVICE";
+    private static final String NAME = "didi2记时服务";
     private Timer timer;
     private TimerTask task;
-
-    private Timer timer2;
-    private TimerTask task2;
-
-    private Timer timer3;
-    private TimerTask task3;
-    private String s1;
-    private String s2;
-    private String s3;
-
-    public MyService() {
-    }
+    private int runCount = 0;
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
-        Log.e(TAG, "onCreate: ");
+        LogUtils.e("MyService onCreate: ");
+
         if (Build.VERSION.SDK_INT >= 26) {
             setForeground();
         } else {
@@ -89,8 +49,6 @@ public class MyService extends Service {
         }
 
         startTime();
-        startTime2();
-        startTime3();
     }
 
     private void startTime() {
@@ -99,56 +57,12 @@ public class MyService extends Service {
         task = new TimerTask() {
             @Override
             public void run() {
-                s1 = "run: " + Thread.currentThread().getId() + "==" + io;
-                Log.e(TAG, s1);
-
-//                Message message1 = new Message();
-//                message1.what=Constant.UPDATE;
-//                message1.obj=s1;
-//                mIMHandler.sendMessage(message1);
-//                TimeUtils.getInstance().onTimeChangListener(s1);
-                io++;
+                runCount++;
+                //更新sp时间
+                SpUtils.saveStringValue(MyService.this, "TIME", getCurrentDate() + " 运行次数：" + runCount);
             }
         };
-        timer.schedule(task, 0, 5000);
-    }
-
-    private void startTime2() {
-        stopTime2();
-        timer2 = new Timer();
-        task2 = new TimerTask() {
-            @Override
-            public void run() {
-                s2 = "run2: " + Thread.currentThread().getId() + "==" + io2;
-                Log.e(TAG, s2);
-//                Message message1 = new Message();
-//                message1.what=Constant.UPDATE2;
-//                message1.obj=s1;
-//                mIMHandler.sendMessage(message1);
-//                TimeUtils.getInstance().onTimeChangListener(s1);
-                io2++;
-            }
-        };
-        timer2.schedule(task2, 0, 5000);
-    }
-
-    private void startTime3() {
-        stopTime3();
-        timer3 = new Timer();
-        task3 = new TimerTask() {
-            @Override
-            public void run() {
-                s3 = "run3: " + Thread.currentThread().getId() + "==" + io3;
-                Log.e(TAG, s3);
-//                Message message1 = new Message();
-//                message1.what=Constant.UPDATE3;
-//                message1.obj=s1;
-//                mIMHandler.sendMessage(message1);
-//                TimeUtils.getInstance().onTimeChangListener(s1);
-                io3++;
-            }
-        };
-        timer3.schedule(task3, 0, 5000);
+        timer.schedule(task, 0, 1000 * 60 * 30);
     }
 
     private void stopTime() {
@@ -163,29 +77,6 @@ public class MyService extends Service {
         }
     }
 
-    private void stopTime2() {
-        if (timer2 != null) {
-            timer2.cancel();
-            timer2 = null;
-        }
-        if (task2 != null) {
-            task2.cancel();
-            task2 = null;
-
-        }
-    }
-
-    private void stopTime3() {
-        if (timer3 != null) {
-            timer3.cancel();
-            timer3 = null;
-        }
-        if (task3 != null) {
-            task3.cancel();
-            task3 = null;
-
-        }
-    }
 
     private void setFg() {
         //获取一个Notification构造器
@@ -200,7 +91,7 @@ public class MyService extends Service {
                 .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 
         Notification notification = builder.build(); // 获取构建好的Notification
-        startForeground(2, notification);
+        startForeground(107, notification);
     }
 
     @TargetApi(26)
@@ -209,27 +100,31 @@ public class MyService extends Service {
         NotificationChannel channel = new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_HIGH);
         manager.createNotificationChannel(channel);
         Notification notification = new Notification.Builder(this, ID)
-                .setContentTitle("收到一条重要通知")
-                .setContentText("这是重要通知")
+                .setContentTitle("didi2记时服务")
+                .setContentText("应用需保持运行")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .build();
-        startForeground(1, notification);
+        startForeground(107, notification);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(TAG, "onStartCommand: ");
+        LogUtils.e("onStartCommand: ");
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    //获取当前日期
+    private String getCurrentDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");// HH:mm:ss
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
-    }
-
-    public static Handler getHandler() {
-        return mInstance.mIMHandler;
+        stopTime();
+        LogUtils.e("MyService onDestroy: ");
     }
 }

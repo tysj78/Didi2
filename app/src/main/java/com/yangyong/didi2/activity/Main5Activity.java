@@ -1,35 +1,58 @@
 package com.yangyong.didi2.activity;
 
 import android.app.ActivityManager;
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.MyService;
-import com.yangyong.didi2.NotificationUtils;
 import com.yangyong.didi2.R;
-import com.yangyong.didi2.util.Constant;
+import com.yangyong.didi2.activity.test.T1Activity;
+import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.LogUtils;
+import com.yangyong.didi2.util.SpUtils;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class Main5Activity extends AppCompatActivity implements View.OnClickListener {
+public class Main5Activity extends BaseActivity implements View.OnClickListener {
 
-    private NotificationUtils mNotificationUtils;
-    private Notification notification;
     private Button main_ss;
-    private Timer timer;
+    private TextView tv_current_time;
     private Button main_send;
+    private Button bt_tiao;
+    private Button bt_exit;
+    private Button bt_delete;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    open();
+                    break;
+                case 2:
+                    tv_current_time.setText("hello");
+                    LogUtils.e("get main thread msg");
+                    break;
+            }
+        }
+    };
+    private Button bt_handler;
+    private Handler tHandler;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -37,29 +60,7 @@ public class Main5Activity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main5);
         initView();
-        timer = new Timer();
 
-       /* //android8.0及以上使用NotificationUtils
-        if (Build.VERSION.SDK_INT >= 26) {
-            mNotificationUtils = new NotificationUtils(this);
-            Notification.Builder builder2 = mNotificationUtils.getAndroidChannelNotification
-                    ("适配android 8限制后台定位功能", "正在后台定位");
-            notification = builder2.build();
-        } else {
-            //获取一个Notification构造器
-            Notification.Builder builder = new Notification.Builder(Main5Activity.this);
-            Intent nfIntent = new Intent(Main5Activity.this, Main5Activity.class);
-
-            builder.setContentIntent(PendingIntent.
-                    getActivity(Main5Activity.this, 0, nfIntent, 0)) // 设置PendingIntent
-                    .setContentTitle("适配android 8限制后台定位功能") // 设置下拉列表里的标题
-                    .setSmallIcon(R.drawable.ic_launcher_foreground) // 设置状态栏内的小图标
-                    .setContentText("正在后台定位") // 设置上下文内容
-                    .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
-
-            notification = builder.build(); // 获取构建好的Notification
-        }
-        notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音*/
     }
 
     /**
@@ -85,8 +86,18 @@ public class Main5Activity extends AppCompatActivity implements View.OnClickList
         main_ss = (Button) findViewById(R.id.main_ss);
 
         main_ss.setOnClickListener(this);
+        tv_current_time = (TextView) findViewById(R.id.tv_current_time);
+        tv_current_time.setOnClickListener(this);
         main_send = (Button) findViewById(R.id.main_send);
         main_send.setOnClickListener(this);
+        bt_tiao = (Button) findViewById(R.id.bt_tiao);
+        bt_tiao.setOnClickListener(this);
+        bt_exit = (Button) findViewById(R.id.bt_exit);
+        bt_exit.setOnClickListener(this);
+        bt_delete = (Button) findViewById(R.id.bt_delete);
+        bt_delete.setOnClickListener(this);
+        bt_handler = (Button) findViewById(R.id.bt_handler);
+        bt_handler.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -94,25 +105,135 @@ public class Main5Activity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_ss:
-                Intent start = new Intent(this, MyService.class);
-                if (Build.VERSION.SDK_INT >= 26) {
-                    startForegroundService(start);
-                } else {
-                    startService(start);
+                Intent start=new Intent (this,MyService.class);
+                if(Build.VERSION.SDK_INT>=26){
+                    startForegroundService (start);
                 }
-//                startService(start);
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        boolean b = isServiceRunning(Main5Activity.this, "com.yangyong.didi2.MyService");
-                        Log.e(Constants.TAG, "服务运行状态：" + b);
-                        Log.e(Constants.TAG, "监测线程开启，5分钟后再次检测服务运行状态.....");
-                    }
-                }, 2000, 1000 * 60 * 3);
                 break;
             case R.id.main_send:
-                MyService.getHandler().sendEmptyMessage(Constant.RECONFIG);
+                String time = SpUtils.getStringValue(this, "TIME");
+                tv_current_time.setText(time);
+//                startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 100);
                 break;
+            case R.id.bt_tiao:
+                startActivity(new Intent(this, T1Activity.class));
+                break;
+            case R.id.bt_exit:
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+                break;
+            case R.id.bt_delete:
+                String s = Environment.getExternalStorageDirectory() + "/app";
+                File file = new File(s);
+                String[] list = file.list();
+                LogUtils.e("文件夹下文件数量：" + list.length);
+//                boolean b = AppUtil.getInstance().deleteDir(file);
+//                LogUtils.e("删除："+b);
+                break;
+            default:
+                break;
+            case R.id.bt_handler:
+//                sendMsg2();
+                AppUtil.getInstance().isServiceStarted(this,"com.didi2.yangyong");
+                break;
+        }
+    }
+
+    private void sendMsg() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        Looper.prepare();
+                        tHandler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                switch (msg.what){
+                                    case 10:
+                                        String msgs= (String) msg.obj;
+                                        LogUtils.e("get msg:"+msgs+Thread.currentThread().getId());
+                                        break;
+                                }
+                            }
+                        };
+                        Looper.loop();
+                    }
+                }
+        ).start();
+    }
+
+    private void sendMsg2() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        //do something..
+                        try {
+                            Thread.sleep(3000);
+                            Message obtain = Message.obtain();
+                            obtain.what=10;
+                            obtain.obj="下载完成";
+                            tHandler.sendMessage(obtain);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).start();
+    }
+
+    private void open() {
+        Intent intent = new Intent();
+        intent.setClass(this, T1Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    Handler mHandler;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final int reCode = requestCode;
+//        if (requestCode == 100) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+//                Toast.makeText(this.getApplicationContext(), "授权失败", Toast.LENGTH_SHORT).show();
+//
+//            } else {
+//                Toast.makeText(this.getApplicationContext(), "授权成功", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }
+
+        if (mHandler == null) {
+            mHandler = new Handler(Looper.getMainLooper());
+        }
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && reCode == 100) {
+                    boolean nOpen = Settings.canDrawOverlays(Main5Activity.this);
+                    if (nOpen) {
+                        //开启
+                    } else {
+                        //关闭
+                    }
+                    LogUtils.e("PermissionRequest open = " + nOpen);
+                }
+            }
+        }, 500);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String tag = intent.getStringExtra("EXIT_TAG");
+        if (TextUtils.equals(tag, "SINGLETASK")) {
+            //退出程序——
+            LogUtils.e("onNewIntent");
+            finish();
         }
     }
 }

@@ -5,5 +5,5 @@ package com.yangyong.didi2;
  */
 
 public class Constants {
-    public static final String TAG = "yy";
+    public static final String TAG = "yylog";
 }

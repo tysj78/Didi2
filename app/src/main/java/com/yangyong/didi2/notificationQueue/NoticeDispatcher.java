@@ -1,27 +1,10 @@
 package com.yangyong.didi2.notificationQueue;
 
-import android.os.Process;
 import android.util.Log;
 
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.zlog.LogBean;
-import com.yangyong.didi2.zlog.LogType;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 /**
  * 消费线程，取出队列日志，存文件

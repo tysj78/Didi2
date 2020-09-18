@@ -89,7 +89,6 @@ public class TimeChangeActivity extends AppCompatActivity implements TimeChangLi
         switch (v.getId()) {
             case R.id.query_count:
 //                int value = SpUtils.getValue(TimeChangeActivity.this, SpUtils.RUNCOUNT);
-                MyService.getHandler().sendEmptyMessage(Constant.UPDATE);
 //                time_count.setText(value + "");
                 break;
         }

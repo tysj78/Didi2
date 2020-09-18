@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.yangyong.didi2.NotificationUtils;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
@@ -33,6 +33,7 @@ import com.yangyong.didi2.util.SpUtils;
 import com.yangyong.didi2.zlog.LogBean;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,9 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
     private Button btn_skip;
+    private Button bt_recycler;
+    private Button bt_apply;
+    private int[] arrays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +113,10 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
         bt_openxiaomi.setOnClickListener(this);
         btn_skip = (Button) findViewById(R.id.btn_skip);
         btn_skip.setOnClickListener(this);
+        bt_recycler = (Button) findViewById(R.id.bt_recycler);
+        bt_recycler.setOnClickListener(this);
+        bt_apply = (Button) findViewById(R.id.bt_apply);
+        bt_apply.setOnClickListener(this);
     }
 
     private void openEmm() {
@@ -142,7 +150,6 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
 //                getDpi();
 //                readSp();
 //                NotificationUtils.getInstance(this).sendNotification(10002, "新英雄", "阿古朵");
-                AppUtil.getInstance().release();
                 break;
             case R.id.btn_skip:
 //                exitApp(this);
@@ -174,6 +181,16 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
                                 }
                             }
                     ).start();
+                }
+                break;
+            case R.id.bt_recycler:
+                arrays = null;
+                System.gc();
+                break;
+            case R.id.bt_apply:
+                arrays = new int[1000];
+                for (int i = 0; i < 1000; i++) {
+                    arrays[i] = i;
                 }
                 break;
         }
@@ -224,7 +241,7 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
 
     public static void exitApp(Context context) {
         try {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
                 List<ActivityManager.AppTask> appTaskList = null;
                 appTaskList = activityManager.getAppTasks();
@@ -235,7 +252,7 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
         } catch (Exception e) {
             LogUtils.e("Exception: " + e.toString());
         }
-        android.os.Process.killProcess(android.os.Process.myPid());
+        Process.killProcess(Process.myPid());
     }
 
     private void testPermissions() {

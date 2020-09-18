@@ -16,14 +16,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        try {
-//            if (this.getLocalClassName().equals("Main3Activity")) {
-//                return;
-//            }
-//        } catch (Exception e) {
-//            Log.e(Constants.TAG, "Exception: " + e.getMessage());
-//        }
-//        Log.e(Constants.TAG, "BaseActivity_onStop: ");
     }
 
     @Override
