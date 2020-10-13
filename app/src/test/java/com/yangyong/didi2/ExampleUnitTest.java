@@ -182,7 +182,19 @@ public class ExampleUnitTest {
 //        test26();
 //        test27();
 //        test28();
-        test29();
+//        test29();
+        test30();
+    }
+
+    private void test30() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("pk1");
+        list.add("pk3");
+        list.add("pk5");
+        list.add("pk0");
+        list.add("pk2");
+        boolean pk6 = list.contains("pk2");
+        System.out.println(pk6);
     }
 
     private void test29() {

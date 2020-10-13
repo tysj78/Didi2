@@ -2,18 +2,24 @@ package com.yangyong.didi2.activity;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -21,35 +27,45 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.bean.ThreadInfo;
+import com.yangyong.didi2.broadcast.AppInstallReceiver;
+import com.yangyong.didi2.broadcast.NetInfoReceiver;
 import com.yangyong.didi2.dbdao.DownLoadDao;
 import com.yangyong.didi2.notificationQueue.NoticeQueue;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.DownLoadUtils;
+import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;
+import com.yangyong.didi2.util.OkHttpUtil;
 import com.yangyong.didi2.util.PermissionUtils;
 import com.yangyong.didi2.util.SpUtils;
 import com.yangyong.didi2.zlog.LogBean;
 
 import java.io.File;
-import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.reactivex.functions.Consumer;
 
+import static com.baidu.location.b.a.d;
 import static com.yangyong.didi2.zlog.LogType.VERBOSE;
 
-public class DuanDianActivity extends AppCompatActivity implements View.OnClickListener, DownLoadUtils.IProgress {
+public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils.IProgress, View.OnClickListener {
 
     private ProgressBar pb_progress;
     private Button bt_download;
     private Button bt_pasu;
-    //    private String downLoadPath = "https://1d01e7614d4c86ee39238460437b3f51.dlied1.cdntips.com/dlied1.qq.com/qqweb/QQ_1/android_apk/Android_8.3.3.4515_537063791.apk";
-    private String downLoadPath = "https://gmapf-t.gameco.com.cn:8445/clientapp/AndroidMCDMgmapt.apk";
-    //    private String downLoadPath = "http://luyin.voicecloud.cn/a";
+    //    private String downLoadPath1 = "https://1d01e7614d4c86ee39238460437b3f51.dlied1.cdntips.com/dlied1.qq.com/qqweb/QQ_1/android_apk/Android_8.3.3.4515_537063791.apk";
+    private String downLoadPath1 = "https://imtt.dd.qq.com/16891/apk/7884ACB68E413A5B22A7FE044DD3BF3C.apk";
+    //    private String downLoadPath = "https://gmapf-t.gameco.com.cn:8445/clientapp/AndroidMCDMgmapt.apk";
+//    private String downLoadPath2 = "http://luyin.voicecloud.cn/a";
+    private String downLoadPath2 = "https://download.sj.qq.com/upload/connAssitantDownload/upload/MobileAssistant_1.apk";
     private DownLoadUtils downLoadUtils;
     private Button bt_openxiaomi;
     public String[] EXTERNAL_STORAGE = new String[]{
@@ -60,46 +76,83 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
     private Button bt_recycler;
     private Button bt_apply;
     private int[] arrays;
+    private Button bt_clear;
+    private String[] pathList;
+    private Button bt_query;
+    private NetInfoReceiver receiver;
+    private AppInstallReceiver appInstallReceiver;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    AppUtil.getInstance().toast("复制完成");
+                    break;
+            }
+        }
+    };
+    private int gress;
+    private MustInstallAppReceiver mustInstallAppReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_duan_dian);
         initView();
-//        downLoadUtils = new DownLoadUtils(this, downLoadPath, this);
-//        initDownProgress();
+        initDownProgress();
+        checkPermissions();
+        regBroadcast();
+
+    }
+
+    private void updatePg() {
+        gress = 0;
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                gress++;
+                if (gress > 100) {
+                    return;
+                }
+                LogUtils.e("设置下载进度：" + gress + "==" + pb_progress.toString());
+                pb_progress.setProgress(gress);
+            }
+        };
+        timer.schedule(timerTask, 1000, 1000);
     }
 
     private void initDownProgress() {
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            final long contentLength = downLoadUtils.getContentLength(downLoadPath);
-                            ThreadInfo info = new DownLoadDao(DuanDianActivity.this).select(downLoadPath);
-                            if (info == null) {
-                                LogUtils.e("null");
-                                return;
-                            }
-                            long finished = info.getFinished();
-                            double v = finished / (contentLength * 1.0);
-                            final int d = (int) (v * 100);
-                            LogUtils.e("设置下载进度：" + d);
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    LogUtils.e("设置下载进度：" + d);
-                                    pb_progress.setProgress(d);
-                                }
-                            });
-                        } catch (Exception e) {
-                            LogUtils.e(e.toString());
-                            e.printStackTrace();
-                        }
-                    }
-                }
-        ).start();
+        pathList = new String[]{downLoadPath1, downLoadPath2};
+//        new Thread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            final long contentLength = downLoadUtils.getContentLength(downLoadPath);
+//                            ThreadInfo info = new DownLoadDao(DuanDianActivity.this).select(downLoadPath);
+//                            if (info == null) {
+//                                LogUtils.e("threadInfo null");
+//                                return;
+//                            }
+//                            long finished = info.getFinished();
+//                            double v = finished / (contentLength * 1.0);
+//                            final int d = (int) (v * 100);
+//                            LogUtils.e("设置下载进度：" + d);
+//                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    LogUtils.e("设置下载进度：" + d);
+//                                    pb_progress.setProgress(d);
+//                                }
+//                            });
+//                        } catch (Exception e) {
+//                            LogUtils.e(e.toString());
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//        ).start();
     }
 
     private void initView() {
@@ -117,6 +170,10 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
         bt_recycler.setOnClickListener(this);
         bt_apply = (Button) findViewById(R.id.bt_apply);
         bt_apply.setOnClickListener(this);
+        bt_clear = (Button) findViewById(R.id.bt_clear);
+        bt_clear.setOnClickListener(this);
+        bt_query = (Button) findViewById(R.id.bt_query);
+        bt_query.setOnClickListener(this);
     }
 
     private void openEmm() {
@@ -136,20 +193,26 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_download:
+                startDownLoad();
 //                downLoadUtils.start();
                 break;
             case R.id.bt_pasu:
-//                downLoadUtils.stop();
+                downLoadUtils.stop();
                 break;
             case R.id.bt_openxiaomi:
-//                openEmm();
-//                read();
-//                testPermissions();
-
-//                AppUtil.getInstance().checkRunOnAppPermission(this);
-//                getDpi();
-//                readSp();
-//                NotificationUtils.getInstance(this).sendNotification(10002, "新英雄", "阿古朵");
+//                uploadP();
+//                AppUtil.getInstance().xiezai(this, "com.iflytek.recinbox");
+//                updatePg();
+//                boolean b = AppUtil.getInstance().checkApkExist(this, "com.iflytek.recinbox");
+//                if (b) {
+//                    AppUtil.getInstance().toast("应用已安装");
+//                }else {
+//                    AppUtil.getInstance().toast("应用未安装");
+//                }
+                Intent intent = new Intent();
+                intent.setAction(Constants.MUSTINSTALLAPP);
+                intent.putExtra("count", 5);
+                sendBroadcast(intent);
                 break;
             case R.id.btn_skip:
 //                exitApp(this);
@@ -184,8 +247,15 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.bt_recycler:
-                arrays = null;
-                System.gc();
+//                new Thread(
+//                        new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                FileUtils.getDataFile(DuanDianActivity.this, mHandler);
+//                            }
+//                        }
+//                ).start();
+                read();
                 break;
             case R.id.bt_apply:
                 arrays = new int[1000];
@@ -193,6 +263,90 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
                     arrays[i] = i;
                 }
                 break;
+            case R.id.bt_clear:
+                new DownLoadDao(DuanDianActivity.this).deleteAll();
+                break;
+            case R.id.bt_query:
+                ArrayList<ThreadInfo> threadInfos = new DownLoadDao(DuanDianActivity.this).selectAll();
+                LogUtils.e("查询到记录：" + threadInfos.size());
+                break;
+        }
+    }
+
+    private void uploadP() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+//                        OkHttpUtil.getInstance().uploadFile();
+                        FileUtils.getFile(DuanDianActivity.this);
+                    }
+                }
+        ).start();
+    }
+
+    private class MustInstallAppReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (TextUtils.equals(action, Constants.MUSTINSTALLAPP)) {
+                int count = intent.getIntExtra("count", 0);
+                openAlert(count);
+            }
+        }
+    }
+
+    private void openAlert(int msg) {
+        //创建alert
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this)
+//                .setTitle("操作title" + msg)
+//                .setMessage("操作message")
+                .setCancelable(false)
+                .setPositiveButton("确定", new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(DuanDianActivity.this, "点击了确定", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        dialogInterface.dismiss();
+//                        canCloseDialog(dialogInterface,false);
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void canCloseDialog(DialogInterface dialogInterface, boolean close) {
+        try {
+            Field field = dialogInterface.getClass().getSuperclass().getDeclaredField("mShowing");
+            field.setAccessible(true);
+            field.set(dialogInterface, close);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    private void test() {
+//        LogUtils.e("using 移动网络...");
+//        if (lastTime > 0) {
+//            long currentTimeMillis = System.currentTimeMillis();
+//            if ((currentTimeMillis - lastTime) > 1000) {
+//                lastTime = currentTimeMillis;
+//                LogUtils.e("using 可用...");
+//            }
+//        } else {
+//            lastTime = System.currentTimeMillis();
+//            LogUtils.e("using 可用...");
+//        }
+//    }
+
+    private void startDownLoad() {
+        for (int i = 0; i < pathList.length; i++) {
+            DownLoadUtils.getInstance().start(pathList[i]);
         }
     }
 
@@ -255,7 +409,7 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
         Process.killProcess(Process.myPid());
     }
 
-    private void testPermissions() {
+    private void checkPermissions() {
         PermissionUtils.requestPermissions(this, EXTERNAL_STORAGE, new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
@@ -269,12 +423,32 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void read() {
-        AppUtil.getInstance().getStringFromAssets(this, "blueToothStr");
+        AppUtil.getInstance().getStringFromAssets(this, "adb");
     }
 
     @Override
     public void onProgress(int progress) {
-        pb_progress.setProgress(progress);
+//        pb_progress.setProgress(progress);
+    }
+
+    private void regBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        receiver = new NetInfoReceiver();
+        registerReceiver(receiver, intentFilter);
+
+        appInstallReceiver = new AppInstallReceiver();
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter1.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter1.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        intentFilter1.addDataScheme("package");
+        registerReceiver(appInstallReceiver, intentFilter1);
+
+        mustInstallAppReceiver = new MustInstallAppReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.MUSTINSTALLAPP);
+        registerReceiver(mustInstallAppReceiver, filter);
     }
 
     @Override
@@ -317,4 +491,14 @@ public class DuanDianActivity extends AppCompatActivity implements View.OnClickL
         return normalize;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
+        unregisterReceiver(appInstallReceiver);
+
+        unregisterReceiver(mustInstallAppReceiver);
+    }
 }

@@ -16,6 +16,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:src="@drawable/tulips"
+                android:id="@+id/iv_tu"
+                android:layout_width="300dp"
+                android:layout_height="300dp" />
 
             <ProgressBar
                 android:id="@+id/pb_progress"
@@ -38,28 +43,44 @@
                 android:text="暂停" />
 
             <Button
+                android:id="@+id/bt_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除记录" />
+
+            <Button
+                android:id="@+id/bt_query"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询记录_" />
+
+            <Button
                 android:id="@+id/bt_openxiaomi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打开小米mdm" />
+                android:text="打开小米mdm"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/bt_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="申请内存" />
+                android:text="申请内存"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/bt_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="回收内存" />
+                android:text="复制源apk"
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btn_skip"

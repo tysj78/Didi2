@@ -17,13 +17,20 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="true"/>
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+
     <permission
         android:name="com.yangyong.PROVIDER"
         android:protectionLevel="normal" />
@@ -100,13 +107,7 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.Main2Activity" />
         <activity android:name=".activity.Main3Activity" />
-        <activity android:name=".activity.Main5Activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.Main5Activity"></activity>
         <activity android:name=".activity.Main6Activity" />
         <activity android:name=".activity.ClipboardActivity" />
         <activity android:name=".activity.HookActivity" />
@@ -299,7 +300,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activity.SendDataActivity"></activity>
+        <activity android:name=".activity.SendDataActivity" />
         <activity android:name=".activity.RegActivity" />
         <activity android:name=".activity.MmCheckActivity" />
         <activity android:name=".activity.VideoActivity" />
@@ -391,7 +392,13 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".activity.RecordActivity" />
-        <activity android:name=".activity.DuanDianActivity" />
+        <activity android:name=".activity.DuanDianActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.JiaKeActivity" />
         <activity android:name=".activity.InstallActivity" />
         <activity android:name=".activity.GestureActivity" />
@@ -412,7 +419,7 @@
         </service>
 
         <activity android:name=".activity.ServerSocketActivity" />
-        <activity android:name=".activity.EventActivity"></activity>
+        <activity android:name=".activity.EventActivity" />
         <activity android:name=".activity.SocketActivity" />
         <activity android:name=".socket.ServerActivity" />
         <activity android:name=".activity.HtmlActivity" />
@@ -423,8 +430,12 @@
             android:taskAffinity="com.screen.activity" />
         <activity android:name=".activity.test.T2Activity" />
         <activity android:name=".activity.KeyStoreActivity" />
-        <activity android:name=".activity.SimulateGestureActivity"></activity>
-        <activity android:name=".activity.CameraActivity">
+        <activity android:name=".activity.SimulateGestureActivity" />
+        <activity android:name=".activity.CameraActivity" />
+        <activity android:name=".activity.ThreadActivity">
+
+        </activity>
+        <activity android:name=".activity.FragmentActivity">
 
         </activity>
     </application>

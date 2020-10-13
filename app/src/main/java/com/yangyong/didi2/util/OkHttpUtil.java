@@ -1,6 +1,7 @@
 package com.yangyong.didi2.util;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -70,80 +71,80 @@ public class OkHttpUtil {
         //跳过ssl证书校验
 //        if (okHttpClient == null) {
         if (true) {
-            X509TrustManager xtm = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                    Log.e(Constants.TAG, "开始验证=====");
-                    boolean verifyResult = false;
-                    try {
-                        InputStream certInputStream = new BufferedInputStream(mContext.getAssets().open("tomcat.cer"));
-                        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-                        final X509Certificate serverCertificate = (X509Certificate) certificateFactory
-                                .generateCertificate(certInputStream);
-                        if (chain == null) {
-                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is null ");
-                        }
-                        if (chain.length < 0) {
-                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is zero ");
-                        }
-
-                        for (X509Certificate cert : chain) {
-                            String string = cert.getPublicKey().toString();
-                            Log.e(Constants.TAG, "---服务器证公钥：" + string);
-                            String string2 = serverCertificate.getPublicKey().toString();
-                            Log.e(Constants.TAG, "---本地证书公钥：" + string2);
-                            cert.checkValidity();
-                            cert.verify(serverCertificate.getPublicKey());
-//                            if (string.equals(string2)) {
-//                                verifyResult=true;
-//                                break;
-//                            }
-                        }
-                    } catch (Exception e) {
-                        Log.e(Constants.TAG, "---验证异常" + e.toString());
-//                        throw new CertificateException("证书校验异常");
-                    }
-//                    if (!verifyResult) {
-//                        throw new CertificateException("证书校验失败");
+//            X509TrustManager xtm = new X509TrustManager() {
+//                @Override
+//                public void checkClientTrusted(X509Certificate[] chain, String authType) {
+//                }
+//
+//                @Override
+//                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+//                    Log.e(Constants.TAG, "开始验证=====");
+//                    boolean verifyResult = false;
+//                    try {
+//                        InputStream certInputStream = new BufferedInputStream(mContext.getAssets().open("tomcat.cer"));
+//                        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+//                        final X509Certificate serverCertificate = (X509Certificate) certificateFactory
+//                                .generateCertificate(certInputStream);
+//                        if (chain == null) {
+//                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is null ");
+//                        }
+//                        if (chain.length < 0) {
+//                            throw new IllegalArgumentException("checkServerTrusted x509Certificates is zero ");
+//                        }
+//
+//                        for (X509Certificate cert : chain) {
+//                            String string = cert.getPublicKey().toString();
+//                            Log.e(Constants.TAG, "---服务器证公钥：" + string);
+//                            String string2 = serverCertificate.getPublicKey().toString();
+//                            Log.e(Constants.TAG, "---本地证书公钥：" + string2);
+//                            cert.checkValidity();
+//                            cert.verify(serverCertificate.getPublicKey());
+////                            if (string.equals(string2)) {
+////                                verifyResult=true;
+////                                break;
+////                            }
+//                        }
+//                    } catch (Exception e) {
+//                        Log.e(Constants.TAG, "---验证异常" + e.toString());
+////                        throw new CertificateException("证书校验异常");
 //                    }
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    X509Certificate[] x509Certificates = new X509Certificate[1];
-                    return x509Certificates;
-                }
-            };
-
-            SSLContext sslContext = null;
-            try {
-                sslContext = SSLContext.getInstance("SSL");
-
-                sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
-
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (KeyManagementException e) {
-                e.printStackTrace();
-            }
-            HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            };
+////                    if (!verifyResult) {
+////                        throw new CertificateException("证书校验失败");
+////                    }
+//                }
+//
+//                @Override
+//                public X509Certificate[] getAcceptedIssuers() {
+//                    X509Certificate[] x509Certificates = new X509Certificate[1];
+//                    return x509Certificates;
+//                }
+//            };
+//
+//            SSLContext sslContext = null;
+//            try {
+//                sslContext = SSLContext.getInstance("SSL");
+//
+//                sslContext.init(null, new TrustManager[]{xtm}, new SecureRandom());
+//
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            } catch (KeyManagementException e) {
+//                e.printStackTrace();
+//            }
+//            HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+//                @Override
+//                public boolean verify(String hostname, SSLSession session) {
+//                    return true;
+//                }
+//            };
 
 
             okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(8, TimeUnit.SECONDS)
                     .readTimeout(8, TimeUnit.SECONDS)
                     .writeTimeout(8, TimeUnit.SECONDS)
-                    .sslSocketFactory(sslContext.getSocketFactory())
-                    .hostnameVerifier(DO_NOT_VERIFY)
+//                    .sslSocketFactory(sslContext.getSocketFactory())
+//                    .hostnameVerifier(DO_NOT_VERIFY)
                     //.cache(new Cache(sdcache, cacheSize))
                     .build();
         }
@@ -234,12 +235,18 @@ public class OkHttpUtil {
 
     public void uploadFile() {
         try {
-            String url = "/upload";
-            File file = new File("/sdcard/emm.zip");
-            RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+            String url = "https://api.crazymen.cn/api_sctp/";
+            String s = Environment.getExternalStorageDirectory() + "/pic/321.jpg";
+            File file = new File(s);
+            if (!file.exists()) {
+                LogUtils.e("file not exist");
+                return;
+            }
+//            RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
             MultipartBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("uploadfile", "emm.zip", fileBody)
+                    .addFormDataPart("file", "321.jpg", fileBody)
                     .build();
 
             Request request = new Request.Builder()
@@ -248,8 +255,9 @@ public class OkHttpUtil {
                     .build();
 
             Response response = getOkHttpClient().newCall(request).execute();
-            int code = response.code();
-            LogUtils.e("back code :" + code);
+//            int code = response.code();
+            String s1 = response.body().string();
+            LogUtils.e("back datas :" + s1);
         } catch (Exception e) {
             LogUtils.e("error :" + e.toString());
         }

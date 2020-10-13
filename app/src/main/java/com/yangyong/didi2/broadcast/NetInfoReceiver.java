@@ -9,11 +9,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.yangyong.didi2.MyApp;
+import com.yangyong.didi2.bean.ThreadInfo;
+import com.yangyong.didi2.dbdao.DownLoadDao;
+import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.DownLoadUtils;
+import com.yangyong.didi2.util.LogUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NetInfoReceiver extends BroadcastReceiver {
-    private String TAG = "yy";
+    private String TAG = "yylog";
+    private long lastTime = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,15 +43,44 @@ public class NetInfoReceiver extends BroadcastReceiver {
 //                context.startService(new Intent(context,ChatService.class));
         } else if (null != state_gprs && NetworkInfo.State.CONNECTED == state_gprs) { // 判断是否正在使用GPRS网络
             Log.e(TAG, "using 移动网络...");
+            if (lastTime>0) {
+                long currentTimeMillis = System.currentTimeMillis();
+                if ((currentTimeMillis-lastTime)>1000) {
+                    lastTime=currentTimeMillis;
+                    Log.e(TAG, "using 可用...");
+                    reDownLoad();
+                }
+            }else {
+                lastTime = System.currentTimeMillis();
+                Log.e(TAG, "using 可用...");
+                reDownLoad();
+            }
 //                context.startService(new Intent(context,ChatService.class));
         } else {
             Log.e(TAG, "数据断开,停止ChatService...");
 //            Toast.makeText(MyApp.mContext,"数据连接断开了",Toast.LENGTH_SHORT).show();
-            try {
-                Runtime.getRuntime().exec("adb shell am start com.yangyong.didi2/.activity.BroadcastActivity");
-            } catch (IOException e) {
-                e.printStackTrace();
+//            try {
+//                Runtime.getRuntime().exec("adb shell am start com.yangyong.didi2/.activity.BroadcastActivity");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
+    }
+
+    private void reDownLoad() {
+        try {
+            ArrayList<ThreadInfo> threadInfos = new DownLoadDao(MyApp.mContext).selectAll();
+            for (int i = 0; i < threadInfos.size(); i++) {
+                ThreadInfo info = threadInfos.get(i);
+                long finished = info.getFinished();
+                String url = info.getUrl();
+                long end = info.getEnd();
+                if (finished < end) {
+                    DownLoadUtils.getInstance().start(url);
+                }
             }
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
         }
     }
 }

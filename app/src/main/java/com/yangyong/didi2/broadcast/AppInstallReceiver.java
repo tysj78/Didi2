@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class AppInstallReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "yy";
+    private static final String TAG = "yylog";
 
     @Override
     public void onReceive(Context context, Intent intent) {

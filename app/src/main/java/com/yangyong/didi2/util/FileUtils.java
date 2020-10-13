@@ -2,6 +2,7 @@ package com.yangyong.didi2.util;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 /**
  * Created by yangyong on 2019/9/16/0016.
@@ -75,7 +77,7 @@ public class FileUtils {
         FileOutputStream fileOutputStream = null;
         try {
             //取得指定包名的base.apk com.tencent.mobileqq
-            File file = new File(context.getPackageManager().getApplicationInfo("com.tencent.mobileqq", 0).sourceDir);
+            File file = new File(context.getPackageManager().getApplicationInfo("com.zyjs648cz.zaoyx", 0).sourceDir);
             LogUtils.e(file.getAbsolutePath());
 
             File targetPath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/app/didi2");
@@ -86,8 +88,8 @@ public class FileUtils {
 //            LogUtils.e("filedir:" + file.getAbsolutePath());
 //            fileInputStream = context.getAssets().open("recordbox-v3.0.1478.apk");
             fileInputStream = new FileInputStream(file);
-            File targetFile = new File(targetPath, "recordbox-v3.0.1478.apk");
-            fileOutputStream = new FileOutputStream(file);
+            File targetFile = new File(targetPath, "zyj.apk");
+            fileOutputStream = new FileOutputStream(targetFile);
 
             LogUtils.e("文件copy开始");
             int len;
@@ -171,4 +173,57 @@ public class FileUtils {
             return file.mkdirs();
         }
     }
+
+    public static void getFile(Context context) {
+//        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk";
+//        LogUtils.e(path);
+//        File file = new File(path + "/recordbox-v3.0.1478.apk");
+        File file = null;
+        try {
+            file = new File(context.getPackageManager().getApplicationInfo("com.iflytek.recinbox", 0).sourceDir);
+            String md5 = getFileMD5(file);
+            LogUtils.e("获取md5:" + md5);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getFileMD5(File file) {
+        if (!file.isFile()) {
+            return null;
+        }
+        MessageDigest digest = null;
+        FileInputStream in = null;
+        byte buffer[] = new byte[1024];
+        int len;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            in = new FileInputStream(file);
+            while ((len = in.read(buffer, 0, 1024)) != -1) {
+                digest.update(buffer, 0, len);
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bytesToHexString(digest.digest());
+    }
+
+    public static String bytesToHexString(byte[] src) {
+        StringBuilder stringBuilder = new StringBuilder("");
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv);
+        }
+        return stringBuilder.toString();
+    }
+
 }

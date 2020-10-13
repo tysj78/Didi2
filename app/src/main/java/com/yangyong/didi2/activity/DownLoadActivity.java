@@ -21,6 +21,7 @@ public class DownLoadActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_down_load2);
         initView();
 
+
     }
 
     private void initView() {

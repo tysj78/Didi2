@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,8 +26,11 @@ import com.google.gson.GsonBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.MyApp;
+import com.yangyong.didi2.activity.DuanDianActivity;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
+import com.yangyong.didi2.bean.ThreadInfo;
+import com.yangyong.didi2.dbdao.DownLoadDao;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -403,7 +407,9 @@ public class AppUtil {
             JSONObject jsonObject = null;     //返回的数据形式是一个Object类型，所以可以直接转换成一个Object
             try {
                 jsonObject = new JSONObject(stringBuffer.toString());
-                JSONArray array = jsonObject.getJSONArray(key);
+//                JSONArray array = jsonObject.getJSONArray(key);
+                String array = jsonObject.getString(key);
+                LogUtils.e(array);
             } catch (JSONException e) {
                 LogUtils.e(e.toString());
             }
@@ -585,30 +591,66 @@ public class AppUtil {
 
     /**
      * 检测一个android程序是否在运行
+     *
      * @param context
      * @param PackageName
      * @return
      */
-    public boolean isServiceStarted(Context context,String PackageName) {
-        boolean isStarted =false;
+    public boolean isServiceStarted(Context context, String PackageName) {
+        boolean isStarted = false;
         try {
-            ActivityManager mActivityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
             int intGetTastCounter = 1000;
-            List<ActivityManager.RunningServiceInfo> mRunningService = mActivityManager.getRunningServices(intGetTastCounter );
+            List<ActivityManager.RunningServiceInfo> mRunningService = mActivityManager.getRunningServices(intGetTastCounter);
             for (ActivityManager.RunningServiceInfo amService : mRunningService) {
                 String name = amService.service.getPackageName();
-                LogUtils.e("run app:"+name);
-                if(0 == name.compareTo(PackageName)) {
+                LogUtils.e("run app:" + name);
+                if (0 == name.compareTo(PackageName)) {
                     isStarted = true;
                     break;
                 }
             }
-        }
-        catch(SecurityException e) {
+        } catch (SecurityException e) {
             LogUtils.e(e.toString());
             e.printStackTrace();
         }
         return isStarted;
+    }
+
+    public boolean isNeedDownLoad(Context context) {
+        try {
+            ArrayList<ThreadInfo> threadInfos = new DownLoadDao(context).selectAll();
+            for (int i = 0; i < threadInfos.size(); i++) {
+                ThreadInfo info = threadInfos.get(i);
+                long finished = info.getFinished();
+                long end = info.getEnd();
+                if (finished < end) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
+        return false;
+    }
+
+    public void xiezai(Context context, String pkg) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        intent.setData(Uri.parse("package:" + pkg));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    public boolean checkApkExist(Context con, String packagename) {
+        if (packagename == null && "".equals(packagename)) {
+            return false;
+        }
+        try {
+            con.getPackageManager().getApplicationInfo(packagename, PackageManager.GET_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
 }

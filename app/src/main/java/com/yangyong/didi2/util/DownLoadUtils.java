@@ -3,6 +3,7 @@ package com.yangyong.didi2.util;
 import android.content.Context;
 import android.os.Handler;
 
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
 
@@ -12,6 +13,8 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -27,73 +30,94 @@ import okhttp3.Response;
  */
 
 public class DownLoadUtils {
-    private File rootFile;//文件的路径
-    private File file;//文件
-    private long downLoadSize;//下载文件的长度
-    private ThreadPoolExecutor executor;// 线程池
+    private File rootFile ;//文件的路径
+    //    private File file;//文件
+//    private long downLoadSize;//下载文件的长度
+//    private ThreadPoolExecutor executor;// 线程池
     private boolean isDown = false; //是否已经下载过了（下载后点击暂停） 默认为false
-    private String name; //名称
-    private String path;// 下载的网址
-    private RandomAccessFile raf; // 读取写入IO方法
-    private long totalSize = 0;
-    private MyThread thread;//线程
-    private Handler handler;//Handler 方法
-    private IProgress progress;// 下载进度方法，内部定义的抽象方法
-    private final DownLoadDao mDownLoadDao;
-    private ThreadInfo mThreadInfo;
-    private Context mContext;
+    //    private String name; //名称
+//    private String path;// 下载的网址
+//    private RandomAccessFile raf; // 读取写入IO方法
+//    private long totalSize = 0;
+//    private MyThread thread;//线程
+    //    private Handler handler;//Handler 方法
+//    private IProgress progress;// 下载进度方法，内部定义的抽象方法
+    private DownLoadDao mDownLoadDao;
+    private static  final DownLoadUtils instance = new DownLoadUtils();
+    private ExecutorService executor;
+    //    private ThreadInfo mThreadInfo;
+//    private Context mContext;
 
-    public DownLoadUtils(Context context, String path, IProgress progress) {
-        mContext=context;
-        this.path = path;
-        this.progress = progress;
-        this.handler = new Handler();
-        this.name = path.substring(path.lastIndexOf("/") + 1);
+    private DownLoadUtils() {
+//        mContext = context;
+//        this.path = path;
+//        this.progress = progress;
+//        this.handler = new Handler();
+//        this.name = path.substring(path.lastIndexOf("/") + 1);
         rootFile = FileUtils.getRootFile();
-        mDownLoadDao = new DownLoadDao(context);
-        executor = new ThreadPoolExecutor(5, 5, 50, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3000));
+        mDownLoadDao = new DownLoadDao(MyApp.mContext);
+//        executor = new ThreadPoolExecutor(5, 5, 50, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3000));
+        //替换为cache线程池
+        executor = Executors.newCachedThreadPool();
+    }
+
+    public static DownLoadUtils getInstance(){
+        return instance;
     }
 
     /**
      * 线程开启方法
      */
-    public void start() {
-        if (thread == null) {
-            thread = new MyThread();
-            isDown = true;
-            executor.execute(thread);
-        }
+    public void start(String path) {
+//        if (thread == null) {
+        MyThread thread = new MyThread(path);
+        isDown = true;
+        executor.execute(thread);
+//        }
     }
 
     /**
      * 线程停止方法
      */
     public void stop() {
-        if (thread != null) {
-            isDown = false;
-            executor.remove(thread);
-            thread = null;
-        }
+//        if (thread != null) {
+//            isDown = false;
+//            executor.remove(thread);
+//            thread = null;
+//        }
     }
 
     /**
      * 自定义线程
      */
     class MyThread extends Thread {
+        String path;
+
+        public MyThread(String path) {
+            this.path = path;
+        }
+
         @Override
         public void run() {
             super.run();
-            downLoadFile();
+            downLoadFile(path);
         }
     }
 
     /**
      * 这就是下载方法
      */
-    private void downLoadFile() {
+    private void downLoadFile(String path) {
         LogUtils.e("start download");
+        String name = path.substring(path.lastIndexOf("/") + 1);
+        ThreadInfo mThreadInfo;
+        long totalSize;
+        File file = null;
+        long downLoadSize = 0;
+
         Response response = null;
-//        File apkFile = new File(rootFile, name); //很正常的File() 方法
+        InputStream ins = null;
+        RandomAccessFile raf = null;
         //由文件判断改为数据库判断
         boolean select = mDownLoadDao.exists(path);
         try {
@@ -115,6 +139,7 @@ public class DownLoadUtils {
                 int t_id = mThreadInfo.getT_id();
                 downLoadSize = mThreadInfo.getFinished();
                 LogUtils.e("文件下载过，从已下载进度下载：" + downLoadSize + "==t_id" + t_id);
+
                 if (raf == null) {//判断读取是否为空
                     raf = new RandomAccessFile(file, "rwd");
                 }
@@ -136,7 +161,7 @@ public class DownLoadUtils {
                     .addHeader("Connection", "Keep-Alive")
                     .build();
             response = client.newCall(request).execute();
-            InputStream ins = response.body().byteStream();
+            ins = response.body().byteStream();
             //上面的就是简单的OKHttp连接网络，通过输入流进行写入到本地
             int len = 0;
             byte[] by = new byte[1024 * 8];
@@ -155,7 +180,7 @@ public class DownLoadUtils {
                 if (downLoadSize == totalSize) {
                     mThreadInfo.setFinished(downLoadSize);
                     mDownLoadDao.update(mThreadInfo);
-                    progress.onProgress(100);
+//                    progress.onProgress(100);
                     break;
                 }
                 if (System.currentTimeMillis() - endTime > 1000) {
@@ -163,24 +188,37 @@ public class DownLoadUtils {
                     final double dd = downLoadSize / (totalSize * 1.0);
                     DecimalFormat format = new DecimalFormat("#0.00");
                     String value = format.format((dd * 100)) + "%";//计算百分比
-                    LogUtils.e("==================" + value);
-                    handler.post(new Runnable() {//通过Handler发送消息到UI线程，更新
-                        @Override
-                        public void run() {
-                            mThreadInfo.setFinished(downLoadSize);
-                            mDownLoadDao.update(mThreadInfo);
-                            progress.onProgress((int) (dd * 100));
-                        }
-                    });
+                    LogUtils.e("==================" + name + "==" + value);
+                    mThreadInfo.setFinished(downLoadSize);
+                    mDownLoadDao.update(mThreadInfo);
+//                    handler.post(new Runnable() {//通过Handler发送消息到UI线程，更新
+//                        @Override
+//                        public void run() {
+//                            mThreadInfo.setFinished(downLoadSize);
+//                            mDownLoadDao.update(mThreadInfo);
+//                            progress.onProgress((int) (dd * 100));
+//                        }
+//                    });
                 }
             }
         } catch (Exception e) {
             LogUtils.e("error:" + e.toString());
-            downLoadFile();
+//            downLoadFile();
             e.printStackTrace();
         } finally {
-            if (response != null) {
-                response.close();
+            if (ins != null) {
+                try {
+                    ins.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (raf != null) {
+                try {
+                    raf.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
