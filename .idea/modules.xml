@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Didi2.iml" filepath="$PROJECT_DIR$/Didi2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aotosize/aotosize.iml" filepath="$PROJECT_DIR$/aotosize/aotosize.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bugtest/bugtest.iml" filepath="$PROJECT_DIR$/bugtest/bugtest.iml" />
       <module fileurl="file://$PROJECT_DIR$/guard/guard.iml" filepath="$PROJECT_DIR$/guard/guard.iml" />

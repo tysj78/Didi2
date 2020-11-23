@@ -33,8 +33,8 @@ public class T1Activity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_tiao:
-                startActivity(new Intent(this, T2Activity.class));
-
+//                startActivity(new Intent(this, T2Activity.class));
+                finish();
                 break;
             case R.id.bt_exit:
                 AppExitUtils.getInstance().exit();

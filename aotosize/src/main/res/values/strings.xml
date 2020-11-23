@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">aotosize</string>
+<string name="welcome_to_safe_desk">欢迎使用安全桌面</string>
+<string name="user_register_login">注册登录</string>
+<string name="register">注册</string>
+<string name="title_permission_cfg">权限配置</string>
+<string name="title_permission">权限</string>
+<string name="title_permission_usage_stats">开启应用查看权限</string>
+<string name="title_permission_device">激活设备管理器</string>
+<string name="title_run_on_app">显示在其他应用上层</string>
+<string name="title_accessibility">辅助功能</string>
+<string name="title_device_admin">设备管理器</string>
+
+<!--<string name="app_name">安全工作区</string>-->
+<string name="emm_accessibility">安全桌面无障碍服务</string>
+<string name="title_bar">Mobile@Work</string>
+<string name="setting">设置</string>
+<string name="skip">跳过</string>
+<string name="device_des">取消安全桌面移动设备管理，会导致设备屏幕锁定，如需要操作，请与管理员联系，获取锁屏密码。</string>
+<string name="auto_service_des">为了授权安全桌面插件帮您简化安全桌面的操作，需要开启右上角开关启动EMM-SECURE访问服务。</string>
+<string name="device_dialog">取消安全桌面设备激活，会导致安全桌面功能不能正常使用。</string>
+<string name="device">安全桌面</string>
+<string name="read_pictrue">导入二维码</string>
+<string name="scan_pictrue">扫描二维码</string>
+<string name="registerint">正在注册，请稍等</string>
+<string name="check_update">检查更新</string>
+<string name="about">关于我们</string>
+<string name="title_client_unistall">客户端卸载</string>
+<string name="delay_lockscreen">延迟锁屏</string>
+<string name="configure">配置</string>
+<string name="power_by">POWERED BY</string>
+<string name="more_infor">有关更多信息，请访问：</string>
+<string name="more_infor_url">www.aixunyun.com</string>
+<string name="register_explain">     请从相册中选择之前在网页中保存的二维码图片导入到本应用，然后应用会自动向服务器为您注册。</string>
+<string name="register_title"></string>
+<string name="status_load_doing">下载中</string>
+<string name="status_load">下载</string>
+<string name="status_load_finish">已下载</string>
+<string name="status_continue">继续</string>
+<string name="status_pause">暂停</string>
+<string name="status_install">安装</string>
+<string name="status_update">更新</string>
+<string name="status_installed">打开</string>
+<string name="status_finish">完成</string>
+<string name="status_fail">下载失败</string>
+<string name="status_uninstall">卸载</string>
+<string name="is_load">是否下载</string>
+<string name="is_cancel_load">是否取消下载?</string>
+<string name="cancels">取消</string>
+<string name="re_yes">重试</string>
+<string name="yes">确定</string>
+
+<string name="action_settings" translatable="false">Settings</string>
+
+<string name="version_update" translatable="false">检查更新</string>
+<string name="download_emmstore" translatable="false">下载EMMStore</string>
+<string name="one_click_delete">一键删除</string>
+<string name="back">返回</string>
+<string name="notice">消息通知</string>
+<string name="document">文档内容</string>
+<string name="delete">删除</string>
+
+<!-- XlistView -->
+<string name="xlistview_header_hint_normal">下拉刷新</string>
+<string name="xlistview_header_hint_ready">松开刷新数据</string>
+<string name="xlistview_header_hint_loading">正在加载...</string>
+<string name="xlistview_header_last_time">上次更新时间：</string>
+<string name="xlistview_footer_hint_normal">查看更多</string>
+<string name="xlistview_footer_hint_ready">松开载入更多</string>
+<string name="xlistview_footer_hint_finish">已无更多</string>
+<string name="wait">正在加载，请稍后</string>
+
+<!--华为SDK-->
+<string name="current_state_wifi">"当前状态："</string>
+<string name="current_state_google_account">"当前状态："</string>
+<string name="current_state_screen_capture">"当前状态："</string>
+<string name="state_restricted">已禁用</string>
+<string name="state_nomal">未禁用</string>
+<string name="disable_wifi">禁用WiFi</string>
+<string name="enable_wifi">启用WiFi</string>
+<string name="disable_google_account">禁用谷歌账号</string>
+<string name="enable_google_account">启用谷歌账号</string>
+<string name="enable_screen_capture">启用截屏</string>
+<string name="disable_screen_capture">禁用截屏</string>
+<string name="enable_data_conn">启用数据连接</string>
+<string name="state_not_actived">该应用未激活</string>
+<string name="accept_btn">同意</string>
+<string name="exit_btn">退出</string>
+<string name="disable_warning">取消激活后将导致本软件的部分功能无法正常工作，您确定要取消激活么？</string>
+<string name="know">已阅读</string>
+<string name="not_show_anymore">不再提示</string>
+<string name="title_license">免责声明与软件许可协议</string>
+<string name="title_permissions">华为设备权限使用声明</string>
+<string name="read_statement">若您点击同意并开始使用本软件，代表您已阅读并接受<a href="http://www.huawei.mdm.com">《免责声明与软件许可协议》</a>。</string>
+<!--华为SDK-->
+
+<!-- pdf阅读所需string如下 -->
+<string name="version">1.2</string>
+<string name="no_media_warning">Storage Media not present</string>
+<string name="no_media_hint">Sharing the storage media with a PC can make it inaccessible</string>
+<string name="open_failed">无法打开文档</string>
+<string name="content_failure">%1$s: %2$s</string>
+<string name="cancel">取消</string>
+<string name="search_backwards">向后</string>
+<string name="search_forwards">向前</string>
+<string name="search_document">搜索文档</string>
+<string name="picker_title">%1$s %2$s: %3$s</string>
+<string name="outline_title">Table of Contents</string>
+<string name="enter_password">Enter PaaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingaccountActivatingssword</string>
+<string name="text_not_found">未找到相应文字</string>
+<string name="searching_">正在查找...</string>
+<string name="link_control">Link highlighting and enabling</string>
+<string name="no_further_occurences_found">No further occurences found</string>
+<string name="select">选择</string>
+<string name="search">搜索</string>
+<string name="copy">复制</string>
+<string name="strike_out">Strike out</string>
+<string name="tab_sd">SD内存卡</string>
+<string name="sure">确定</string>
+<string name="wrong_password">密码错误</string>
+<string name="login_password_lock">输入密码以进入主界面，按取消退出程序</string>
+<string name="login_password_lock_hint">请输入密码</string>
+<string name="dataEncrypted">您不能从受保护的应用中取出数据</string>
+<string name="removeItem">Remove</string>
+<string name="app_manager">应用管理</string>
+<string name="policy_info">策略详情</string>
+<string name="black_white">黑白名单策略</string>
+<string name="file_manager">文档管理</string>
+<string name="appstore">应用商店</string>
+<string name="safe_browser">安全浏览器</string>
+<string name="content_manager">内容管理</string>
+<string name="app_permisstion">应用权限</string>
+<string name="black_app">黑名单</string>
+<string name="device_info">设备信息</string>
+<string name="sys_setting">个人设置</string>
+<string name="wallpaper_setting">更换壁纸</string>
+<string name="device_name">设备名称</string>
+<string name="storage">存储</string>
+<string name="details">详情</string>
+<string name="state_info">状态信息</string>
+<string name="sim">SIM卡信息</string>
+<string name="strategy_manager">安全策略</string>
+<string name="invalid_strategy">合规策略</string>
+<string name="black_list">黑名单</string>
+<string name="white_list">白名单</string>
+<string name="app_strategy">应用策略</string>
+<string name="wifi_strategy">WIFI配置</string>
+<string name="device_track">设备轨迹</string>
+<string name="system_limit">功能限制</string>
+<string name="system_command">系统命令</string>
+<string name="location_strategy">定位配置</string>
+<string name="app_bw">应用黑白名单</string>
+<string name="wifi_bw">WIFI黑白名单</string>
+<string name="btooth_bw">蓝牙黑白名单</string>
+<string name="netApp_w">网络应用白名单</string>
+<string name="call_bw">通话黑白名单</string>
+<string name="netAccess_bw">网络访问黑白名单</string>
+<string name="Geofence">地理围栏</string>
+<string name="appCommand">应用命令</string>
+<string name="secreteStrategy">密码配置</string>
+<string name="server_address">服务地址</string>
+
+<string name="default_versionname">V0.0.1</string>
+<string name="network_error">网络异常，请稍后重试</string>
+<string name="imgdescribe">imgdescribe</string>
+
+<string name="username">用户名</string>
+<string name="password">密码</string>
+<string name="username_head">用户名:</string>
+<string name="password_head">密码:</string>
+<string name="login">用户登录</string>
+<string name="islogining">正在登陆</string>
+<string name="frogetpwd">忘记密码 ?</string>
+<string name="remenberusername">记住用户名</string>
+<string name="download">下载</string>
+<string name="updata">更新</string>
+<string name="username_null_warning">用户名为空</string>
+<string name="password_null_warning">密码为空</string>
+
+<!-- 主页 -->
+<string name="safe_desk">安全桌面</string>
+<string name="all_app">所有应用</string>
+<string name="manager">管理</string>
+
+<!-- manager page -->
+<string name="enableupdata">可更新</string>
+<string name="nuish">卸载</string>
+<string name="avalidspace">剩余空间：</string>
+<string name="phone">手机：</string>
+<string name="storagecard">存储卡：</string>
+
+<string name="comgratulation_noapp_update">恭喜，没有应用需要更新哦！</string>
+
+<!-- setting page -->
+<string name="checkupdata">检查更新</string>
+<string name="aboutus">关于我们</string>
+<string name="help">帮助</string>
+<string name="downloadset">下载和流量设置</string>
+<string name="feedback">意见反馈</string>
+<string name="logonout">退出商城</string>
+<string name="email">邮箱</string>
+<string name="yourdout">你的宝贵意见是我们前进的动力，谢谢！</string>
+<string name="emailhint">请填写正确的邮箱地址，我们联系你哦</string>
+<string name="douthint">请填写你的意见（300字以内）</string>
+<!-- detail page -->
+<string name="appdetail">应用详情</string>
+
+<!-- about page -->
+<string name="appname">安全桌面应用商城</string>
+<string name="company_owners">上海上讯信息技术股份有限公司 版权所有</string>
+<string name="copyright">Copyright @  Suninfo All Rights Reseved</string>
+
+<!-- 修改密码页 -->
+<string name="phoneemail">手机号/邮箱</string>
+<string name="code">验证码</string>
+<string name="sendcode">发送验证码</string>
+<string name="reinputnewpwd">请输入新密码</string>
+<string name="resetpwd">重置密码</string>
+
+<string name="setup_gesture_code">设置手势密码</string>
+<string name="please_input_old_gesture_pwd">请输入原来的手势密码</string>
+<string name="please_input_gesture_pwd">请输入手势密码</string>
+<string name="set_gesture_pattern">请输入新6~9位手势密码</string>
+<string name="please_input_gesture_pwd_agin">再次输入手势密码</string>
+<string name="safemanager_login_cert">登录认证</string>
+<string name="error_please_input_again">密码错误，请重新输入</string>
+<string name="gesture_login_more_way">更多</string>
+<string name="origin_login_">注册密码登录</string>
+
+<!-- 数字密码 -->
+<string name="please_input_6_numberpwd">请输入6位数字密码</string>
+<string name="please_input_old6_numberpwd">请输入原来6位数字密码</string>
+<string name="please_input_new6_numberpwd">请输入新的6位数字密码</string>
+<string name="please_input_agin6_numberpwd">再次输入数字密码</string>
+<string name="mobile_safe_keybord">安全桌面专属键盘</string>
+<string name="set_digital_pwd">设置数字密码</string>
+<string name="pwd_set">密码设置</string>
+<string name="permission_set">权限设置</string>
+<string name="online_time_set">在线时长</string>
+<string name="use_digital_pwd">数字密码</string>
+<string name="use_image_pwd">手势密码</string>
+<string name="location_permission">定位权限</string>
+<string name="app_permission">应用权限</string>
+<string name="applay">使用</string>
+
+<string name="online_time_0">不限制</string>
+<string name="online_time_1">30分钟</string>
+<string name="online_time_2">60分钟</string>
+
+
+<!--  launcher  -->
+
+<!-- General -->
+<skip />
+<!-- Application name -->
+<string name="application_name">Launcher3</string>
+<!-- Accessibility-facing application name -->
+<string name="home">Home</string>
+<!-- Name for all applications running as this uid. -->
+<string name="uid_name">Android Core Apps</string>
+<!-- Default folder name -->
+<string name="folder_name"></string>
+<!-- Button label on Wallpaper picker screen; user selects this button to set a specific wallpaper -->
+<string name="wallpaper_instructions">Set wallpaper</string>
+<!-- Shown when wallpapers are selected in Wallpaper picker -->
+<!-- String indicating how many media item(s) is(are) selected
+        eg. 1 selected [CHAR LIMIT=30] -->
+<plurals name="number_of_items_selected">
+    <item quantity="zero">%1$d selected</item>
+    <item quantity="one">%1$d selected</item>
+    <item quantity="other">%1$d selected</item>
+</plurals>
+<!-- Accessibility string used as a label for a particular wallpaper in the Wallpaper Picker list.
+     e.g. "Wallpaper 3 of 10" -->
+<string name="wallpaper_accessibility_name">Wallpaper %1$d of %2$d</string>
+<!-- Accessibility string used to announce that a wallpaper has been selected. -->
+<string name="announce_selection">Selected </string>
+
+<!-- Label on button to delete wallpaper(s) -->
+<string name="wallpaper_delete">Delete</string>
+<!-- Label on button in Wallpaper Picker to pick an image -->
+<string name="pick_image">Pick image</string>
+<!-- Option in "Select wallpaper from" dialog box -->
+<string name="pick_wallpaper">Wallpapers</string>
+<!-- Title of activity for cropping wallpapers -->
+<string name="crop_wallpaper">Crop wallpaper</string>
+<!-- Displayed when user selects a shortcut for an app that was uninstalled [CHAR_LIMIT=none]-->
+<string name="activity_not_found">App isn\'t installed.</string>
+<!--  Labels for the tabs in the customize drawer -->
+<string name="widgets_tab_label">Widgets</string>
+
+<string name="widget_adder">Widgets</string>
+
+<string name="toggle_weight_watcher">Show Mem</string>
+
+<!-- AppsCustomize pane -->
+<!-- Message to tell the user to press and hold on a widget to add it [CHAR_LIMIT=50] -->
+<string name="long_press_widget_to_add">Touch &amp; hold to pick up a widget.</string>
+<!-- Market button text.  The market button text is removed in Launcher.java
+     in the Phone UI. [CHAR LIMIT=32] -->
+<string name="market">Shop</string>
+<!-- The format string for the dimensions of a widget in the drawer -->
+<!-- There is a special version of this format string for Farsi -->
+<string name="widget_dims_format">%1$d \u00d7 %2$d</string>
+
+<!-- External-drop widget pick label format string [CHAR_LIMIT=25] -->
+<string name="external_drop_widget_pick_format" translatable="false">%1$s (%2$d \u00d7 %3$d)</string>
+<!-- External-drop widget error string.  This is the error that is shown
+     when you drag and item into the homescreen and it is unable to fit,
+     or an error is encountered. [CHAR_LIMIT=50] -->
+<string name="external_drop_widget_error">Couldn\'t drop item on this Home screen.</string>
+<!-- External-drop widget pick title.  This is shown as the title of the
+     dialog which allows you to pick which widgets to handle a particular
+     drop if there are multiple choices. [CHAR_LIMIT=35] -->
+<string name="external_drop_widget_pick_title">Choose widget to create</string>
+
+<!-- Folders -->
+<skip />
+<!-- Label of Folder name field in Rename folder dialog box -->
+<string name="rename_folder_label">Folder name</string>
+<!-- Title of dialog box -->
+<string name="rename_folder_title">Rename folder</string>
+<!-- Buttons in Rename folder dialog box -->
+<string name="rename_action">OK</string>
+<!-- Buttons in Rename folder dialog box -->
+<string name="cancel_action">Cancel</string>
+
+<!-- Shortcuts -->
+<skip />
+<!-- Title of dialog box -->
+<string name="menu_item_add_item">Add to Home screen</string>
+<!-- Options in "Add to Home" dialog box; Title of the group containing the list of all apps -->
+<string name="group_applications">Apps</string>
+<!-- Options in "Add to Home" dialog box; Title of the group containing the list of all shortcut
+s -->
+<string name="group_shortcuts">Shortcuts</string>
+<!-- Options in "Add to Home" dialog box; Title of the group containing the list of all widgets/gadgets -->
+<string name="group_widgets">Widgets</string>
+<!-- Error message when user has filled all their home screens -->
+<string name="completely_out_of_space">No more room on your Home screens.</string>
+<!-- Error message when user has filled a home screen -->
+<string name="out_of_space">No more room on this Home screen.</string>
+<!-- Error message when user has filled the hotseat -->
+<string name="hotseat_out_of_space">No more room on the hotseat.</string>
+<!-- Error message when user tries to drop an invalid item on the hotseat -->
+<string name="invalid_hotseat_item">This widget is too large for the hotseat.</string>
+<!-- Message displayed when a shortcut is created by an external application -->
+<string name="shortcut_installed">Shortcut \"\" created.</string>
+<!-- Message displayed when a shortcut is uninstalled by an external application -->
+<string name="shortcut_uninstalled">Shortcut \" was removed.</string>
+<!-- Message displayed when an external application attemps to create a shortcut that already exists -->
+<string name="shortcut_duplicate">Shortcut \"\" already exists.</string>
+
+<!-- Title of dialog when user is selecting shortcut to add to homescreen -->
+<string name="title_select_shortcut">Choose shortcut</string>
+<!-- Title of dialog when user is selecting an application to add to homescreen -->
+<string name="title_select_application">Choose app</string>
+
+<!-- All applications label -->
+<string name="all_apps_button_label">Apps</string>
+<!-- Label for button in all applications label to go back home (to the workspace / desktop)
+     for accessibilty (spoken when the button gets focus). -->
+<string name="all_apps_home_button_label">Home</string>
+<!-- Label for trash icon on workspace. Meant to communicate the idea of removing the
+     icon/widget from the home screen, but not permanently. [CHAR_LIMIT=30] -->
+<string name="delete_zone_label_workspace">Remove</string>
+<!-- Label for trash icon in All Apps. The icon/widget will become completely unavailable on the
+     device. [CHAR_LIMIT=30]-->
+<string name="delete_zone_label_all_apps">Uninstall</string>
+
+<!-- Label for delete drop target. [CHAR_LIMIT=30] -->
+<!-- 修改Remove为删除 -->
+<string name="delete_target_label">删除</string>
+<!-- Label for uninstall drop target. [CHAR_LIMIT=30]-->
+<string name="delete_target_uninstall_label">Uninstall</string>
+<!-- Label for the info icon. [CHAR_LIMIT=30] -->
+<string name="info_target_label">App info</string>
+
+<!-- Accessibility: Search button -->
+<string name="accessibility_search_button">Search</string>
+<!-- Accessibility: Voice Search button -->
+<string name="accessibility_voice_search_button">Voice Search</string>
+<!-- Accessibility: AllApps button -->
+<string name="accessibility_all_apps_button">Apps</string>
+<!-- Accessibility: Delete button -->
+<string name="accessibility_delete_button">Remove</string>
+
+<!-- Label for trash icon in All Apps, when an updated system app is selected. The update will
+     be uninstalled. [CHAR_LIMIT=30] -->
+<string name="delete_zone_label_all_apps_system_app">Uninstall update</string>
+
+<!-- URL pointing to help text. If empty, no link to help will be created [DO NOT TRANSLATE] -->
+<string name="help_url" translatable="false"></string>
+
+<!--  Strings for the contextual action bar (CAB) in All Apps -->
+<skip />
+<!-- Describes the button for uninstalling the currently selected application.
+     Text is not displayed, but provided for accessibility. [CHAR_LIMIT=none] -->
+<string name="cab_menu_delete_app">Uninstall app</string>
+<!-- Describes the button for getting details/info about currently selected application.
+     Text is not displayed, but provided for accessibility. [CHAR_LIMIT=none] -->
+<string name="cab_menu_app_info">App details</string>
+<!-- Appears in the CAB when an app is selected in All Apps or Customize mode. [CHAR_LIMIT=50] -->
+<string name="cab_app_selection_text">1 app selected</string>
+<!-- Appears in the CAB when a widget is selected in Customize mode. [CHAR_LIMIT=50] -->
+<string name="cab_widget_selection_text">1 widget selected</string>
+<!-- Appears in the CAB when a folder is selected in Customize mode. [CHAR_LIMIT=50] -->
+<string name="cab_folder_selection_text">1 folder selected</string>
+<!-- Appears in the CAB when a shortcut is selected in Customize mode. [CHAR_LIMIT=50] -->
+<string name="cab_shortcut_selection_text">1 shortcut selected</string>
+
+<!-- Permissions: -->
+<skip />
+<!-- Permission short label -->
+<string name="permlab_install_shortcut">install shortcuts</string>
+<!-- Permission description -->
+<string name="permdesc_install_shortcut">Allows an app to add
+        shortcuts without user intervention.</string>
+<!-- Permission short label -->
+<string name="permlab_uninstall_shortcut">uninstall shortcuts</string>
+<!-- Permission description -->
+<string name="permdesc_uninstall_shortcut">Allows the app to remove
+        shortcuts without user intervention.</string>
+<!-- Permission short label -->
+<string name="permlab_read_settings">read Home settings and shortcuts</string>
+<!-- Permission description -->
+<string name="permdesc_read_settings">Allows the app to read the settings and
+        shortcuts in Home.</string>
+<!-- Permission short label -->
+<string name="permlab_write_settings">write Home settings and shortcuts</string>
+<!-- Permission description -->
+<string name="permdesc_write_settings">Allows the app to change the settings and
+        shortcuts in Home.</string>
+
+<!-- Widgets: -->
+<skip />
+
+<!-- Text to show user in place of a gadget when we can't display it properly -->
+<string name="gadget_error_text">Problem loading widget</string>
+
+<!-- Text to inform the user that they can't uninstall a system application -->
+<string name="uninstall_system_app_text">This is a system app and can\'t be uninstalled.</string>
+
+<!-- Title of the Android Dreams (screensaver) module -->
+<string name="dream_name">Rocket Launcher</string>
+
+<!-- Default folder title -->
+<string name="folder_hint_text">Unnamed Folder</string>
+
+<!-- Accessibility -->
+<skip />
+
+<!-- The format string for Workspace descriptions [CHAR_LIMIT=none] -->
+<string name="workspace_description_format">Home screen %1$d</string>
+
+<!-- The format string for default page scroll text [CHAR_LIMIT=none] -->
+<string name="default_scroll_format">Page %1$d of %2$d</string>
+<!-- The format string for Workspace page scroll text [CHAR_LIMIT=none] -->
+<string name="workspace_scroll_format">Home screen %1$d of %2$d</string>
+<!-- The format string for AppsCustomize Apps page scroll text [CHAR_LIMIT=none] -->
+<string name="apps_customize_apps_scroll_format">Apps page %1$d of %2$d</string>
+<!-- The format string for AppsCustomize Apps page scroll text [CHAR_LIMIT=none] -->
+<string name="apps_customize_widgets_scroll_format">Widgets page %1$d of %2$d</string>
+
+<!-- Clings -->
+<!-- The title text for the workspace cling [CHAR_LIMIT=60] -->
+<string name="first_run_cling_title">Welcome!</string>
+<!-- The description of how to use the workspace [CHAR_LIMIT=60] -->
+<string name="first_run_cling_description">Make yourself at home.</string>
+<!-- The description of how to use the workspace [CHAR_LIMIT=60] -->
+<string name="first_run_cling_custom_content_hint"></string>
+<!-- The description of how to use the workspace [CHAR_LIMIT=60] -->
+<string name="first_run_cling_search_bar_hint"></string>
+<!-- The description of how to use the workspace [CHAR_LIMIT=60] -->
+<string name="first_run_cling_create_screens_hint">Create more screens for apps and folders</string>
+<!-- The title text for the workspace cling [CHAR_LIMIT=60] -->
+<string name="workspace_cling_title">Organize your space</string>
+<!-- The description of how to use the workspace [CHAR_LIMIT=160] -->
+<string name="workspace_cling_move_item">Touch &amp; hold background to manage wallpaper, widgets and settings.</string>
+<!-- The title text for the All Apps cling [CHAR_LIMIT=60] -->
+<string name="all_apps_cling_title">Choose some apps</string>
+<!-- The description of how to pick up and add an item to the workspace [CHAR_LIMIT=160] -->
+<string name="all_apps_cling_add_item">To add an app to your Home screen, touch &amp; hold it.</string>
+<!-- The title text for the Folder cling [CHAR_LIMIT=60] -->
+<string name="folder_cling_title">Here\'s a folder</string>
+<!-- The description of how to create a folder [CHAR_LIMIT=160] -->
+<string name="folder_cling_create_folder">To create one like this, touch &amp; hold an app, then move it over another.</string>
+<!-- The text on the button to dismiss a cling [CHAR_LIMIT=30] -->
+<string name="cling_dismiss">OK</string>
+<!-- Error message on dummy custom cling layout [DO NOT TRANSLATE] -->
+<string name="dummy_custom_cling_error_message">Error: custom workspace layout passed in but custom cling was not overwritten</string>
+<!--<add-resource type="string" name="default_folder_name" />-->
+<string name="default_folder_name">"Folder Name"</string>
+<!-- Folder accessibility -->
+<!-- The format string for when a folder is opened, speaks the dimensions -->
+<string name="folder_opened">Folder opened</string>
+<!-- Instruction that clicking outside will close folder -->
+<string name="folder_tap_to_close">Touch to close folder</string>
+<!-- Instruction that clicking outside will commit folder rename -->
+<string name="folder_tap_to_rename">Touch to save rename</string>
+<!-- Indication that folder closed -->
+<string name="folder_closed">Folder closed</string>
+<!-- Folder renamed format -->
+<string name="folder_renamed">Folder renamed to</string>
+<!-- Folder name format -->
+<string name="folder_name_format">Folder:</string>
+
+<!-- Strings used in device overlays -->
+
+<!-- Clings -->
+<!-- Dummy string [CHAR_LIMIT=40] -->
+<string name="custom_workspace_cling_title_1"></string>
+<!-- Dummy string [CHAR_LIMIT=60] -->
+<string name="custom_workspace_cling_description_1"></string>
+<!-- Dummy string [CHAR_LIMIT=40] -->
+<string name="custom_workspace_cling_title_2"></string>
+<!-- Dummy string [CHAR_LIMIT=60] -->
+<string name="custom_workspace_cling_description_2"></string>
+
+<!-- Debug-only activity name. [DO NOT TRANSLATE] -->
+<string name="debug_memory_activity">* HPROF</string>
+
+<!-- Strings for the customization mode -->
+<!-- Text for widget add button -->
+<string name="widget_button_text">Widgets</string>
+<!-- Text for wallpaper change button -->
+<string name="wallpaper_button_text">Wallpapers</string>
+<!-- Text for settings button -->
+<string name="settings_button_text">Settings</string>
+
+<string name="group_wallpapers" msgid="1568191644272224858">"Taustapildid"</string>
+
+<string name="empty_update">暂无可更新的应用</string>
+<string name="empty_app">暂无任何应用信息</string>
+<string name="empty_unish">暂无可卸载的应用</string>
+<string name="empty_whiteapp">暂无任何白名单应用</string>
+<string name="empty_blackapp">暂无任何黑名单应用</string>
+<string name="empty_strategy">暂无任何策略配置</string>
+<string name="empty_sandbox_app">暂无任何沙箱应用</string>
+<string name="empty_filedoc">暂无任何文档信息</string>
+<string name="search_empty_filedoc">无此文档信息</string>
+<string name="empty_notice">暂无任何通知消息</string>
+<string name="search_empty_notice">无此通知消息</string>
+<string name="empty_logs">暂无终端日志记录</string>
+<string name="commit_feedback">提交反馈</string>
+<string name="title_activity_main2">Main2Activity</string>
+<string name="accessibility_service_description">为了授权安全桌面辅助应用自动安装，卸载应用时需要打开辅助功能获得屏幕元素</string>
+<string name="emm_secure">安全桌面安全组件</string>
+<string name="next_step">下一步</string>
+<string name="desc_secure">请点击下面按钮安装安全组件</string>
+<string name="item_request_permission">查看应用权限</string>
+<string name="item_request_accessibility">辅助功能</string>
+<string name="uninstall_pw">卸载密码：</string>
+<string name="hint_uninstall_pw">请输入卸载密码</string>
+<string name="register_des">请输入邮件/短信中的邀请码</string>
+<string name="register_hint">邀请码</string>
+<string name="register_commit">提交验证</string>
+
+<!--zhangq-->
+<!--<string name="register_des">请输入邮件中的邀请码，完成注册</string>-->
+<string name="emm_url">请输入服务器注册地址</string>
+<string name="emm_url_test">服务器地址更改</string>
+
+<!-- Strings related to login -->
+<string name="prompt_user">用户名</string>
+<string name="prompt_password">密码</string>
+<string name="hint_prompt_user">用户名</string>
+<string name="hint_prompt_password">密码</string>
+<string name="hint_prompt_server">服务地址 https://ip:port</string>
+<string name="action_sign_in">登录</string>
+<string name="action_registered">自动注册</string>
+<string name="action_forget_password">忘记密码</string>
+<string name="action_sign_in_short">登录</string>
+<string name="error_invalid_password">无效的密码</string>
+<string name="error_incorrect_password">密码错误</string>
+<string name="error_incorrect_user_or_password">用户名或密码错误</string>
+<string name="error_field_required">此项必须填写</string>
+<string name="error_field_required_user">请输入用户名</string>
+<string name="error_field_required_password">请输入密码</string>
+
+<string name="location_service_des">为了更好的体验，请您开启定位权限</string>
+<string name="location_app_des">打开“定位权限”来允许【安全桌面】确定您的位置</string>
+
+</resources>

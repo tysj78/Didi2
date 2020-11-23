@@ -5,7 +5,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -49,6 +51,13 @@ public class CrashCollector implements UncaughtExceptionHandler {
     SoftWareInfo softinfo = null;
     HardWareInfo hardwareinfo = null;
     String Exceptioninfo = "";
+    private Handler handler =new Handler(Looper.getMainLooper()){
+		@Override
+		public void handleMessage(Message msg) {
+			LogUtils.e(Thread.currentThread().getId()+"  handler");
+			Toast.makeText(mContext, "很抱歉,程序出现异常,正在收集日志，即将退出", Toast.LENGTH_SHORT).show();
+		}
+	};
     /** 获取CrashHandler实例 ,单例模式 */  
     public static CrashCollector getInstance() {  
         return INSTANCE;  
@@ -74,15 +83,20 @@ public class CrashCollector implements UncaughtExceptionHandler {
 		if(nameString == null || "".equals(nameString)){
 			nameString = "usernologin";
 		}
-		if (!handleException(ex) && mDefaultHandler != null) {  
+		LogUtils.e(Thread.currentThread().getId()+"  uncaughtException");
+		Toast.makeText(mContext, "很抱歉,程序出现异常,正在收集日志，即将退出", Toast.LENGTH_SHORT).show();
+		if (!handleException(ex) && mDefaultHandler != null) {
+			LogUtils.e("1");
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				Log.e( "error : ", e.toString());
+			}
+			LogUtils.e("3");
             // 如果用户没有处理则让系统默认的异常处理器来处理   
             mDefaultHandler.uncaughtException(thread, ex);  
-            try {  
-                Thread.sleep(3000);  
-            } catch (InterruptedException e) {  
-                Log.e( "error : ", e.toString());
-            }  
-        } else {  
+        } else {
+			LogUtils.e("2");
             try {  
                 Thread.sleep(3000);  
             } catch (InterruptedException e) {  
@@ -112,16 +126,19 @@ public class CrashCollector implements UncaughtExceptionHandler {
             return false;  
         } 
 		// 使用Toast来显示异常信息   
-        new Thread() {  
-            @Override  
-            public void run() {  
-                Looper.prepare();  
-                Toast.makeText(mContext, "很抱歉,程序出现异常,正在收集日志，即将退出", Toast.LENGTH_LONG)  
-                        .show();
-                Looper.loop();  
-            }  
-        }.start();
-        
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                LogUtils.e(Thread.currentThread().getId()+"");
+//                Toast.makeText(mContext, "很抱歉,程序出现异常,正在收集日志，即将退出", Toast.LENGTH_LONG)
+//                        .show();
+//                Looper.loop();
+//            }
+//        }.start();
+//		LogUtils.e(Thread.currentThread().getId()+"1");
+//		handler.sendEmptyMessage(1);
+
         collectHardWareInfo(mContext);
         collectSoftWareInfo(mContext);
 		collectExceptionInfo(mContext,ex);
@@ -221,12 +238,12 @@ public class CrashCollector implements UncaughtExceptionHandler {
 		// TODO Auto-generated method stub
 		if (Environment.getExternalStorageState().equals(  
                 Environment.MEDIA_MOUNTED)) {  
-            String path = Environment.getExternalStorageDirectory().getPath() +  File.separator + "emm_crashFolder";
+            String path = Environment.getExternalStorageDirectory().getPath() +  File.separator + "ax_crashFolder";
             File dir = new File(path);  
             if (!dir.exists()) {  
                 dir.mkdirs();  
             } 
-            File file = new File(dir, "Crash.txt");
+            File file = new File(dir, "Crash1.txt");
             if(!file.exists()){
             	file.createNewFile();
             	writeToTxtFile(file);

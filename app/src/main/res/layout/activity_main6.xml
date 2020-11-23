@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.yangyong.didi2.activity.Main6Activity">
-<Button
-    android:id="@+id/main_b"
-    android:text="点击"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/main_b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击"
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/main_move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="onMove"
         android:text="动态加载dex"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_request"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="请求权限" />
 </LinearLayout>

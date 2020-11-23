@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.yangyong.didi2.util.LogUtils;
+
 
 /**
  * xxx class
@@ -22,6 +24,7 @@ public class DownLoadHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        LogUtils.e("DownLoadHelper: onCreate");
         String sql="create table if not exists thread_info(t_id integer primary key autoincrement,url text,start integer,end integer,finished integer)";
         db.execSQL(sql);
     }

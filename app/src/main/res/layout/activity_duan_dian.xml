@@ -74,6 +74,13 @@
                 android:layout_height="wrap_content"
                 android:text="复制源apk"
                 android:visibility="visible" />
+
+            <Button
+                android:id="@+id/bt_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 

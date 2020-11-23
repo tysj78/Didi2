@@ -2,6 +2,9 @@ package com.yangyong.didi2.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -16,7 +19,14 @@ import io.reactivex.functions.Consumer;
  */
 
 public class PermissionUtils {
-    public static void requestPermissions(Activity activity,String[] permissions, Consumer<Boolean> consumer) {
+    /**
+     * 主线程
+     *
+     * @param activity
+     * @param permissions
+     * @param consumer
+     */
+    public static void requestPermissions(Activity activity, String[] permissions, Consumer<Boolean> consumer) {
         String[] s = new String[]{
                 Manifest.permission.READ_PHONE_STATE,//imei
 //                Manifest.permission.ACCESS_FINE_LOCATION,//定位
@@ -36,5 +46,60 @@ public class PermissionUtils {
         RxPermissions permission = new RxPermissions(activity);
         Observable<Boolean> request = permission.request(permissions);
         request.subscribe(consumer);
+    }
+
+    /**
+     * 子线程
+     *
+     * @param activity
+     * @param permissions
+     * @param consumer
+     */
+    public static void requestPermissionsOnThread(final Activity activity, final String[] permissions, final Consumer<Boolean> consumer) {
+        try {
+            if (activity == null) {
+                LogUtils.e("获取动态权限异常：activity null");
+                return;
+            }
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+            Looper.prepare();
+            final Handler t_handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    Observable<Boolean> observable = (Observable<Boolean>) msg.obj;
+                    observable.subscribe(consumer);
+
+                }
+            };
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                RxPermissions permission = new RxPermissions(activity);
+                                Observable<Boolean> request = permission.request(permissions);
+                                Message obtain = Message.obtain();
+                                obtain.obj = request;
+
+                                t_handler.sendMessage(obtain);
+                            } catch (Exception e) {
+                                try {
+                                    consumer.accept(true);
+                                } catch (Exception e1) {
+                                    LogUtils.e("Exception1: " + e.toString());
+                                }
+                                LogUtils.e("Exception2: " + e.toString());
+                            }
+                        }
+                    });
+                }
+            });
+            Looper.loop();
+        } catch (Exception e) {
+            LogUtils.e("Exception3:" + e.toString());
+        }
     }
 }

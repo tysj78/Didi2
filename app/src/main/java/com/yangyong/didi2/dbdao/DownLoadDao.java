@@ -19,12 +19,18 @@ import java.util.ArrayList;
 
 public class DownLoadDao {
 
-    private final SQLiteDatabase mDatabase;
+    private SQLiteDatabase mDatabase;
     private final String THREAD_INFO = "thread_info";
+    private DownLoadHelper downLoadHelper;
 
     public DownLoadDao(Context context) {
-        DownLoadHelper downLoadHelper = new DownLoadHelper(context);
+        downLoadHelper = new DownLoadHelper(context);
         mDatabase = downLoadHelper.getWritableDatabase();
+    }
+
+    public void closeDb() {
+        downLoadHelper = null;
+        mDatabase = null;
     }
 
     //增

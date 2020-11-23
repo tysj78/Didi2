@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.yangyong.didi2.activity.TimeChangeActivity;
 import com.yangyong.didi2.util.Constant;
@@ -31,6 +32,7 @@ public class MyService extends Service {
     private Timer timer;
     private TimerTask task;
     private int runCount = 0;
+    private int thread = 360;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,6 +51,29 @@ public class MyService extends Service {
         }
 
         startTime();
+//        createTHread();
+    }
+
+    /**
+     * 创建线程任务
+     */
+    private void createTHread() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        while (true) {
+                            LogUtils.e(Thread.currentThread().getId() + ":" + thread);
+                            thread++;
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+        ).start();
     }
 
     private void startTime() {
@@ -60,9 +85,10 @@ public class MyService extends Service {
                 runCount++;
                 //更新sp时间
                 SpUtils.saveStringValue(MyService.this, "TIME", getCurrentDate() + " 运行次数：" + runCount);
+                LogUtils.e("运行次数：" + runCount);
             }
         };
-        timer.schedule(task, 0, 1000 * 60 * 30);
+        timer.schedule(task, 0, 5000);
     }
 
     private void stopTime() {
@@ -111,6 +137,7 @@ public class MyService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtils.e("onStartCommand: ");
+        Toast.makeText(this,"onStartCommand",Toast.LENGTH_SHORT).show();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -124,7 +151,8 @@ public class MyService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopTime();
+//        stopTime();
+        stopForeground(true);
         LogUtils.e("MyService onDestroy: ");
     }
 }

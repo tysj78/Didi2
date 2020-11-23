@@ -1,6 +1,7 @@
 package com.yangyong.didi2.util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.content.FileProvider;
@@ -46,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -73,8 +76,30 @@ public class AppUtil {
 //    private static AppUtil instance = null;
 //    private static final Object LUCK = new Object();
 
+    private Activity activity;
+    private List<String> list;
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
+    public List<String> getList() {
+        return list;
+    }
+
     private AppUtil() {
 //        LogUtils.e("创建apputil");
+        list=new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            list.add("第" + i);
+        }
     }
 
 //    public static AppUtil getInstance() {
@@ -642,7 +667,7 @@ public class AppUtil {
     }
 
     public boolean checkApkExist(Context con, String packagename) {
-        if (packagename == null && "".equals(packagename)) {
+        if (packagename == null || "".equals(packagename)) {
             return false;
         }
         try {
@@ -653,4 +678,131 @@ public class AppUtil {
         }
     }
 
+    /**
+     * 清除应用数据
+     */
+    public void clearAppData(final Context context) {
+        //清除数据开始
+        /** 清除本应用内部缓存(/data/data/com.xxx.xxx/cache)*/
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        /** * 清除本应用所有数据库(/data/data/com.xxx.xxx/databases)*/
+//                        deleteFilesByDirectory(new File("/data/data/"+ context.getPackageName() + "/databases"));
+                        deleteFilesByDirectory(new File("/data/data/" + context.getPackageName() + "/shared_prefs"));
+
+                    }
+                }
+        ).start();
+    }
+
+    /**
+     * 删除方法 这里只会删除某个文件夹下的文件，如果传入的directory是个文件，将不做处理 * * @param directory
+     */
+    public void deleteFilesByDirectory(File directory) {
+        if (directory != null && directory.exists() && directory.isDirectory()) {
+            for (File item : directory.listFiles()) {
+                if (!item.isDirectory()) {
+                    boolean su = item.delete();
+                    if (su) {
+                        LogUtils.e("删除sp成功");
+                    } else {
+                        LogUtils.e("删除sp失败");
+                    }
+                } else if (item.listFiles().length != 0) {
+                    deleteFilesByDirectory(item);
+                } else {
+                    boolean su = item.delete();
+                }
+            }
+        }
+    }
+
+    public boolean isMIUI() {
+        String manufacturer = Build.MANUFACTURER;
+        //这个字符串可以自己定义,例如判断华为就填写huawei,魅族就填写meizu
+        if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void openAppPerSet(Context context) {
+        try {
+            // 出现异常则跳转到应用设置界面：锤子坚果3——OC105 API25
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+            intent.setData(uri);
+            context.startActivity(intent);
+        } catch (Exception ex) {
+            LogUtils.e(ex.toString());
+        }
+    }
+
+    public void Xiaomi(Activity activity) {
+        // 只兼容miui v5/v6 的应用权限设置页面，否则的话跳转应用设置页面（权限设置上一级页面）
+        String miuiVersion = getMiuiVersion();
+        Intent intent = null;
+        if ("V5".equals(miuiVersion)) {
+            Uri packageURI = Uri.parse("package:" + activity.getApplicationInfo().packageName);
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+        } else if ("V6".equals(miuiVersion) || "V7".equals(miuiVersion)) {
+            intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+            intent.putExtra("extra_pkgname", activity.getPackageName());
+        } else if ("V8".equals(miuiVersion)) {
+            intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            intent.putExtra("extra_pkgname", activity.getPackageName());
+        } else {
+            intent = new Intent("miui.intent.action.APP_PERM_EDITOR");
+            intent.setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity");
+            intent.putExtra("extra_pkgname", activity.getPackageName());
+        }
+
+        if (null != intent)
+            activity.startActivity(intent);
+    }
+
+    public String getMiuiVersion() {
+        String line;
+        BufferedReader input = null;
+        try {
+            Process p = Runtime.getRuntime().exec("getprop ro.miui.ui.version.name");
+            input = new BufferedReader(new InputStreamReader(p.getInputStream()), 1024);
+            line = input.readLine();
+            input.close();
+        } catch (IOException ex) {
+            return null;
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        LogUtils.e(line);
+        return line;
+    }
+    /**
+     * 拨打电话（直接拨打电话）
+     * @param phoneNum 电话号码
+     */
+    @SuppressLint("MissingPermission")
+    public void callPhone(Context context, String phoneNum){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        context.startActivity(intent);
+    }
+
+    //获取当前日期
+    public String getCurrentDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");// yyyyMMdd HH:mm:ss
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
 }

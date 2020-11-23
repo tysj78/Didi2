@@ -1,1 +1,1 @@
-include ':app', ':guard', ':bugtest'
+include ':app', ':guard', ':bugtest', ':aotosize'

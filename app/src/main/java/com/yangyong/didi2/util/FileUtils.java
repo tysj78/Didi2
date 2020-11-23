@@ -77,7 +77,7 @@ public class FileUtils {
         FileOutputStream fileOutputStream = null;
         try {
             //取得指定包名的base.apk com.tencent.mobileqq
-            File file = new File(context.getPackageManager().getApplicationInfo("com.zyjs648cz.zaoyx", 0).sourceDir);
+            File file = new File(context.getPackageManager().getApplicationInfo("cn.wps.moffice_eng", 0).sourceDir);
             LogUtils.e(file.getAbsolutePath());
 
             File targetPath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/app/didi2");

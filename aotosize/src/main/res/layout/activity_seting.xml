@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title_bg_sg">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_actionbar_item"
+            android:clickable="true"
+            android:padding="12dip"
+            android:src="@drawable/goback" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/iv_user_name"
+                android:layout_width="133dp"
+                android:layout_height="133dp"
+                android:layout_marginTop="13dp"
+                android:src="@drawable/user_face" />
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_user_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="27dp"
+                android:text="用户名"
+                android:textColor="#c2f1ff"
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_actionbar_item"
+            android:clickable="true"
+            android:padding="12dip"
+            android:src="@drawable/icon_setting_wallpaper" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_app_manager"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/tv_app_manager_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/application_manage_icon" />
+
+                <TextView
+                    android:id="@+id/tv_app_manager"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/tv_app_manager_bg"
+                    android:text="@string/app_manager" />
+
+                <ImageView
+                    android:id="@+id/iv_app_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_password_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/tv_password_set_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/password_set_icon" />
+
+                <TextView
+                    android:id="@+id/tv_password_set"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/tv_password_set_bg"
+                    android:text="密码设置" />
+
+                <ImageView
+                    android:id="@+id/iv_password_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_permission_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/tv_permission_set_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/permission_set_icon" />
+
+                <TextView
+                    android:id="@+id/tv_permission_set"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="14dp"
+                    android:layout_toEndOf="@+id/tv_permission_set_bg"
+                    android:text="@string/permission_set" />
+
+                <ImageView
+                    android:id="@+id/iv_permission_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_oneline_time_set"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/iv_online_time_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/online_time" />
+
+                <TextView
+                    android:id="@+id/tv_oneline_time_set"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_online_time_bg"
+                    android:text="@string/online_time_set" />
+
+                <ImageView
+                    android:id="@+id/iv_oneline_time_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_server_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/iv_setting_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/img_setting_address" />
+
+                <TextView
+                    android:id="@+id/tv_server_address"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_setting_bg"
+                    android:text="@string/server_address" />
+
+                <ImageView
+                    android:id="@+id/iv_server_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_version_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/iv_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/icon_update" />
+
+                <TextView
+                    android:id="@+id/tv_version_update"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_update"
+                    android:text="@string/version_update" />
+
+                <TextView
+                    android:id="@+id/tv_version"
+                    style="@style/TextViewItemStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_version_update"
+                    android:layout_below="@+id/tv_version_update"
+                    android:text="当前版本:1.0.3" />
+
+                <ImageView
+                    android:id="@+id/iv_version_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <ImageView
+                    android:id="@+id/iv_about_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/icon_about" />
+
+                <TextView
+                    android:id="@+id/tv_about"
+                    style="@style/TextViewContentStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_about_bg"
+                    android:text="@string/about" />
+
+                <ImageView
+                    android:id="@+id/iv_about"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:src="@drawable/icon_goto" />
+            </RelativeLayout>
+
+            <!--<include-->
+            <!--layout="@layout/underline"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:visibility="visible" />-->
+
+            <Button
+                android:id="@+id/btn_xiaomimdm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="小米mdm功能测试"
+                android:visibility="gone" />
+
+            <include
+                layout="@layout/underline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_huaweimdm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="huaweimdm"
+                android:visibility="gone" />
+
+            <!--<include-->
+            <!--layout="@layout/underline"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:visibility="gone" />-->
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/underline_color" />
+
+            <RelativeLayout
+                android:id="@+id/rl_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tv_logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="退出登录"
+                    android:textColor="@color/blue_logout"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <!--<include-->
+            <!--layout="@layout/underline"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginBottom="30dp" />-->
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="30dp"
+                android:background="@color/underline_color" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

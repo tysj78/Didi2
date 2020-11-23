@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -23,12 +26,14 @@ import com.yangyong.didi2.zlog.ZLog;
 
 //import net.sqlcipher.database.SQLiteDatabase;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -36,6 +41,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import xcrash.XCrash;
 
 
 /**
@@ -48,6 +55,7 @@ public class MyApp extends Application {
     //    private ApplicationLike tinkerApplicationLike;
     public static Context mContext;
     public static Activity mActivity;
+    private String logPath = Environment.getExternalStorageDirectory().getPath() + "/xcrash";
 
     public MyApp() {
 
@@ -59,7 +67,9 @@ public class MyApp extends Application {
         mContext = this;
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
-        CrashCollector.getInstance().init(this);
+        regActivity();
+//        CrashCollector.getInstance().init(this);
+//        MyCrashHandler.getInstance().init(this);
 //        ZLog.Init(Environment.getExternalStorageDirectory().getPath()+"/emm_crashFolder");
 //        ZLog.openSaveToFile();
 
@@ -78,11 +88,54 @@ public class MyApp extends Application {
 //        Debug.stopMethodTracing();
     }
 
+    private void regActivity() {
+        this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+    }
+
     private void initXlog() {
         String logPath = Environment.getExternalStorageDirectory().getPath() + "/logsample/xlog";
         Log.d("test", logPath);
         Xlog.setConsoleLogOpen(true);
         Xlog.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logPath, "LOGSAMPLE", 0, "");
+    }
+
+    public Context getContext() {
+        return this;
     }
 
     private void loadJiaMi() {
@@ -109,8 +162,12 @@ public class MyApp extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 //        MultiDex.install(this);
-        Log.e(TAG, "attachBaseContext: ");
 //        hookNotificationManager(base);
+        //初始化xcrash
+        XCrash.InitParameters initParameters = new XCrash.InitParameters();
+        initParameters.setAppVersion("1.1");
+        initParameters.setLogDir(logPath);
+        XCrash.init(this, initParameters);
     }
 
     /**

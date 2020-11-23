@@ -19,9 +19,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.MyService;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.activity.test.T1Activity;
+import com.yangyong.didi2.bean.ThreadInfo;
+import com.yangyong.didi2.dbdao.DownLoadDao;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.SpUtils;
@@ -53,14 +56,19 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
     };
     private Button bt_handler;
     private Handler tHandler;
+    private DownLoadDao mDownLoadDao;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (true) {
+            finish();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main5);
         initView();
-
+        LogUtils.e("onCreate");
+        mDownLoadDao = new DownLoadDao(MyApp.mContext);
     }
 
     /**
@@ -105,18 +113,27 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_ss:
-                Intent start=new Intent (this,MyService.class);
-                if(Build.VERSION.SDK_INT>=26){
-                    startForegroundService (start);
-                }
+//                Intent start = new Intent(this, MyService.class);
+//                if (Build.VERSION.SDK_INT >= 26) {
+//                    startForegroundService(start);
+//                }
+                mDownLoadDao.addThread(new ThreadInfo("baidu.com", 1, 1, 1));
                 break;
             case R.id.main_send:
-                String time = SpUtils.getStringValue(this, "TIME");
-                tv_current_time.setText(time);
+//                String time = SpUtils.getStringValue(this, "TIME");
+//                tv_current_time.setText(time);
 //                startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), 100);
+
+                ArrayList<ThreadInfo> threadInfos = mDownLoadDao.selectAll();
+                int a = threadInfos.size();
+                LogUtils.e("线程数" + a);
                 break;
             case R.id.bt_tiao:
-                startActivity(new Intent(this, T1Activity.class));
+//                startActivity(new Intent(this, T1Activity.class));
+//                stopService(new Intent(this, MyService.class));
+                AppUtil.getInstance().clearAppData(this);
+//                mDownLoadDao.closeDb();
+//                mDownLoadDao = null;
                 break;
             case R.id.bt_exit:
                 Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -136,9 +153,14 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.bt_handler:
 //                sendMsg2();
-                AppUtil.getInstance().isServiceStarted(this,"com.didi2.yangyong");
+//                AppUtil.getInstance().isServiceStarted(this, "com.didi2.yangyong");
+                initDb();
                 break;
         }
+    }
+
+    private void initDb() {
+        mDownLoadDao = new DownLoadDao(MyApp.mContext);
     }
 
     private void sendMsg() {
@@ -150,10 +172,10 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
                         tHandler = new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
-                                switch (msg.what){
+                                switch (msg.what) {
                                     case 10:
-                                        String msgs= (String) msg.obj;
-                                        LogUtils.e("get msg:"+msgs+Thread.currentThread().getId());
+                                        String msgs = (String) msg.obj;
+                                        LogUtils.e("get msg:" + msgs + Thread.currentThread().getId());
                                         break;
                                 }
                             }
@@ -173,8 +195,8 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
                         try {
                             Thread.sleep(3000);
                             Message obtain = Message.obtain();
-                            obtain.what=10;
-                            obtain.obj="下载完成";
+                            obtain.what = 10;
+                            obtain.obj = "下载完成";
                             tHandler.sendMessage(obtain);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -235,5 +257,11 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
             LogUtils.e("onNewIntent");
             finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtils.e("onResume");
     }
 }

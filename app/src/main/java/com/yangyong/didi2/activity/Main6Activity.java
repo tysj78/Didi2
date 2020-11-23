@@ -1,5 +1,6 @@
 package com.yangyong.didi2.activity;
 
+import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,23 +11,31 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.LogUtils;
+import com.yangyong.didi2.util.PermissionUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
+import io.reactivex.functions.Consumer;
 
-public class Main6Activity extends AppCompatActivity implements View.OnClickListener {
+public class Main6Activity extends BaseActivity implements View.OnClickListener {
 
     private Button main_b;
     private Button main_move;
+    private Button bt_request;
+    private String[] per = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6);
         initView();
+
 
     }
 
@@ -36,6 +45,8 @@ public class Main6Activity extends AppCompatActivity implements View.OnClickList
         main_b.setOnClickListener(this);
         main_move = (Button) findViewById(R.id.main_move);
         main_move.setOnClickListener(this);
+        bt_request = (Button) findViewById(R.id.bt_request);
+        bt_request.setOnClickListener(this);
     }
 
     @Override
@@ -54,7 +65,26 @@ public class Main6Activity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.main_move:
                 break;
+            case R.id.bt_request:
+                rePer();
+                break;
         }
+    }
+
+    private void rePer() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        PermissionUtils.requestPermissionsOnThread(AppUtil.getInstance().getActivity(), per, new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                LogUtils.e("同意了权限");
+                            }
+                        });
+                    }
+                }
+        ).start();
     }
 
     public void onMove(View view) {

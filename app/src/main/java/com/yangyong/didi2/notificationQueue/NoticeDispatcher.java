@@ -1,9 +1,15 @@
 package com.yangyong.didi2.notificationQueue;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.zlog.LogBean;
+
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -16,7 +22,19 @@ public class NoticeDispatcher extends Thread {
      * 存储日志的队列
      */
     private LinkedBlockingQueue<LogBean> mLogQueue;
-
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    String toa = (String) msg.obj;
+                    Toast.makeText(MyApp.mContext, toa, Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     NoticeDispatcher(LinkedBlockingQueue<LogBean> logQueue) {
         this.mLogQueue = logQueue;
@@ -30,13 +48,13 @@ public class NoticeDispatcher extends Thread {
             while (true) {
                 try {
 //                    synchronized (LUCK) {
-                        LogBean logBean;
-                        logBean = mLogQueue.take();
+                    LogBean logBean;
+                    logBean = mLogQueue.take();
 //                        if (logBean == null) {
 //                            break;
 //                        }
-                        //耗时
-                        sendNotification(logBean);
+                    //耗时
+                    sendNotification(logBean);
 //                    }
                 } catch (Exception e) {
                     Log.e("run: ", e.toString());
@@ -49,12 +67,17 @@ public class NoticeDispatcher extends Thread {
     }
 
     private void sendNotification(LogBean unReadNum) {
+        LogUtils.e("消费任务");
         try {
-            Thread.sleep(2000);
+            Message obtain = Message.obtain();
+            obtain.what = 1;
+            obtain.obj = unReadNum.getLogText();
+            mHandler.sendMessage(obtain);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        LogUtils.e("更新未读数量" + unReadNum.toString());
+//        LogUtils.e("更新未读数量" + unReadNum.toString());
     }
 
 }

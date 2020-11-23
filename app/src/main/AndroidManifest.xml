@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -107,19 +108,11 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.Main2Activity" />
         <activity android:name=".activity.Main3Activity" />
-        <activity android:name=".activity.Main5Activity"></activity>
+        <activity android:name=".activity.Main5Activity" />
         <activity android:name=".activity.Main6Activity" />
         <activity android:name=".activity.ClipboardActivity" />
         <activity android:name=".activity.HookActivity" />
-        <activity android:name=".activity.DeviceAdminActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".activity.DeviceAdminActivity" />
         <activity android:name=".activity.Main9Activity" />
         <activity android:name=".activity.RequestActivity" />
         <activity android:name=".activity.IoActivity" />
@@ -191,15 +184,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
         <activity android:name=".testactivity.BActivity" />
-        <activity android:name=".activity.ConnectWifiActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".activity.ConnectWifiActivity"></activity>
         <activity android:name=".activity.ImeiActivity" />
         <activity android:name=".activity.CodingActivity" />
         <activity android:name=".activity.WifiConnectActivity" />
@@ -227,43 +212,10 @@
         <!-- android:resource="@xml/didi_service" /> -->
         <!-- </service> -->
 
-        <activity android:name=".activity.OpenFuZhuActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.ExceptionActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.QueryCallActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.DateActivity">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".activity.OpenFuZhuActivity"></activity>
+        <activity android:name=".activity.ExceptionActivity" />
+        <activity android:name=".activity.QueryCallActivity" />
+        <activity android:name=".activity.DateActivity"></activity>
         <activity android:name=".activity.TimeChangeActivity" />
         <activity android:name=".AlarmActivity" />
 
@@ -273,47 +225,15 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.PermissionActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.JmActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".activity.RxActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".activity.PermissionActivity"></activity>
+        <activity android:name=".activity.JmActivity"></activity>
+        <activity android:name=".activity.RxActivity"></activity>
         <activity android:name=".activity.SendDataActivity" />
         <activity android:name=".activity.RegActivity" />
         <activity android:name=".activity.MmCheckActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.DbActivity" />
-        <activity android:name=".activity.CheckActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+        <activity android:name=".activity.CheckActivity"></activity>
         <activity android:name=".activity.JiamiActivity" />
         <activity android:name=".activity.DownLoadActivity" />
         <activity android:name=".activity.ZlogActivity" />
@@ -360,12 +280,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <provider
-            android:name=".cp.MyContentProvider"
-            android:authorities="com.yangyong.mycp"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="com.yangyong.PROVIDER" />
+        <!-- <provider -->
+        <!-- android:name=".cp.MyContentProvider" -->
+        <!-- android:authorities="com.yangyong.mycp" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" -->
+        <!-- android:permission="com.yangyong.PROVIDER" /> -->
 
         <activity android:name=".activity.CpActivity" />
 
@@ -392,13 +312,7 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".activity.RecordActivity" />
-        <activity android:name=".activity.DuanDianActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.DuanDianActivity"></activity>
         <activity android:name=".activity.JiaKeActivity" />
         <activity android:name=".activity.InstallActivity" />
         <activity android:name=".activity.GestureActivity" />
@@ -432,12 +346,16 @@
         <activity android:name=".activity.KeyStoreActivity" />
         <activity android:name=".activity.SimulateGestureActivity" />
         <activity android:name=".activity.CameraActivity" />
-        <activity android:name=".activity.ThreadActivity">
+        <activity android:name=".activity.ThreadActivity" />
+        <activity android:name=".activity.FragmentActivity" />
+        <activity android:name=".activity.PicActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".activity.FragmentActivity">
-
-        </activity>
+        <activity android:name=".activity.TuActivity"></activity>
     </application>
 
 </manifest>

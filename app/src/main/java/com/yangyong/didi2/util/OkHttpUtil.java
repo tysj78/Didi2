@@ -44,16 +44,14 @@ import okhttp3.Response;
  */
 
 public class OkHttpUtil {
-    private static volatile OkHttpUtil util = null;
+    private static OkHttpUtil util = null;
     private OkHttpClient okHttpClient;
-    public static boolean isFirst = true;
-    private static Context mContext;
+    private Handler handler;
 
     private OkHttpUtil() {
         //创建OkHttpClient请求对象
-        mContext = MyApp.mContext;
-//        okHttpClient = getOkHttpClient();
-//        Log.e(Constants.TAG, "=============: " + okHttpClient);
+        okHttpClient = getOkHttpClient();
+        handler = new Handler(Looper.getMainLooper());
     }
 
     public static OkHttpUtil getInstance() {
@@ -67,10 +65,10 @@ public class OkHttpUtil {
         return util;
     }
 
-    private OkHttpClient getOkHttpClient() throws Exception {
+    private OkHttpClient getOkHttpClient() {
         //跳过ssl证书校验
 //        if (okHttpClient == null) {
-        if (true) {
+//        if (true) {
 //            X509TrustManager xtm = new X509TrustManager() {
 //                @Override
 //                public void checkClientTrusted(X509Certificate[] chain, String authType) {
@@ -145,9 +143,8 @@ public class OkHttpUtil {
                     .writeTimeout(8, TimeUnit.SECONDS)
 //                    .sslSocketFactory(sslContext.getSocketFactory())
 //                    .hostnameVerifier(DO_NOT_VERIFY)
-                    //.cache(new Cache(sdcache, cacheSize))
                     .build();
-        }
+//        }
         return okHttpClient;
     }
 
@@ -181,7 +178,6 @@ public class OkHttpUtil {
     }
 
     private void runUI(final DataCallBack callback, final boolean isOK, final String json) {
-        Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -215,7 +211,6 @@ public class OkHttpUtil {
             Request request = new Request.Builder().url(url).post(builder.build()).build();
 
 
-//            okhttp3.Call call = okHttpClient.newCall(request);
             okhttp3.Call call = getOkHttpClient().newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -277,7 +272,6 @@ public class OkHttpUtil {
     }
 
     public void Toast(final Context context) {
-        Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {

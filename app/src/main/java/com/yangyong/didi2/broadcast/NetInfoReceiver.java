@@ -48,12 +48,12 @@ public class NetInfoReceiver extends BroadcastReceiver {
                 if ((currentTimeMillis-lastTime)>1000) {
                     lastTime=currentTimeMillis;
                     Log.e(TAG, "using 可用...");
-                    reDownLoad();
+//                    reDownLoad();
                 }
             }else {
                 lastTime = System.currentTimeMillis();
                 Log.e(TAG, "using 可用...");
-                reDownLoad();
+//                reDownLoad();
             }
 //                context.startService(new Intent(context,ChatService.class));
         } else {

@@ -183,7 +183,15 @@ public class ExampleUnitTest {
 //        test27();
 //        test28();
 //        test29();
-        test30();
+//        test30();
+        test31();
+    }
+
+    private void test31() {
+        String t1="55";
+        if (!t1.equals("25")&&!t1.equals("35")) {
+            System.out.println("不符合");
+        }
     }
 
     private void test30() {

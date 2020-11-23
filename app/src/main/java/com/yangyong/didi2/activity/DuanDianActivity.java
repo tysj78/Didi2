@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.provider.Settings;
@@ -24,11 +23,13 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.yangyong.didi2.Constants;
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.bean.MustApp;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.broadcast.AppInstallReceiver;
 import com.yangyong.didi2.broadcast.NetInfoReceiver;
@@ -38,12 +39,12 @@ import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.DownLoadUtils;
 import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;
-import com.yangyong.didi2.util.OkHttpUtil;
 import com.yangyong.didi2.util.PermissionUtils;
 import com.yangyong.didi2.util.SpUtils;
 import com.yangyong.didi2.zlog.LogBean;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -53,10 +54,9 @@ import java.util.TimerTask;
 
 import io.reactivex.functions.Consumer;
 
-import static com.baidu.location.b.a.d;
 import static com.yangyong.didi2.zlog.LogType.VERBOSE;
 
-public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils.IProgress, View.OnClickListener {
+public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IProgress, View.OnClickListener {
 
     private ProgressBar pb_progress;
     private Button bt_download;
@@ -93,6 +93,8 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
     };
     private int gress;
     private MustInstallAppReceiver mustInstallAppReceiver;
+    private ImageView iv_tu;
+    private Button bt_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +176,10 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
         bt_clear.setOnClickListener(this);
         bt_query = (Button) findViewById(R.id.bt_query);
         bt_query.setOnClickListener(this);
+        iv_tu = (ImageView) findViewById(R.id.iv_tu);
+        iv_tu.setOnClickListener(this);
+        bt_login = (Button) findViewById(R.id.bt_login);
+        bt_login.setOnClickListener(this);
     }
 
     private void openEmm() {
@@ -197,7 +203,7 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
 //                downLoadUtils.start();
                 break;
             case R.id.bt_pasu:
-                downLoadUtils.stop();
+                int i1 = 1 / 0;
                 break;
             case R.id.bt_openxiaomi:
 //                uploadP();
@@ -209,9 +215,14 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
 //                }else {
 //                    AppUtil.getInstance().toast("应用未安装");
 //                }
+                createThread();
                 Intent intent = new Intent();
                 intent.setAction(Constants.MUSTINSTALLAPP);
-                intent.putExtra("count", 5);
+//                intent.putExtra("count", 5);
+                List<MustApp> list = new ArrayList<>();
+                MustApp mustApp = new MustApp("1", "2", "3", "4", "5", "6", "7");
+                list.add(mustApp);
+                intent.putExtra("applist", (Serializable) list);
                 sendBroadcast(intent);
                 break;
             case R.id.btn_skip:
@@ -270,7 +281,31 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
                 ArrayList<ThreadInfo> threadInfos = new DownLoadDao(DuanDianActivity.this).selectAll();
                 LogUtils.e("查询到记录：" + threadInfos.size());
                 break;
+            case R.id.bt_login:
+                startActivity(new Intent(this, PicActivity.class));
+                finish();
+                break;
         }
+    }
+
+    private void createThread() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            int i = 8 * 2 * 2 * 2;
+                            int i1 = i + i;
+                            int i2 = i + i;
+                            LogUtils.e(i1 + i2 + "");
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        ).start();
     }
 
     private void uploadP() {
@@ -291,8 +326,10 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (TextUtils.equals(action, Constants.MUSTINSTALLAPP)) {
-                int count = intent.getIntExtra("count", 0);
-                openAlert(count);
+//                int count = intent.getIntExtra("count", 0);
+                List<MustApp> applist = (List<MustApp>) intent.getSerializableExtra("applist");
+                LogUtils.e("收到广播数据：" + applist.get(0).toString());
+                openAlert(5);
             }
         }
     }
@@ -501,4 +538,5 @@ public class DuanDianActivity extends AppCompatActivity implements DownLoadUtils
 
         unregisterReceiver(mustInstallAppReceiver);
     }
+
 }

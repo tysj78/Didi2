@@ -14,8 +14,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class NoticeQueue {
 
-    private static final String TAG = "NoticeQueue";
-
     /**
      * 存储日志的队列
      */
