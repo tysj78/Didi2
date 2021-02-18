@@ -6,12 +6,14 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 //import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mars.xlog.Log;
@@ -20,6 +22,9 @@ import com.tencent.mars.xlog.Xlog;
 //import com.tinkerpatch.sdk.TinkerPatch;
 //import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
 import com.yangyong.didi2.BuildConfig;
+import com.yangyong.didi2.hook.HookProxy;
+import com.yangyong.didi2.hook.Hook_Drawable_draw;
+import com.yangyong.didi2.hook.ProxyWaterMark;
 import com.yangyong.didi2.util.CrashCollector;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.zlog.ZLog;
@@ -49,22 +54,18 @@ import xcrash.XCrash;
  * Created by yangyong on 2019/9/4/0004.
  */
 
-public class MyApp extends Application {
-    private static final String TAG = "yy";
+public class MyApp extends MultiDexApplication {
+    private static final String TAG = "yylog";
 
     //    private ApplicationLike tinkerApplicationLike;
-    public static Context mContext;
+    private static Context mContext;
     public static Activity mActivity;
     private String logPath = Environment.getExternalStorageDirectory().getPath() + "/xcrash";
-
-    public MyApp() {
-
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        mContext = getApplicationContext();
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
         regActivity();
@@ -88,6 +89,10 @@ public class MyApp extends Application {
 //        Debug.stopMethodTracing();
     }
 
+    public static Context getContext(){
+        return mContext;
+    }
+
     private void regActivity() {
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -102,7 +107,7 @@ public class MyApp extends Application {
 
             @Override
             public void onActivityResumed(Activity activity) {
-
+//                ProxyWaterMark.getInstance().hook(activity.getWindow());
             }
 
             @Override
@@ -134,10 +139,6 @@ public class MyApp extends Application {
         Xlog.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logPath, "LOGSAMPLE", 0, "");
     }
 
-    public Context getContext() {
-        return this;
-    }
-
     private void loadJiaMi() {
 //        new Thread(
 //                new Runnable() {
@@ -152,6 +153,8 @@ public class MyApp extends Application {
 //                    }
 //                }
 //        ).start();
+
+        net.sqlcipher.database.SQLiteDatabase.loadLibs(this);
     }
 
     private void sleep() {
@@ -161,6 +164,7 @@ public class MyApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        LogUtils.e("attachBaseContext");
 //        MultiDex.install(this);
 //        hookNotificationManager(base);
         //初始化xcrash
@@ -168,6 +172,14 @@ public class MyApp extends Application {
         initParameters.setAppVersion("1.1");
         initParameters.setLogDir(logPath);
         XCrash.init(this, initParameters);
+
+//        startHook();
+    }
+
+    private void startHook() {
+        Hook_Drawable_draw draw = new Hook_Drawable_draw();
+//        SystemActionSubject.getInstance(null).addHooks(draw);
+        HookProxy.findAndHookMethod(Drawable.class, "draw", Canvas.class, draw);
     }
 
     /**

@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 
 import java.io.File;
 import java.io.IOException;

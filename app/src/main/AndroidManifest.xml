@@ -95,9 +95,9 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
-        android:icon="@mipmap/qingge"
+        android:icon="@mipmap/jing"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/qingge"
+        android:roundIcon="@mipmap/jing"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -118,10 +118,9 @@
         <activity android:name=".activity.IoActivity" />
         <activity android:name=".activity.Main10Activity" />
         <activity android:name=".activity.LeakActivity" />
-        <activity android:name=".DownLoadActivity" />
+        <activity android:name=".activity.DownLoadActivity" />
         <activity android:name=".activity.DownActivity" />
         <activity android:name=".activity.JylyActivity" />
-        <activity android:name=".activity.XrecyclerActivity" />
         <activity android:name=".activity.GbActivity" />
         <activity android:name=".activity.Main12Activity" />
 
@@ -175,7 +174,7 @@
             android:enabled="true"
             android:process=":remote" />
         <service
-            android:name=".MyService"
+            android:name=".service.MyService"
             android:enabled="true"
             android:exported="false" />
 
@@ -184,7 +183,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
         <activity android:name=".testactivity.BActivity" />
-        <activity android:name=".activity.ConnectWifiActivity"></activity>
+        <activity android:name=".activity.ConnectWifiActivity" />
         <activity android:name=".activity.ImeiActivity" />
         <activity android:name=".activity.CodingActivity" />
         <activity android:name=".activity.WifiConnectActivity" />
@@ -212,12 +211,12 @@
         <!-- android:resource="@xml/didi_service" /> -->
         <!-- </service> -->
 
-        <activity android:name=".activity.OpenFuZhuActivity"></activity>
+        <activity android:name=".activity.OpenFuZhuActivity" />
         <activity android:name=".activity.ExceptionActivity" />
         <activity android:name=".activity.QueryCallActivity" />
-        <activity android:name=".activity.DateActivity"></activity>
+        <activity android:name=".activity.DateActivity" />
         <activity android:name=".activity.TimeChangeActivity" />
-        <activity android:name=".AlarmActivity" />
+        <activity android:name=".activity.AlarmActivity" />
 
         <receiver android:name=".broadcast.DidiAlarmReceiver">
             <intent-filter>
@@ -225,17 +224,16 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.PermissionActivity"></activity>
-        <activity android:name=".activity.JmActivity"></activity>
-        <activity android:name=".activity.RxActivity"></activity>
+        <activity android:name=".activity.PermissionActivity" />
+        <activity android:name=".activity.JmActivity" />
+        <activity android:name=".activity.RxActivity" />
         <activity android:name=".activity.SendDataActivity" />
         <activity android:name=".activity.RegActivity" />
         <activity android:name=".activity.MmCheckActivity" />
         <activity android:name=".activity.VideoActivity" />
         <activity android:name=".activity.DbActivity" />
-        <activity android:name=".activity.CheckActivity"></activity>
+        <activity android:name=".activity.CheckActivity" />
         <activity android:name=".activity.JiamiActivity" />
-        <activity android:name=".activity.DownLoadActivity" />
         <activity android:name=".activity.ZlogActivity" />
         <activity android:name=".activity.ZcActivity" />
         <activity android:name=".activity.Main7Activity" />
@@ -269,7 +267,7 @@
         <!-- </receiver> -->
 
         <service
-            android:name=".service.MyService"
+            android:name=".service.TimerService"
             android:enabled="true"
             android:exported="true" />
 
@@ -312,7 +310,7 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".activity.RecordActivity" />
-        <activity android:name=".activity.DuanDianActivity"></activity>
+        <activity android:name=".activity.DuanDianActivity" />
         <activity android:name=".activity.JiaKeActivity" />
         <activity android:name=".activity.InstallActivity" />
         <activity android:name=".activity.GestureActivity" />
@@ -347,15 +345,30 @@
         <activity android:name=".activity.SimulateGestureActivity" />
         <activity android:name=".activity.CameraActivity" />
         <activity android:name=".activity.ThreadActivity" />
-        <activity android:name=".activity.FragmentActivity" />
-        <activity android:name=".activity.PicActivity">
+        <activity android:name=".activity.FragmentActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.TuActivity"></activity>
+        <activity android:name=".activity.PicActivity" />
+        <activity android:name=".activity.TuActivity" />
+        <activity android:name=".activity.RobotActivity" />
+        <activity android:name=".activity.SocketTestActivity"></activity>
+        <activity android:name=".activity.third.IjkPlayerActivity" />
+
+        <service
+            android:name=".service.SendDataService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activity.two.TimetableActivity">
+
+        </activity>
+        <activity android:name=".activity.two.FileActivity">
+
+        </activity>
     </application>
 
 </manifest>

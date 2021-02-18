@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.yangyong.didi2.LiveCameraView;
+import com.yangyong.didi2.view.LiveCameraView;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;

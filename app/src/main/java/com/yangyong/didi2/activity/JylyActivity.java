@@ -3,8 +3,6 @@ package com.yangyong.didi2.activity;
 import android.app.ActivityManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,18 +13,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.ForegroundAppUtil;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.NavigableSet;
 import java.util.SortedMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 
 public class JylyActivity extends AppCompatActivity implements View.OnClickListener {

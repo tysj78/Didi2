@@ -4,11 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.yangyong.didi2.MyService;
-import com.yangyong.didi2.util.Constant;
-import com.yangyong.didi2.util.TimeUtils;
 //import android.util.TimeUtils;
 
 public class TimeChangeReceiver extends BroadcastReceiver {

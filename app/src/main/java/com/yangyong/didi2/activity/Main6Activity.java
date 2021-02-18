@@ -4,14 +4,12 @@ import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.yangyong.didi2.Constants;
-import com.yangyong.didi2.MyApp;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;
@@ -94,7 +92,7 @@ public class Main6Activity extends BaseActivity implements View.OnClickListener 
         DexClassLoader loader =
                 new DexClassLoader(dexPath, dexOutputDir, null, getClassLoader());
         try {
-            Class clz = loader.loadClass("com.yangyong.didi2.DexRes");
+            Class clz = loader.loadClass("com.yangyong.didi2.bean.DexRes");
             Method dexRes = clz.getDeclaredMethod("getString");
             Toast.makeText(this, (CharSequence) dexRes.invoke(clz.newInstance()), Toast.LENGTH_LONG)
                     .show();

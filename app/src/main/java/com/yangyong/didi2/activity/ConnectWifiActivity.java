@@ -1,9 +1,6 @@
 package com.yangyong.didi2.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -15,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.bean.WifiInfos;
 import com.yangyong.didi2.util.WifiUtils;

@@ -17,7 +17,6 @@ import android.os.Message;
 import android.os.Process;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.bean.MustApp;
 import com.yangyong.didi2.bean.ThreadInfo;
@@ -275,10 +274,10 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
                 }
                 break;
             case R.id.bt_clear:
-                new DownLoadDao(DuanDianActivity.this).deleteAll();
+                DownLoadDao.getInstance().deleteAll();
                 break;
             case R.id.bt_query:
-                ArrayList<ThreadInfo> threadInfos = new DownLoadDao(DuanDianActivity.this).selectAll();
+                ArrayList<ThreadInfo> threadInfos = DownLoadDao.getInstance().selectAll();
                 LogUtils.e("查询到记录：" + threadInfos.size());
                 break;
             case R.id.bt_login:

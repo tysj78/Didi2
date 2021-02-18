@@ -17,7 +17,7 @@ public class NetUtils {
     public String name = "yy";
 
     private NetUtils() {
-        context= MyApp.mContext;
+        context= MyApp.getContext();
     }
 
     public static NetUtils getInstance() {

@@ -1,18 +1,30 @@
 package com.yangyong.didi2.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by yangyong on 2019/12/27/0027.
  */
 
-public class User {
+public class User implements Serializable{
+
+    private static final long serialVersionUID = 6366653968169186218L;
     private String name;
     private String pwd;
     private String sex;
+    private String age;
 
     public User(String name, String pwd, String sex) {
         this.name = name;
         this.pwd = pwd;
         this.sex = sex;
+    }
+
+    public User(String name, String pwd, String sex,String age) {
+        this.name = name;
+        this.pwd = pwd;
+        this.sex = sex;
+        this.age = age;
     }
 
     public String getName() {
@@ -39,12 +51,21 @@ public class User {
         this.sex = sex;
     }
 
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
                 '}';
     }
 }

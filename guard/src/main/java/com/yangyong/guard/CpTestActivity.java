@@ -74,7 +74,8 @@ public class CpTestActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.bt_call:
                 Bundle bundle = new Bundle();
-                bundle.putString("key","setPer");
+//                bundle.putString("key","setPer");
+                bundle.putString("key","com.didi2.task");
                 contentResolver.call(uri,"","传过去的数据super",bundle);
                 break;
         }

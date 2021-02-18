@@ -4,6 +4,8 @@ buildscript {
     
     repositories {
         maven{url "http://maven.aliyun.com/nexus/content/groups/public/"}
+        //新版阿里公共仓库
+//        maven{url "https://maven.aliyun.com/repository/public/"}
         jcenter()
         maven{url "https://jitpack.io"}
         google()
@@ -22,6 +24,7 @@ buildscript {
 allprojects {
     repositories {
         maven{url "http://maven.aliyun.com/nexus/content/groups/public/"}
+//        maven{url "https://maven.aliyun.com/repository/public/"}
         jcenter()
         maven{url "https://jitpack.io"}
         google()

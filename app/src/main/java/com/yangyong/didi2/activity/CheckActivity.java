@@ -1,7 +1,6 @@
 package com.yangyong.didi2.activity;
 
 import android.content.Context;
-import android.os.Looper;
 import android.os.Process;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.AppSignCheck;
 

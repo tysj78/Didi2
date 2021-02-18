@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.R;
-import com.yangyong.didi2.service.MyService;
+import com.yangyong.didi2.service.TimerService;
 
 public class ImageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,7 +49,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnClickList
 //        intentFilter.addDataScheme("package");
 //        registerReceiver(appInstallReceiver, intentFilter);
         MyApp.mActivity = this;
-        Intent iIntent = new Intent(this, MyService.class);
+        Intent iIntent = new Intent(this, TimerService.class);
         startService(iIntent);
     }
 

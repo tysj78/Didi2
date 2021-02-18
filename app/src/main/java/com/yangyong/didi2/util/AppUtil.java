@@ -5,36 +5,46 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StatFs;
+import android.os.storage.StorageManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.R;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.MyApp;
-import com.yangyong.didi2.activity.DuanDianActivity;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
+import com.yangyong.didi2.intf.CallBack;
+import com.yangyong.didi2.view.MyDialog;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -44,19 +54,19 @@ import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Authenticator;
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -78,6 +88,7 @@ public class AppUtil {
 
     private Activity activity;
     private List<String> list;
+
     public Activity getActivity() {
         return activity;
     }
@@ -94,12 +105,26 @@ public class AppUtil {
         return list;
     }
 
+    private Set<String> dialogList = new HashSet<>();
+    private Set<MyDialog> dialogSet = new HashSet<>();
+    private int sum = 50;
+
+    public CallBack callBack;
+
+    public void regCallBack(CallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
     private AppUtil() {
 //        LogUtils.e("创建apputil");
-        list=new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            list.add("第" + i);
-        }
+//        list = new ArrayList<>();
+//        for (int i = 0; i < 30; i++) {
+//            list.add("第" + i);
+//        }
     }
 
 //    public static AppUtil getInstance() {
@@ -208,8 +233,8 @@ public class AppUtil {
             msg.setFrom(new InternetAddress("tysj78@yeah.net"));
             //收件人
 //            InternetAddress[] addresses = new InternetAddress[]{new InternetAddress("2553601218@qq.com")};jdxk007@163.com
-            msg.setRecipients(Message.RecipientType.CC, "tysj78@yeah.net");
-            msg.setRecipients(Message.RecipientType.TO, "2553601218@qq.com");
+            msg.setRecipients(javax.mail.Message.RecipientType.CC, "tysj78@yeah.net");
+            msg.setRecipients(javax.mail.Message.RecipientType.TO, "2553601218@qq.com");
             msg.setSubject(title);
             msg.setSentDate(new Date());
             msg.setText(content, "UTF-8");
@@ -559,7 +584,7 @@ public class AppUtil {
     }
 
     public void toast(String msg) {
-        Toast.makeText(MyApp.mContext, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApp.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -644,7 +669,7 @@ public class AppUtil {
 
     public boolean isNeedDownLoad(Context context) {
         try {
-            ArrayList<ThreadInfo> threadInfos = new DownLoadDao(context).selectAll();
+            ArrayList<ThreadInfo> threadInfos = DownLoadDao.getInstance().selectAll();
             for (int i = 0; i < threadInfos.size(); i++) {
                 ThreadInfo info = threadInfos.get(i);
                 long finished = info.getFinished();
@@ -787,12 +812,14 @@ public class AppUtil {
         LogUtils.e(line);
         return line;
     }
+
     /**
      * 拨打电话（直接拨打电话）
+     *
      * @param phoneNum 电话号码
      */
     @SuppressLint("MissingPermission")
-    public void callPhone(Context context, String phoneNum){
+    public void callPhone(Context context, String phoneNum) {
         Intent intent = new Intent(Intent.ACTION_CALL);
         Uri data = Uri.parse("tel:" + phoneNum);
         intent.setData(data);
@@ -804,5 +831,229 @@ public class AppUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");// yyyyMMdd HH:mm:ss
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
+    }
+
+    public void isPingSuccess(String m_strForNetAddress, Handler mHandler) {
+        StringBuffer tv_PingInfo = new StringBuffer();
+        String pingResult = "";
+        try {
+
+            Process p = Runtime.getRuntime()
+                    .exec("/system/bin/ping -c 5 "
+                            + m_strForNetAddress); // 10.83.50.111
+            // m_strForNetAddress
+            int status = p.waitFor();
+            String result = "";
+            if (status == 0) {
+                result = "success";
+            } else {
+                result = "failed";
+                android.os.Message msg = new android.os.Message();
+                msg.obj = result;
+                msg.what = 3;
+                mHandler.sendMessage(msg);
+                return;
+            }
+//            String lost = new String();
+//            String delay = new String();
+            BufferedReader buf = new BufferedReader(new InputStreamReader(
+                    p.getInputStream()));
+
+            String str = new String();
+            // 读出所有信息并显示
+            while ((str = buf.readLine()) != null) {
+                str = str + "\r\n";
+                tv_PingInfo.append(str);
+            }
+
+            pingResult = tv_PingInfo.toString();
+            android.os.Message msg = new android.os.Message();
+            msg.obj = pingResult;
+            msg.what = 4;
+            mHandler.sendMessage(msg);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            android.os.Message msg = new android.os.Message();
+            msg.obj = ex.toString();
+            msg.what = 4;
+//            pingResult = "拼通了，但是有异常";
+            mHandler.sendMessage(msg);
+        }
+
+    }
+
+    /**
+     * 设置透明状态栏
+     *
+     * @param activity 目标界面
+     */
+    public void setTransparentForWindow(@NonNull Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+            activity.getWindow()
+                    .getDecorView()
+                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            activity.getWindow()
+                    .setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public int getStatusBarHeight(Context context) {
+        try {
+            Resources resources = context.getResources();
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            int height = resources.getDimensionPixelSize(resourceId);
+            return height;
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
+        return 0;
+    }
+
+    /**
+     * 是否在调试
+     *
+     * @return
+     */
+    public boolean isDdBug() {
+        return Debug.isDebuggerConnected();
+    }
+
+    /*
+     * 手机存储空间或者SD卡已用空间
+     */
+    public String getAvailDataSize() {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            //内部存储
+            File path = Environment.getExternalStorageDirectory();
+            //sd
+//            File path = new File("/mnt/ext_sdcard");
+            StatFs stat = new StatFs(path.getPath());
+//            long blockSize = stat.getBlockSize();
+            long blockSize = stat.getBlockSizeLong();
+            long totalBlocks = stat.getBlockCountLong();
+            LogUtils.e("blockSize*totalBlocks--->" + blockSize + "==" + totalBlocks + "==" + blockSize * totalBlocks);
+//            LogUtils.i(TAG, "blockSize*totalBlocks--->" + Formatter.formatFileSize(mContext, blockSize * totalBlocks));
+            LogUtils.e("blockSize*totalBlocks--->" + fromatG(blockSize * totalBlocks));
+//			return Formatter.formatFileSize(mContext, blockSize * totalBlocks);
+            long availableBlocks = stat.getAvailableBlocks();
+
+            long availDataSize = (blockSize * totalBlocks) - (blockSize * availableBlocks);
+            LogUtils.e("availableBlocks--->" + fromatG(blockSize * availableBlocks));
+            return availDataSize + "";
+        } else {
+            //不存在SD卡
+            return "0";
+        }
+
+    }
+
+    long fromatG(long b) {
+        long l = b / 1024 / 1024 / 1024;
+        return l;
+    }
+
+    public String getSdPath(Context context) {
+//        StorageManager sm = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+//        String[] paths = (String[]) sm.getClass().getMethod("getVolumePaths", null).invoke(sm, null);
+
+        File storageDir = new File("/mnt/ext_sdcard");
+        if (storageDir.isDirectory()) {
+            LogUtils.e("sdpath:" + storageDir.getAbsolutePath());
+            return storageDir.getAbsolutePath();
+//            String[] dirList = storageDir.list();
+            //TODO some type of selecton method?
+//            for (int i = 0; i < dirList.length; i++) {
+//                LogUtils.e("sd:" + dirList[i]);
+//                if (dirList[i].equals("sdcard")) {
+//
+//                }
+//            }
+        }
+        return "";
+    }
+
+    public void getSize(Context context) {
+        String sdPath = getSdPath(context);
+        File file = new File(sdPath);
+        long totalSpace = file.getTotalSpace();
+        long l = fromatG(totalSpace);
+        LogUtils.e(l + "G");
+    }
+
+    public void showDialog(Context context, String pkg) {
+        try {
+
+            //查询内存中是否有这个dialog，如果有这个dialog就将它取消掉
+            Iterator<MyDialog> iterator = dialogSet.iterator();
+//            while (iterator.hasNext()) {
+//                MyDialog dialog = iterator.next();
+//                String pkg1 = dialog.getPkg();
+//                if (pkg.equals(pkg1)) {
+//                    dialog.cancel();
+//                    LogUtils.e("取消旧的dialog");
+//                }
+//            }
+            long startTime = System.currentTimeMillis();
+            for (int i = 0; i < dialogSet.size(); i++) {
+                MyDialog dialog = iterator.next();
+                String pkg1 = dialog.getPkg();
+                if (pkg.equals(pkg1)) {
+                    dialog.cancel();
+                    LogUtils.e("取消旧的dialog");
+                    iterator.remove();
+                    i--;
+                }
+            }
+            long currentTimeMillis = System.currentTimeMillis();
+            LogUtils.e("清理用时：" + (currentTimeMillis - startTime));
+            final MyDialog myDialog = new MyDialog(context, R.style.myDialogTheme);
+            myDialog.setContentView(R.layout.dialog);
+
+            TextView ins_no = myDialog.findViewById(R.id.tv_install_no);
+            TextView ins_ok = myDialog.findViewById(R.id.tv_install_ok);
+            TextView ins_tit = myDialog.findViewById(R.id.tv_dialog_title);
+
+            myDialog.setPkg(pkg);
+            dialogList.add(pkg);
+            ins_tit.setText(pkg + "\n" + pkg + "为必装应用，是否下载并安装？");
+
+            ins_no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myDialog.cancel();
+                }
+            });
+
+            ins_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myDialog.cancel();
+
+                }
+            });
+            myDialog.show();
+            dialogSet.add(myDialog);
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
+
+    }
+
+    public synchronized void writeDate(int i) {
+        try {
+            Thread.sleep(1000);
+            sum = sum - i;
+            LogUtils.e("写入数据完成");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

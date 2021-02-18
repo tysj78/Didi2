@@ -32,6 +32,7 @@
 -keep class com.baidu.**{*;}
 -keep class org.apache.commons.io.**{*;}
 -keep class com.google.gson.**{*;}
+-keep class net.sqlcipher.**{*;}
 #-keep com.jwenfeng.**{*;}
 #-keep com.bumptech.**{*;}
 #cypto
@@ -47,3 +48,5 @@
 #-keep class com.mobilewise.emmstore.resmodel.**{*;}
 #-keep class com.aixunyun.product.imserver.comm.**{*;}
 #-keep class com.aixunyun.product.imclient.api.IMConfig{*;}
+#反射
+-keep class com.yangyong.didi2.hook.**{*;}

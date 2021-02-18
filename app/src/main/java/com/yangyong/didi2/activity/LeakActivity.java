@@ -2,7 +2,6 @@ package com.yangyong.didi2.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -22,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
 
 import java.io.File;

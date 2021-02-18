@@ -176,11 +176,11 @@ public class FileUtils {
 
     public static void getFile(Context context) {
 //        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk";
-//        LogUtils.e(path);
-//        File file = new File(path + "/recordbox-v3.0.1478.apk");
+//        LogUtils.e(path);com.iflytek.recinbox
+//        File file = new File(path + "/recordbox-v3.0.1478.apk");com.yangyong.aotosize
         File file = null;
         try {
-            file = new File(context.getPackageManager().getApplicationInfo("com.iflytek.recinbox", 0).sourceDir);
+            file = new File(context.getPackageManager().getApplicationInfo("com.yangyong.aotosize", 0).sourceDir);
             String md5 = getFileMD5(file);
             LogUtils.e("获取md5:" + md5);
         } catch (PackageManager.NameNotFoundException e) {
@@ -226,4 +226,44 @@ public class FileUtils {
         return stringBuilder.toString();
     }
 
+    public static void copyFile(final String source, final String target) {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        File file = new File(source);
+                        InputStream is = null;
+                        FileOutputStream os = null;
+                        try {
+                            is = new FileInputStream(file);
+                            os = new FileOutputStream(target);
+                            int len;
+                            byte[] b = new byte[1024];
+                            while ((len = is.read(b)) != -1) {
+                                os.write(b, 0, len);
+                            }
+                            LogUtils.e("复制文件完成..");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            LogUtils.e("复制文件失败：" + e.toString());
+                        } finally {
+                            if (is != null) {
+                                try {
+                                    is.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (os != null) {
+                                try {
+                                    os.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
+        ).start();
+    }
 }

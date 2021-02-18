@@ -1,13 +1,16 @@
 package com.yangyong.didi2;
 
+import android.content.Intent;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.yangyong.didi2.bean.CallLogInfo;
 import com.yangyong.didi2.bean.CallLogInfos;
 import com.yangyong.didi2.util.EncodingDetect;
 import com.yangyong.didi2.util.LogUtils;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.helper.StringUtil;
@@ -23,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +35,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Handler;
 
 import io.reactivex.Observable;
@@ -38,7 +43,9 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import okhttp3.FormBody;
 
+import static com.baidu.location.h.k.e;
 import static com.baidu.location.h.k.i;
+import static com.baidu.location.h.k.s;
 import static org.junit.Assert.*;
 
 /**
@@ -51,6 +58,8 @@ public class ExampleUnitTest {
     private ArrayList<Integer> lists;
     private boolean isTrue;
     private String str;
+    private AtomicInteger mWriteCounter = new AtomicInteger();//自增长类
+    private int aa=30;
 
     @Test
     public void addition_isCorrect() throws Exception {
@@ -184,14 +193,126 @@ public class ExampleUnitTest {
 //        test28();
 //        test29();
 //        test30();
-        test31();
+//        test31();
+//        test33();
+//        test35();
+//        test36();
+//        test37();
+        test38();
     }
 
-    private void test31() {
-        String t1="55";
-        if (!t1.equals("25")&&!t1.equals("35")) {
-            System.out.println("不符合");
+    private void test38() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("当前线程id:" + Thread.currentThread().getId());
+                        write(10);
+                    }
+                }
+        ).start();
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+//                        mWriteCounter.incrementAndGet();
+                        System.out.println("当前线程id:" + Thread.currentThread().getId());
+                        write(5);
+                    }
+                }
+        ).start();
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+//                        mWriteCounter.incrementAndGet();
+                        System.out.println("当前线程id:" + Thread.currentThread().getId());
+                        write(2);
+                    }
+                }
+        ).start();
+//        new Thread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mWriteCounter.incrementAndGet();
+//                        LogUtils.e("当前线程id:" + Thread.currentThread().getId());
+//
+//                    }
+//                }
+//        ).start();
+//        new Thread(
+//                new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mWriteCounter.incrementAndGet();
+//                        LogUtils.e("当前线程id:" + Thread.currentThread().getId());
+//
+//                    }
+//                }
+//        ).start();
+    }
+
+    synchronized void write(int sum) {
+        try {
+//            if (mWriteCounter.incrementAndGet() == 1) {
+                aa=aa-sum;
+                Thread.sleep(1000);
+                System.out.println("数据库写入完成");
+//                mWriteCounter.decrementAndGet();
+//            }
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
         }
+    }
+
+    private void test37() {
+        String aa = "https://192.168.220.92:8443/rest/client/loadfile.do?file=/b9a636a6-9fdb-492d-ab21-a7c9ccd78852/com.yangyong.didi2.apk&name=靖靖靖.apk";
+        int indexOf = aa.indexOf("/rest");
+        System.out.println(indexOf);
+        String s1 = aa.substring(indexOf);
+        System.out.println(s1);
+    }
+
+    private void test36() {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(256, "emm");
+        map.put(257, "emm北京");
+        String val = map.get(257);
+        System.out.println(val);
+    }
+
+    private void test35() {
+        String str = "change user is not allowed, user is (tysj78).";
+        int start = str.indexOf("(");
+        int end = str.indexOf(")");
+        String substring = str.substring(start + 1, end);
+
+        System.out.println(substring);
+    }
+
+    private void test33() {
+        for (int i = 0; i < 10; i++) {
+//            int number = new Random().nextInt(100) + 1;
+
+            if (i % 2 == 0) {
+                System.out.println(i);
+            }
+
+
+        }
+    }
+
+
+    private void test31() {
+//        String t1="55";
+//        if (!t1.equals("25")&&!t1.equals("35")) {
+//            System.out.println("不符合");
+//        }
+        char[] chars = "你好".toCharArray();
+        String string = new String(chars);
+        System.out.println(string);
+        Arrays.fill(chars, ' ');
     }
 
     private void test30() {

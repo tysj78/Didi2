@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.yangyong.didi2.activity.CameraActivity">
 
-    <com.yangyong.didi2.LiveCameraView
+    <com.yangyong.didi2.view.LiveCameraView
         android:id="@+id/sv_image"
         android:layout_width="50dp"
         android:layout_height="50dp"

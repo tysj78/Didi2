@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,15 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
 import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
-import com.yangyong.didi2.MyService;
+import com.yangyong.didi2.service.MyService;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.adapter.PicAdapter;
 import com.yangyong.didi2.bean.MeiTu;
-import com.yangyong.didi2.bean.MeiTuBean;
 import com.yangyong.didi2.broadcast.NteWorkChangeReceive;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;
@@ -34,7 +31,6 @@ import com.yangyong.didi2.util.SpUtils;
 import com.yangyong.didi2.view.MyHeadView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -49,7 +45,8 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
     private Button bt_delete;
     private Button bt_clear;
     //    private String url = "http://quan.suning.com/getSysTime.do";
-    private String url = "http://api.tianapi.com/meinv/index";
+//    private String url = "http://api.tianapi.com/meinv/index";
+    private String url = "http://39.105.99.227/api/Images/0";
     private String queryUrl = "http://api.tianapi.com/txapi/htmlpic/index";
     private String meituUrl = "https://m.tupianzj.com/meinv/mm/meituwang/";
     Object object;
@@ -65,6 +62,7 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
     private ImageView img;
     private Button bt_load;
     private int mPage = 1;
+    private String question = "CDJYZVEo7o7CaZW5Qx+89UxPI6eIwNwbqxDSoSe1BtDOsgEEXGiNfbAt4B31VvwQ";
     private Context mContext;
 
     @Override
@@ -74,7 +72,7 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
         mContext = this;
         initView();
         initRv();
-        initData();
+//        initData();
         PermissionUtils.requestPermissions(this, per, new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
@@ -187,18 +185,20 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
 
     private void initData() {
         long longValue = SpUtils.getLongValue(this, SpUtils.RUNCOUNT);
-        if (longValue >= 5) {
+        if (longValue >= 100) {
             AppUtil.getInstance().toast("运行次数已达上限，请联系管理员开通vip");
             return;
         }
-        HashMap<String, String> params = new HashMap<>();
-        params.put("key", "e3d610dde0076bbc53d1421b12cfee35");
-        params.put("url", meituUrl);
-        OkHttpUtil.getInstance().doPost(queryUrl, params, new OkHttpUtil.DataCallBack() {
+//        HashMap<String, String> params = new HashMap<>();
+//        String decrypt = AesUtils.decrypt(question);
+//        params.put("key", decrypt);
+//        params.put("url", meituUrl);
+//        params.put("page", "0");
+        OkHttpUtil.getInstance().doGet(url,new OkHttpUtil.DataCallBack() {
             @Override
             public void onSuccess(String s) {
                 try {
-                    LogUtils.e("返回数据：" + s);
+                    LogUtils.e("返回数据：" + s.length()+s);
                     Gson gson = new Gson();
                     MeiTu meiTuBean = gson.fromJson(s, MeiTu.class);
                     int code = meiTuBean.getCode();
@@ -238,6 +238,61 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
         });
 //        LogUtils.e("当前数据量：" + list.size());
     }
+
+//    private void initData() {
+//        long longValue = SpUtils.getLongValue(this, SpUtils.RUNCOUNT);
+//        if (longValue >= 5) {
+//            AppUtil.getInstance().toast("运行次数已达上限，请联系管理员开通vip");
+//            return;
+//        }
+//        HashMap<String, String> params = new HashMap<>();
+//        String decrypt = AesUtils.decrypt(question);
+//        params.put("key", decrypt);
+//        params.put("url", meituUrl);
+//        OkHttpUtil.getInstance().doPost(queryUrl, params, new OkHttpUtil.DataCallBack() {
+//            @Override
+//            public void onSuccess(String s) {
+//                try {
+//                    LogUtils.e("返回数据：" + s.length()+s);
+//                    Gson gson = new Gson();
+//                    MeiTu meiTuBean = gson.fromJson(s, MeiTu.class);
+//                    int code = meiTuBean.getCode();
+//                    if (code == 200) {
+//                        long longValue = SpUtils.getLongValue(mContext, SpUtils.RUNCOUNT);
+//                        longValue++;
+//                        SpUtils.saveLongValue(mContext, SpUtils.RUNCOUNT, longValue);
+//                        List<MeiTu.NewslistBean> newslist = meiTuBean.getNewslist();
+////                        if (page == 1) {
+////                            list.clear();
+////                            if (prl_content != null) {
+////                                prl_content.finishRefresh();
+////                            }
+////                        } else {
+////                            if (prl_content != null) {
+////                                prl_content.finishLoadMore();
+////                            }
+////                        }
+//                        list.clear();
+//                        list.addAll(newslist);
+//                        if (mPicAdapter != null) {
+//                            LogUtils.e("更新列表：");
+//                            mPicAdapter.notifyDataSetChanged();
+//                        }
+//                    } else {
+//                        LogUtils.e("获取数据失败:" + code + "==" + meiTuBean.getMsg());
+//                    }
+//                } catch (Exception e) {
+//                    LogUtils.e("Exception: " + e.toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(String f) {
+//                LogUtils.e(f);
+//            }
+//        });
+////        LogUtils.e("当前数据量：" + list.size());
+//    }
 
     private void initRv() {
         layoutManager = new LinearLayoutManager(this);
@@ -307,7 +362,8 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
                 break;
             case R.id.bt_load:
 //                Glide.with(this).load("http://cn.bing.com/az/hprichbg/rb/Dongdaemun_ZH-CN10736487148_1920x1080.jpg").into(img);
-                startActivity(new Intent(this, TuActivity.class));
+//                startActivity(new Intent(this, TuActivity.class));
+                uploadP();
                 break;
         }
     }
@@ -393,5 +449,16 @@ public class PicActivity extends BaseActivity implements View.OnClickListener, O
     protected void onDestroy() {
         super.onDestroy();
 //        unregisterReceiver(nteWorkChangeReceive);
+    }
+
+    private void uploadP() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        OkHttpUtil.getInstance().uploadFile();
+                    }
+                }
+        ).start();
     }
 }

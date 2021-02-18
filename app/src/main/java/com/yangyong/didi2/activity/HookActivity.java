@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.yangyong.didi2.NotificationUtils;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.util.AppExitUtils;
 import com.yangyong.didi2.util.HookSetOnClickListenerHelper;

@@ -19,7 +19,7 @@ public class MeiTu {
 
     private int code;
     private String msg;
-    private List<NewslistBean> newslist;
+    private List<NewslistBean> newlist;
 
     public int getCode() {
         return code;
@@ -38,11 +38,11 @@ public class MeiTu {
     }
 
     public List<NewslistBean> getNewslist() {
-        return newslist;
+        return newlist;
     }
 
     public void setNewslist(List<NewslistBean> newslist) {
-        this.newslist = newslist;
+        this.newlist = newslist;
     }
 
     public static class NewslistBean {

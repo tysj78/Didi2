@@ -16,7 +16,7 @@ import com.yangyong.didi2.util.LogUtils;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "didi2.db";
-    private static final int DATABASE_VERSION = 1003;
+    private static final int DATABASE_VERSION = 1002;
     public static final String LEGION_TABLE_NAME = "legion";
 
     public DbHelper(Context context) {
@@ -52,8 +52,11 @@ public class DbHelper extends SQLiteOpenHelper {
         try {
             LogUtils.e("updateVersion2");
             String sql = "alter table legion add column team varchar(100)";
+            String sql1 = "alter table legion add column age integer";
             database.execSQL(sql);
+            database.execSQL(sql1);
         } catch (Exception e) {
+
             LogUtils.e("Exception: " + e.toString());
         }
     }

@@ -28,7 +28,7 @@ public class NoticeDispatcher extends Thread {
             switch (msg.what) {
                 case 1:
                     String toa = (String) msg.obj;
-                    Toast.makeText(MyApp.mContext, toa, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getContext(), toa, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;

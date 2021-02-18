@@ -69,7 +69,7 @@ public class NetInfoReceiver extends BroadcastReceiver {
 
     private void reDownLoad() {
         try {
-            ArrayList<ThreadInfo> threadInfos = new DownLoadDao(MyApp.mContext).selectAll();
+            ArrayList<ThreadInfo> threadInfos = DownLoadDao.getInstance().selectAll();
             for (int i = 0; i < threadInfos.size(); i++) {
                 ThreadInfo info = threadInfos.get(i);
                 long finished = info.getFinished();

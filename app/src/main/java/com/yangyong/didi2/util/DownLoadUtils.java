@@ -55,7 +55,7 @@ public class DownLoadUtils {
 //        this.handler = new Handler();
 //        this.name = path.substring(path.lastIndexOf("/") + 1);
         rootFile = FileUtils.getRootFile();
-        mDownLoadDao = new DownLoadDao(MyApp.mContext);
+        mDownLoadDao = DownLoadDao.getInstance();
 //        executor = new ThreadPoolExecutor(5, 5, 50, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3000));
         //替换为cache线程池
         executor = Executors.newCachedThreadPool();

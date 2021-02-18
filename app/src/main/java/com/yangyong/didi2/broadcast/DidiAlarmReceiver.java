@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 
 /**
  * Created by yangyong on 2019/12/10/0010.

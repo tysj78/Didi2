@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.yangyong.didi2.MyService;
+import com.yangyong.didi2.service.MyService;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.intf.TimeChangListener;
-import com.yangyong.didi2.util.Constant;
 import com.yangyong.didi2.util.SpUtils;
 
 import java.util.Timer;

@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.SystemClock;
 
+import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.util.LogUtils;
 
@@ -21,16 +23,21 @@ public class DownLoadDao {
 
     private SQLiteDatabase mDatabase;
     private final String THREAD_INFO = "thread_info";
-    private DownLoadHelper downLoadHelper;
+    //    private DownLoadHelper downLoadHelper;
+    private static DownLoadDao instance = new DownLoadDao(MyApp.getContext());
 
-    public DownLoadDao(Context context) {
-        downLoadHelper = new DownLoadHelper(context);
+    private DownLoadDao(Context context) {
+        DownLoadHelper downLoadHelper = new DownLoadHelper(context);
         mDatabase = downLoadHelper.getWritableDatabase();
     }
 
-    public void closeDb() {
-        downLoadHelper = null;
-        mDatabase = null;
+//    public void closeDb() {
+//        downLoadHelper = null;
+//        mDatabase = null;
+//    }
+
+    public static DownLoadDao getInstance() {
+        return instance;
     }
 
     //增
@@ -41,6 +48,7 @@ public class DownLoadDao {
         values.put("end", info.getEnd());
         values.put("finished", info.getFinished());
         mDatabase.insert(THREAD_INFO, null, values);
+        LogUtils.e("插入数据完成:" + info.getUrl());
     }
 
     //删
@@ -64,11 +72,19 @@ public class DownLoadDao {
     }
 
     //查
-    public boolean exists(String url) {
-        Cursor cursor = mDatabase.query(THREAD_INFO, null, "url=?", new String[]{url}, null, null, null);
-        boolean b = cursor.moveToNext();
-        cursor.close();
-        return b;
+    public synchronized boolean exists(String url) {
+        Cursor cursor = null;
+        try {
+            cursor = mDatabase.query(THREAD_INFO, null, "url=?", new String[]{url}, null, null, null);
+            return cursor.moveToNext();
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return false;
     }
 
     //查
@@ -98,6 +114,7 @@ public class DownLoadDao {
 
     //查
     public ArrayList<ThreadInfo> selectAll() {
+        LogUtils.e("读取数据库信息...");
         Cursor cursor = null;
         ArrayList<ThreadInfo> threadInfos = new ArrayList<>();
         ThreadInfo threadInfo = null;

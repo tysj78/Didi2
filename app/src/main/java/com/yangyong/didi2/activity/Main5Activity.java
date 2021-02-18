@@ -3,14 +3,12 @@ package com.yangyong.didi2.activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -20,14 +18,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yangyong.didi2.MyApp;
-import com.yangyong.didi2.MyService;
 import com.yangyong.didi2.R;
 import com.yangyong.didi2.activity.test.T1Activity;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;
-import com.yangyong.didi2.util.SpUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +64,7 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
         setContentView(R.layout.activity_main5);
         initView();
         LogUtils.e("onCreate");
-        mDownLoadDao = new DownLoadDao(MyApp.mContext);
+        mDownLoadDao = DownLoadDao.getInstance();
     }
 
     /**
@@ -113,7 +109,7 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_ss:
-//                Intent start = new Intent(this, MyService.class);
+//                Intent start = new Intent(this, TimerService.class);
 //                if (Build.VERSION.SDK_INT >= 26) {
 //                    startForegroundService(start);
 //                }
@@ -130,7 +126,7 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.bt_tiao:
 //                startActivity(new Intent(this, T1Activity.class));
-//                stopService(new Intent(this, MyService.class));
+//                stopService(new Intent(this, TimerService.class));
                 AppUtil.getInstance().clearAppData(this);
 //                mDownLoadDao.closeDb();
 //                mDownLoadDao = null;
@@ -160,7 +156,7 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initDb() {
-        mDownLoadDao = new DownLoadDao(MyApp.mContext);
+        mDownLoadDao = DownLoadDao.getInstance();
     }
 
     private void sendMsg() {

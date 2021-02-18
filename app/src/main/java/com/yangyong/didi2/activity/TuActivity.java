@@ -16,10 +16,11 @@ public class TuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tu);
         initView();
-        String url = getIntent().getStringExtra("url");
-        if (!url.isEmpty()) {
-            Glide.with(this).load(url).into(img);
-        }
+//        String url = getIntent().getStringExtra("url");
+//        String url = "";
+//        if (!url.isEmpty()) {
+            Glide.with(this).load(R.drawable.jietu).into(img);
+//        }
     }
 
     private void initView() {

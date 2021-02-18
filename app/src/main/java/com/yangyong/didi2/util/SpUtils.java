@@ -12,6 +12,7 @@ public class SpUtils {
     public static String SAVETIME = "savetime";
     public static String DIDISP = "didi_sp";
     public static String LOGIN = "login";
+    public static String UPLOADSTATUS = "uploadstatus";
 
     public static int getValue(Context context, String key) {
         SharedPreferences sp = context.getSharedPreferences("didi_sp", 0);

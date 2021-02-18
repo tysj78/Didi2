@@ -1,5 +1,6 @@
 package com.yangyong.didi2.activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,20 +19,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.yangyong.didi2.Constants;
+import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.R;
+import com.yangyong.didi2.activity.third.IjkPlayerActivity;
+import com.yangyong.didi2.util.PermissionUtils;
+
+import io.reactivex.functions.Consumer;
 
 public class RegActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText main_pwd;
     private Button main_sure;
     private int GPS_REQUEST_CODE = 1;
+    private String[] strings = {
+            Manifest.permission.ACCESS_FINE_LOCATION,//定位
+            Manifest.permission.ACCESS_COARSE_LOCATION,//定位
+            Manifest.permission.READ_EXTERNAL_STORAGE,//文件
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg);
         initView();
+
         openGPSSEtting();
     }
 
@@ -46,15 +57,28 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_sure:
-                String s = main_pwd.getText().toString();
-                if (s.equals("000001")) {
-//                    preferences.edit().putBoolean("isLogin", true).commit();
-                    startActivity(new Intent(RegActivity.this, SendDataActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(RegActivity.this, "密码错误，登入失败", Toast.LENGTH_SHORT).show();
-                }
+                PermissionUtils.requestPermissions(this, strings, new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            login();
+                        } else {
+                            Toast.makeText(RegActivity.this, "开启权限完成登录", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
+        }
+    }
+
+    private void login() {
+        String s = main_pwd.getText().toString();
+        if (s.equals("000001")) {
+//                    preferences.edit().putBoolean("isLogin", true).commit();
+            startActivity(new Intent(RegActivity.this, IjkPlayerActivity.class));
+            finish();
+        } else {
+            Toast.makeText(RegActivity.this, "密码错误，登入失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -137,5 +161,14 @@ public class RegActivity extends AppCompatActivity implements View.OnClickListen
             Log.e("yyy", "getRecords: " + title + url);
             System.out.println(title + url);
         }
+    }
+
+    private void initPer() {
+        PermissionUtils.requestPermissions(this, strings, new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+
+            }
+        });
     }
 }

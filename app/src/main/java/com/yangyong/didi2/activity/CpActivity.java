@@ -92,7 +92,11 @@ public class CpActivity extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.bt_start:
                 Intent intent = new Intent(this, MyIntentService.class);
-                intent.setAction("writefile");
+                intent.setAction("com.didi2.task1");
+                startService(intent);
+                intent.setAction("com.didi2.task2");
+                startService(intent);
+                intent.setAction("com.didi2.task3");
                 startService(intent);
                 break;
             case R.id.bt_add1:
