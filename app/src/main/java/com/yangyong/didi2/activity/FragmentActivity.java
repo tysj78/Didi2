@@ -1,9 +1,15 @@
 package com.yangyong.didi2.activity;
 
+import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,8 +23,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +37,18 @@ import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.dbdao.DownLoadDao;
 import com.yangyong.didi2.fragment.HomeFragment;
 import com.yangyong.didi2.fragment.MyFragment;
-import com.yangyong.didi2.intf.CallBack;
+import com.yangyong.didi2.intf.ProgressCallBack;
 import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.DownLoadUtils;
+import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;
+import com.yangyong.didi2.util.PermissionUtils;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import io.reactivex.functions.Consumer;
 
 public class FragmentActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,7 +79,16 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
     private MustInstallAppReceiver mustInstallAppReceiver;
     private NteWorkChangeReceive nteWorkChangeReceive;
     private TextView tv_net_status;
-
+    private Button bt_down_app;
+    private String downLoadPath1 = "https://imtt.dd.qq.com/16891/apk/7884ACB68E413A5B22A7FE044DD3BF3C.apk";
+    private Button bt_stop_app;
+    private Button bt_reset_app;
+    private int CORE_THREAD = 2;
+    private ProgressBar pb_load;
+    private static final String ID = "DIDI2";
+    private static final CharSequence NAME = "下载进度更新";
+    private final int id=107;
+    private RemoteViews remoteViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +98,23 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         initEvent();
         setFg();
 
-        regReceiver();
+//        regReceiver();
         regCb();
     }
 
     private void regCb() {
-        AppUtil.getInstance().regCallBack(new CallBack() {
+//        AppUtil.getInstance().regCallBack(new CallBack() {
+//            @Override
+//            public void doEvent(String str) {
+//                tv_net_status.setText(str);
+//            }
+//        });
+        AppUtil.getInstance().regProCallBack(new ProgressCallBack() {
             @Override
-            public void doEvent(String str) {
-                tv_net_status.setText(str);
+            public void updateProgress(int pro) {
+                LogUtils.e("回调进度："+pro);
+                pb_load.setProgress(pro);
+                sendMsg(pro);
             }
         });
     }
@@ -202,6 +234,16 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         et_input.setOnClickListener(this);
         tv_net_status = (TextView) findViewById(R.id.tv_net_status);
         tv_net_status.setOnClickListener(this);
+        bt_down_app = (Button) findViewById(R.id.bt_down_app);
+        bt_down_app.setOnClickListener(this);
+        bt_stop_app = (Button) findViewById(R.id.bt_stop_app);
+        bt_stop_app.setOnClickListener(this);
+        bt_reset_app = (Button) findViewById(R.id.bt_reset_app);
+        bt_reset_app.setOnClickListener(this);
+        pb_load = (ProgressBar) findViewById(R.id.pb_load);
+        pb_load.setOnClickListener(this);
+
+        remoteViews = new RemoteViews(getPackageName(), R.layout.progress_layout);
     }
 
     @Override
@@ -216,12 +258,51 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
                 DownLoadDao.getInstance().selectAll();
                 break;
             case R.id.bt_alert:
-//                AppUtil.getInstance().showDialog(this, "应用宝");
-                for (int i = 0; i < 10; i++) {
-                    test1(i);
-                }
+                AppUtil.getInstance().showDialog(this, "应用宝");
+//                for (int i = 0; i < 10; i++) {
+//                    test1(i);
+//                }
+                break;
+            case R.id.bt_down_app:
+                PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            DownLoadUtils.getInstance().start(downLoadPath1);
+//                            threadDown();
+                        }
+                    }
+                });
+//                processDownload(null,10159880,null);
+                break;
+            case R.id.bt_stop_app:
+                DownLoadUtils.getInstance().stop();
+                break;
+            case R.id.bt_reset_app:
+                DownLoadUtils.getInstance().reSet();
                 break;
         }
+    }
+
+    private void threadDown() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    LogUtils.e("开始多线程下载");
+                    long contentLength = DownLoadUtils.getInstance().getContentLength(downLoadPath1);
+                    File rootFile = FileUtils.getRootFile();
+                    String name = downLoadPath1.substring(downLoadPath1.lastIndexOf("/") + 1);
+                    File file = new File(rootFile, name); //很正常的File() 方法
+                    new RandomAccessFile(file, "rwd").setLength(contentLength);//实例化一下我们的RandomAccessFile()方法
+
+                    processDownload(downLoadPath1, contentLength, null);
+                } catch (Exception e) {
+                    LogUtils.e("Exception: " + e.toString());
+                }
+            }
+        }).start();
+
     }
 
     private void sendBroadcast1() {
@@ -373,6 +454,54 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
 //        unregisterReceiver(mustInstallAppReceiver);
-        unregisterReceiver(nteWorkChangeReceive);
+//        unregisterReceiver(nteWorkChangeReceive);
+    }
+
+    private void processDownload(String url, long length, DownLoadUtils.IProgress callback) {
+        //100    2    50    0-49   50-99
+        long threadDownloadSize = length / CORE_THREAD;
+        for (int i = 0; i < CORE_THREAD; i++) {
+            long startSize = i * threadDownloadSize;
+            long endSize = 0;
+            if (i == CORE_THREAD - 1) {
+                endSize = length - 1;
+            } else {
+                endSize = (i + 1) * threadDownloadSize - 1;
+            }
+            LogUtils.e("线程详细数据第" + i + "个线程   " + "startSize : " + startSize + "endSize : " + endSize);
+//            sThreadPool.execute(new DownloadRunnable(startSize, endSize, url, callback));
+            DownLoadUtils.getInstance().start(url, startSize, endSize);
+        }
+    }
+
+    /**
+     * 通知栏更新下载进度
+     */
+    void sendMsg(int pro) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                NotificationChannel channel = new NotificationChannel(ID, NAME, NotificationManager.IMPORTANCE_HIGH);
+                manager.createNotificationChannel(channel);
+
+
+                remoteViews.setProgressBar(R.id.pb_down,100,pro,false);
+                Notification notification = new Notification.Builder(this, ID)
+                        .setContentTitle("下载app")
+//                        .setContentText("应用需保持运行")
+                        .setSmallIcon(R.mipmap.mm)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.mm))
+                        .setCustomContentView(remoteViews)
+                        .build();
+
+
+
+//                notification.contentView=remoteViews;
+
+                manager.notify(id, notification);
+            }
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.yangyong.didi2.intf;
 
 /**
- * xxx class
+ * 接口 class
  *
  * @author yangyong
  * @date 2021/2/18/0018

@@ -43,6 +43,7 @@ import com.yangyong.didi2.bean.OperationModel;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
 import com.yangyong.didi2.intf.CallBack;
+import com.yangyong.didi2.intf.ProgressCallBack;
 import com.yangyong.didi2.view.MyDialog;
 
 import org.json.JSONException;
@@ -111,8 +112,14 @@ public class AppUtil {
 
     public CallBack callBack;
 
+    public ProgressCallBack mProCallBack;
+
     public void regCallBack(CallBack callBack) {
         this.callBack = callBack;
+    }
+
+    public void regProCallBack(ProgressCallBack callBack) {
+        mProCallBack = callBack;
     }
 
     public int getSum() {
@@ -1022,7 +1029,7 @@ public class AppUtil {
             TextView ins_tit = myDialog.findViewById(R.id.tv_dialog_title);
 
             myDialog.setPkg(pkg);
-            dialogList.add(pkg);
+//            dialogList.add(pkg);
             ins_tit.setText(pkg + "\n" + pkg + "为必装应用，是否下载并安装？");
 
             ins_no.setOnClickListener(new View.OnClickListener() {

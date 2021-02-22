@@ -211,7 +211,7 @@ public class SocketTestActivity extends AppCompatActivity implements View.OnClic
 //                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 //                        startActivityForResult(intent, GPS_REQUEST_CODE);
                         ProxyWaterMark.getInstance().hook(SocketTestActivity.this.getWindow());
-                        ll_socket_test.setBackgroundResource(R.mipmap.jinger);
+//                        ll_socket_test.setBackgroundResource(R.mipmap.jinger);
                         Toast.makeText(SocketTestActivity.this, "杨勇吴章靖永远在一起ヾ(≧▽≦*)o", Toast.LENGTH_SHORT).show();
                     }
                 })

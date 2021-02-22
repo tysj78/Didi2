@@ -76,7 +76,7 @@ public class NetInfoReceiver extends BroadcastReceiver {
                 String url = info.getUrl();
                 long end = info.getEnd();
                 if (finished < end) {
-                    DownLoadUtils.getInstance().start(url);
+//                    DownLoadUtils.getInstance().start(url);
                 }
             }
         } catch (Exception e) {

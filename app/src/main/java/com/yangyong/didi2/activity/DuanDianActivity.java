@@ -3,12 +3,16 @@ package com.yangyong.didi2.activity;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.yangyong.didi2.constant.Constants;
@@ -94,6 +99,7 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
     private MustInstallAppReceiver mustInstallAppReceiver;
     private ImageView iv_tu;
     private Button bt_login;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,7 +388,7 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
 
     private void startDownLoad() {
         for (int i = 0; i < pathList.length; i++) {
-            DownLoadUtils.getInstance().start(pathList[i]);
+//            DownLoadUtils.getInstance().start(pathList[i]);
         }
     }
 
@@ -537,5 +543,4 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
 
         unregisterReceiver(mustInstallAppReceiver);
     }
-
 }
