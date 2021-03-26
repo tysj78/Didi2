@@ -1,20 +1,15 @@
 package com.yangyong.didi2.activity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,9 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
 import com.yangyong.didi2.util.AppUtil;

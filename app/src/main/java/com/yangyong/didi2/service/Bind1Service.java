@@ -1,7 +1,6 @@
 package com.yangyong.didi2.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
@@ -12,7 +11,6 @@ import android.util.Log;
 import com.yangyong.didi2.util.LogUtils;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public class Bind1Service extends Service {

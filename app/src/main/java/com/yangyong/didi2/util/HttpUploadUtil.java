@@ -1,31 +1,17 @@
 package com.yangyong.didi2.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 
 
 import android.util.Log;
-import android.util.Xml;
-import android.widget.Toast;
-
-import com.yangyong.didi2.R;
-import com.yangyong.didi2.bean.Person;
 
 import javax.net.ssl.HttpsURLConnection;
 

@@ -1,6 +1,5 @@
 package com.yangyong.didi2.util;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,7 +8,6 @@ import android.os.Handler;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,10 +75,10 @@ public class FileUtils {
         FileOutputStream fileOutputStream = null;
         try {
             //取得指定包名的base.apk com.tencent.mobileqq
-            File file = new File(context.getPackageManager().getApplicationInfo("cn.wps.moffice_eng", 0).sourceDir);
+            File file = new File(context.getPackageManager().getApplicationInfo("com.gaeagame.cn.xj", 0).sourceDir);
             LogUtils.e(file.getAbsolutePath());
 
-            File targetPath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/app/didi2");
+            File targetPath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/apk");
             if (!targetPath.exists()) {
                 boolean mkdirs = targetPath.mkdirs();
                 LogUtils.e("创建目录：" + mkdirs);
@@ -88,7 +86,7 @@ public class FileUtils {
 //            LogUtils.e("filedir:" + file.getAbsolutePath());
 //            fileInputStream = context.getAssets().open("recordbox-v3.0.1478.apk");
             fileInputStream = new FileInputStream(file);
-            File targetFile = new File(targetPath, "zyj.apk");
+            File targetFile = new File(targetPath, "xj.apk");
             fileOutputStream = new FileOutputStream(targetFile);
 
             LogUtils.e("文件copy开始");

@@ -4,8 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.yangyong.didi2.R;
-import com.yangyong.didi2.util.EncodingDetect;
+import com.mobilewise.didi2.R;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

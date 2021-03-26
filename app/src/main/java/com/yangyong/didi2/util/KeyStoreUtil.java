@@ -6,7 +6,6 @@ import android.security.KeyPairGeneratorSpec;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -18,9 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.Signature;
-import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
-import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
 import java.util.Enumeration;

@@ -13,7 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 
 public class Main2Activity extends AppCompatActivity {

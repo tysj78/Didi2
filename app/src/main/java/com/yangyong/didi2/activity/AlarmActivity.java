@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.broadcast.DidiAlarmReceiver;
 import com.yangyong.didi2.constant.Constants;
 

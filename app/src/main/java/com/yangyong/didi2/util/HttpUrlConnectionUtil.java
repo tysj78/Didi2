@@ -2,7 +2,6 @@ package com.yangyong.didi2.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -4,10 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -19,10 +20,12 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.os.StatFs;
-import android.os.storage.StorageManager;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -35,7 +38,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.bean.LocationModel;
@@ -46,6 +49,8 @@ import com.yangyong.didi2.intf.CallBack;
 import com.yangyong.didi2.intf.ProgressCallBack;
 import com.yangyong.didi2.view.MyDialog;
 
+import android.content.pm.Signature;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -54,10 +59,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +77,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
@@ -89,6 +102,7 @@ public class AppUtil {
 
     private Activity activity;
     private List<String> list;
+    private final ExecutorService mExecutorService;
 
     public Activity getActivity() {
         return activity;
@@ -106,6 +120,12 @@ public class AppUtil {
         return list;
     }
 
+    private Handler mHandler;
+
+    public void setHandler(Handler handler) {
+        mHandler = handler;
+    }
+
     private Set<String> dialogList = new HashSet<>();
     private Set<MyDialog> dialogSet = new HashSet<>();
     private int sum = 50;
@@ -113,6 +133,8 @@ public class AppUtil {
     public CallBack callBack;
 
     public ProgressCallBack mProCallBack;
+
+    public final Object object = new Object();
 
     public void regCallBack(CallBack callBack) {
         this.callBack = callBack;
@@ -127,11 +149,8 @@ public class AppUtil {
     }
 
     private AppUtil() {
-//        LogUtils.e("创建apputil");
-//        list = new ArrayList<>();
-//        for (int i = 0; i < 30; i++) {
-//            list.add("第" + i);
-//        }
+        //初始化一个固定数量线程的线程池
+        mExecutorService = Executors.newFixedThreadPool(3);
     }
 
 //    public static AppUtil getInstance() {
@@ -153,6 +172,7 @@ public class AppUtil {
     public static AppUtil getInstance() {
         return Inner.instance;
     }
+
 
     public static void requestPermissions(Activity activity, String[] permissions, Consumer<Boolean> consumer) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
@@ -751,6 +771,26 @@ public class AppUtil {
         }
     }
 
+
+    public boolean isEMUI() {
+        try {
+            String manufacturer = Build.MANUFACTURER;
+            //这个字符串可以自己定义,例如判断华为就填写huawei,魅族就填写meizu
+            if ("huawei".equalsIgnoreCase(manufacturer)) {
+                return true;
+            }
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+            if (mHandler != null) {
+                Message obtain = Message.obtain();
+                obtain.what = 3;
+                obtain.obj = e.toString();
+                mHandler.sendMessage(obtain);
+            }
+        }
+        return false;
+    }
+
     public boolean isMIUI() {
         String manufacturer = Build.MANUFACTURER;
         //这个字符串可以自己定义,例如判断华为就填写huawei,魅族就填写meizu
@@ -967,7 +1007,12 @@ public class AppUtil {
         return l;
     }
 
-    public String getSdPath(Context context) {
+    /**
+     * 获取手机sd真实路径，兼容性未测试
+     *
+     * @return
+     */
+    public String getSdPath() {
 //        StorageManager sm = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
 //        String[] paths = (String[]) sm.getClass().getMethod("getVolumePaths", null).invoke(sm, null);
 
@@ -988,14 +1033,14 @@ public class AppUtil {
     }
 
     public void getSize(Context context) {
-        String sdPath = getSdPath(context);
+        String sdPath = getSdPath();
         File file = new File(sdPath);
         long totalSpace = file.getTotalSpace();
         long l = fromatG(totalSpace);
         LogUtils.e(l + "G");
     }
 
-    public void showDialog(Context context, String pkg) {
+    public void showDialog(Activity context, String pkg) {
         try {
 
             //查询内存中是否有这个dialog，如果有这个dialog就将它取消掉
@@ -1063,4 +1108,195 @@ public class AppUtil {
             e.printStackTrace();
         }
     }
+
+    public void doInBackSomething(final Handler handler) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                LogUtils.e("doInBackSomething..");
+                SystemClock.sleep(5000);
+                handler.sendEmptyMessage(1);
+            }
+        };
+
+        mExecutorService.execute(runnable);
+    }
+
+    /**
+     * 程序是否处于后台
+     *
+     * @param context
+     * @return
+     */
+    public boolean isBackground(Context context) {
+
+        ActivityManager am = (ActivityManager) context.getSystemService("activity");
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = ((ActivityManager.RunningTaskInfo) tasks.get(0)).topActivity;
+            LogUtils.e("前台应用名称:" + topActivity.getPackageName());
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断是否开启了权限
+     */
+    public boolean checkPermission(Context mContexts, String permission) {
+        return ContextCompat.checkSelfPermission(mContexts, permission) ==
+                PackageManager.PERMISSION_GRANTED;
+    }
+
+    /**
+     * 启动emm安全桌面
+     *
+     * @param context
+     */
+    public void openEmm(Context context) {
+        try {
+            Intent intent = new Intent();
+//            intent.setData(Uri.parse("emm://com.mobilewise.mobileware/setxiaomimdm?type=220"));
+            intent.setData(Uri.parse("emm://com.mobilewise.mobileware/sethuaweimdm?type=220"));
+//        intent.putExtra("", "");//这里Intent当然也可传递参数,但是一般情况下都会放到上面的URL中进行传递
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            LogUtils.e("Exception打开设置页面异常: " + e.toString());
+        }
+    }
+
+    /**
+     * 获取已经安装的 app 的 MD5 签名信息
+     *
+     * @param context
+     * @param pkgName
+     * @return
+     */
+    public String getAppSignatureMD5(Context context, String pkgName) {
+        return getAppSignature(context, pkgName, "MD5");
+    }
+
+    public String getAppSignatureSHA1(Context context, String pkgName) {
+        return getAppSignature(context, pkgName, "SHA1");
+    }
+
+    public String getAppSignatureSHA256(Context context, String pkgName) {
+        return getAppSignature(context, pkgName, "SHA256");
+    }
+
+    public String getAppSignature(Context context, String pkgName, String algorithm) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
+                    pkgName, PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            String signStr = hexDigest(sign.toByteArray(), algorithm);
+            return signStr;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String hexDigest(byte[] bytes, String algorithm) {
+        MessageDigest md5;
+        try {
+            md5 = MessageDigest.getInstance(algorithm);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+        byte[] md5Bytes = md5.digest(bytes);
+        StringBuffer hexValue = new StringBuffer();
+        for (int i = 0; i < md5Bytes.length; i++) {
+            int val = ((int) md5Bytes[i]) & 0xff;
+            if (val < 16) {
+                hexValue.append("0");
+            }
+            hexValue.append(Integer.toHexString(val));
+        }
+        return hexValue.toString();
+    }
+
+    public void getSingInfo(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo("com.yangyong.aotosize", PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            parseSignature(sign.toByteArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void parseSignature(byte[] signature) {
+        try {
+            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+            X509Certificate cert = (X509Certificate) certFactory.generateCertificate(new ByteArrayInputStream(signature));
+            String pubKey = cert.getPublicKey().toString();
+            String signNumber = cert.getSerialNumber().toString();
+            LogUtils.e("signName:" + cert.getSigAlgName());
+            LogUtils.e("pubKey:" + pubKey);
+            LogUtils.e("signNumber:" + signNumber);
+            LogUtils.e("subjectDN:" + cert.getSubjectDN().toString());
+        } catch (CertificateException e) {
+            LogUtils.e(e.toString());
+        }
+    }
+
+    private Signature[] getRawSignature(Context context, String packageName) {
+        if (packageName == null || packageName.length() == 0) {
+            return null;
+        }
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+            if (info != null) {
+                return info.signatures;
+            }
+            //errout("info is null, packageName = " + packageName);
+            return null;
+        } catch (PackageManager.NameNotFoundException e) {
+            //errout("NameNotFoundException");
+            return null;
+        }
+    }
+
+    public void getAppSignatureMd5(Context context, String pkg) {
+        //获取原始签名
+        Signature[] signs = getRawSignature(context, pkg);
+        try {
+            //获取原始签名MD5
+            String signValidString = getSignValidString(signs[0].toByteArray());
+            LogUtils.e("获取原始签名MD5:"+signValidString);
+        } catch (Exception e) {
+            LogUtils.e(e.toString());
+        }
+    }
+
+    private static String getSignValidString( byte[] paramArrayOfByte) throws NoSuchAlgorithmException {
+        MessageDigest localMessageDigest = MessageDigest.getInstance("MD5");
+        localMessageDigest.update(paramArrayOfByte);
+        return toHexString(localMessageDigest.digest());
+    }
+    public static String toHexString(byte[] paramArrayOfByte) {
+        if (paramArrayOfByte == null) {
+            return null;
+        }
+        StringBuilder localStringBuilder = new StringBuilder(2 * paramArrayOfByte.length);
+        for (int i = 0; ; i++) {
+            if (i >= paramArrayOfByte.length) {
+                return localStringBuilder.toString();
+            }
+            String str = Integer.toString(0xFF & paramArrayOfByte[i], 16);
+            if (str.length() == 1) {
+                str = "0" + str;
+            }
+            localStringBuilder.append(str);
+        }
+    }
 }
+

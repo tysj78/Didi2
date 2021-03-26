@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context="com.yangyong.didi2.activity.JiamiActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.JiamiActivity">
 
 </ListView>

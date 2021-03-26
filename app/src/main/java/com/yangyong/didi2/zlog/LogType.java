@@ -5,12 +5,12 @@ package com.yangyong.didi2.zlog;
  */
 
 public enum LogType {
-
     ERROR,
     INFO,
     DEBUG,
     WTF,
     CRASH,
     WARN,
-    VERBOSE
+    VERBOSE,
+    STOP
 }

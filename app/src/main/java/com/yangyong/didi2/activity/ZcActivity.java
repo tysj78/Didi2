@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 public class ZcActivity extends AppCompatActivity implements View.OnClickListener {
 

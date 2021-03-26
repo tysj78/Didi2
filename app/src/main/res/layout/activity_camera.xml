@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.activity.CameraActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.CameraActivity">
 
     <com.yangyong.didi2.view.LiveCameraView
         android:id="@+id/sv_image"

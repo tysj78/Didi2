@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.yangyong.didi2">
+    package="com.mobilewise.didi2">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -33,10 +33,10 @@
         tools:ignore="ProtectedPermissions" />
 
     <permission
-        android:name="com.yangyong.PROVIDER"
+        android:name="com.mobilewise.PROVIDER"
         android:protectionLevel="normal" />
     <permission
-        android:name="com.yangyong.permission"
+        android:name="com.mobilewise.permission"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.yangyong.permission" />
@@ -93,7 +93,7 @@
     <!-- &lt;!&ndash; 用于访问wifi网络信息，wifi信息会用于进行网络定位 &ndash;&gt; -->
     <!-- &lt;!&ndash; 获取运营商信息，用于支持提供运营商信息相关的接口 &ndash;&gt; -->
     <application
-        android:name=".MyApp"
+        android:name="com.yangyong.didi2.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/mm"
         android:label="@string/app_name"
@@ -101,28 +101,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.KongActivity"
+            android:name="com.yangyong.didi2.activity.KongActivity"
             android:theme="@style/MyTransparent" />
-        <activity android:name=".activity.UIActivity" />
-        <activity android:name=".activity.InstanceActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.Main2Activity" />
-        <activity android:name=".activity.Main3Activity" />
-        <activity android:name=".activity.Main5Activity" />
-        <activity android:name=".activity.Main6Activity" />
-        <activity android:name=".activity.ClipboardActivity" />
-        <activity android:name=".activity.HookActivity" />
-        <activity android:name=".activity.DeviceAdminActivity" />
-        <activity android:name=".activity.Main9Activity" />
-        <activity android:name=".activity.RequestActivity" />
-        <activity android:name=".activity.IoActivity" />
-        <activity android:name=".activity.Main10Activity" />
-        <activity android:name=".activity.LeakActivity" />
-        <activity android:name=".activity.DownLoadActivity" />
-        <activity android:name=".activity.DownActivity" />
-        <activity android:name=".activity.JylyActivity" />
-        <activity android:name=".activity.GbActivity" />
-        <activity android:name=".activity.Main12Activity" />
+        <activity android:name="com.yangyong.didi2.activity.UIActivity" />
+        <activity android:name="com.yangyong.didi2.activity.InstanceActivity" />
+        <activity android:name="com.yangyong.didi2.activity.MainActivity" />
+        <activity android:name="com.yangyong.didi2.activity.Main2Activity" />
+        <activity android:name="com.yangyong.didi2.activity.Main3Activity" />
+        <activity android:name="com.yangyong.didi2.activity.Main5Activity" />
+        <activity android:name="com.yangyong.didi2.activity.Main6Activity" />
+        <activity android:name="com.yangyong.didi2.activity.ClipboardActivity" />
+        <activity android:name="com.yangyong.didi2.activity.HookActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DeviceAdminActivity" />
+        <activity android:name="com.yangyong.didi2.activity.Main9Activity" />
+        <activity android:name="com.yangyong.didi2.activity.RequestActivity" />
+        <activity android:name="com.yangyong.didi2.activity.IoActivity" />
+        <activity android:name="com.yangyong.didi2.activity.Main10Activity" />
+        <activity android:name="com.yangyong.didi2.activity.LeakActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DownLoadActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DownActivity" />
+        <activity android:name="com.yangyong.didi2.activity.JylyActivity" />
+        <activity android:name="com.yangyong.didi2.activity.GbActivity" />
+        <activity android:name="com.yangyong.didi2.activity.Main12Activity" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -145,7 +145,7 @@
         -->
 
         <receiver
-            android:name=".broadcast.EMMDeviceAdminReceiver"
+            android:name="com.yangyong.didi2.broadcast.EMMDeviceAdminReceiver"
             android:description="@string/device_des"
             android:enabled="true"
             android:exported="true"
@@ -174,22 +174,22 @@
             android:enabled="true"
             android:process=":remote" />
         <service
-            android:name=".service.MyService"
+            android:name="com.yangyong.didi2.service.MyService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name=".testactivity.AActivity"
+            android:name="com.yangyong.didi2.testactivity.AActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
-        <activity android:name=".testactivity.BActivity" />
-        <activity android:name=".activity.ConnectWifiActivity" />
-        <activity android:name=".activity.ImeiActivity" />
-        <activity android:name=".activity.CodingActivity" />
-        <activity android:name=".activity.WifiConnectActivity" />
-        <activity android:name=".activity.TimerActivity" />
+        <activity android:name="com.yangyong.didi2.testactivity.BActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ConnectWifiActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ImeiActivity" />
+        <activity android:name="com.yangyong.didi2.activity.CodingActivity" />
+        <activity android:name="com.yangyong.didi2.activity.WifiConnectActivity" />
+        <activity android:name="com.yangyong.didi2.activity.TimerActivity" />
 
-        <receiver android:name=".broadcast.TimeChangeReceiver">
+        <receiver android:name="com.yangyong.didi2.broadcast.TimeChangeReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.TIME_SET" />
@@ -211,33 +211,33 @@
         <!-- android:resource="@xml/didi_service" /> -->
         <!-- </service> -->
 
-        <activity android:name=".activity.OpenFuZhuActivity" />
-        <activity android:name=".activity.ExceptionActivity" />
-        <activity android:name=".activity.QueryCallActivity" />
-        <activity android:name=".activity.DateActivity" />
-        <activity android:name=".activity.TimeChangeActivity" />
-        <activity android:name=".activity.AlarmActivity" />
+        <activity android:name="com.yangyong.didi2.activity.OpenFuZhuActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ExceptionActivity" />
+        <activity android:name="com.yangyong.didi2.activity.QueryCallActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DateActivity" />
+        <activity android:name="com.yangyong.didi2.activity.TimeChangeActivity" />
+        <activity android:name="com.yangyong.didi2.activity.AlarmActivity" />
 
-        <receiver android:name=".broadcast.DidiAlarmReceiver">
+        <receiver android:name="com.yangyong.didi2.broadcast.DidiAlarmReceiver">
             <intent-filter>
                 <action android:name="com.didi.yangyong.alarm" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.PermissionActivity" />
-        <activity android:name=".activity.JmActivity" />
-        <activity android:name=".activity.RxActivity" />
-        <activity android:name=".activity.SendDataActivity" />
-        <activity android:name=".activity.RegActivity" />
-        <activity android:name=".activity.MmCheckActivity" />
-        <activity android:name=".activity.VideoActivity" />
-        <activity android:name=".activity.DbActivity" />
-        <activity android:name=".activity.CheckActivity" />
-        <activity android:name=".activity.JiamiActivity" />
-        <activity android:name=".activity.ZlogActivity" />
-        <activity android:name=".activity.ZcActivity" />
-        <activity android:name=".activity.Main7Activity" />
-        <activity android:name=".activity.DeBugActivity" />
+        <activity android:name="com.yangyong.didi2.activity.PermissionActivity" />
+        <activity android:name="com.yangyong.didi2.activity.JmActivity" />
+        <activity android:name="com.yangyong.didi2.activity.RxActivity" />
+        <activity android:name="com.yangyong.didi2.activity.SendDataActivity" />
+        <activity android:name="com.yangyong.didi2.activity.RegActivity" />
+        <activity android:name="com.yangyong.didi2.activity.MmCheckActivity" />
+        <activity android:name="com.yangyong.didi2.activity.VideoActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DbActivity" />
+        <activity android:name="com.yangyong.didi2.activity.CheckActivity" />
+        <activity android:name="com.yangyong.didi2.activity.JiamiActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ZlogActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ZcActivity" />
+        <activity android:name="com.yangyong.didi2.activity.Main7Activity" />
+        <activity android:name="com.yangyong.didi2.activity.DeBugActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -249,8 +249,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activity.EncryptActivity" />
-        <activity android:name=".activity.ImageActivity" />
+        <activity android:name="com.yangyong.didi2.activity.EncryptActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ImageActivity" />
 
         <!-- <receiver -->
         <!-- android:name=".broadcast.AppInstallReceiver" -->
@@ -267,31 +267,31 @@
         <!-- </receiver> -->
 
         <service
-            android:name=".service.TimerService"
+            android:name="com.yangyong.didi2.service.TimerService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.ScreenActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ScreenActivity" />
 
         <service
-            android:name=".service.Bind1Service"
+            android:name="com.yangyong.didi2.service.Bind1Service"
             android:enabled="true"
             android:exported="true" />
 
-        <!-- <provider -->
-        <!-- android:name=".cp.MyContentProvider" -->
-        <!-- android:authorities="com.yangyong.mycp" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true" -->
-        <!-- android:permission="com.yangyong.PROVIDER" /> -->
+        <provider
+            android:name="com.yangyong.didi2.cp.MyContentProvider"
+            android:authorities="com.mobilewise.mycp"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.yangyong.PROVIDER" />
 
-        <activity android:name=".activity.CpActivity" />
+        <activity android:name="com.yangyong.didi2.activity.CpActivity" />
 
         <service
-            android:name=".service.MyIntentService"
+            android:name="com.yangyong.didi2.service.MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".activity.BroadcastActivity" />
+        <activity android:name="com.yangyong.didi2.activity.BroadcastActivity" />
 
         <!-- <receiver -->
         <!-- android:name=".broadcast.LocalReceiver" -->
@@ -309,14 +309,14 @@
         <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <activity android:name=".activity.RecordActivity" />
-        <activity android:name=".activity.DuanDianActivity" />
-        <activity android:name=".activity.JiaKeActivity" />
-        <activity android:name=".activity.InstallActivity" />
-        <activity android:name=".activity.GestureActivity" />
+        <activity android:name="com.yangyong.didi2.activity.RecordActivity" />
+        <activity android:name="com.yangyong.didi2.activity.DuanDianActivity" />
+        <activity android:name="com.yangyong.didi2.activity.JiaKeActivity" />
+        <activity android:name="com.yangyong.didi2.activity.InstallActivity" />
+        <activity android:name="com.yangyong.didi2.activity.GestureActivity" />
 
         <service
-            android:name=".service.AccessService"
+            android:name="com.yangyong.didi2.service.AccessService"
             android:enabled="true"
             android:exported="true"
             android:label="@string/app_name"
@@ -330,43 +330,47 @@
                 android:resource="@xml/accessibility" />
         </service>
 
-        <activity android:name=".activity.ServerSocketActivity" />
-        <activity android:name=".activity.EventActivity" />
-        <activity android:name=".activity.SocketActivity" />
-        <activity android:name=".socket.ServerActivity" />
-        <activity android:name=".activity.HtmlActivity" />
-        <activity android:name=".activity.NewActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ServerSocketActivity" />
+        <activity android:name="com.yangyong.didi2.activity.EventActivity" />
+        <activity android:name="com.yangyong.didi2.activity.SocketActivity" />
+        <activity android:name="com.yangyong.didi2.socket.ServerActivity" />
+        <activity android:name="com.yangyong.didi2.activity.HtmlActivity" />
+        <activity android:name="com.yangyong.didi2.activity.NewActivity" />
         <activity
-            android:name=".activity.test.T1Activity"
+            android:name="com.yangyong.didi2.activity.test.T1Activity"
             android:allowTaskReparenting="false"
             android:taskAffinity="com.screen.activity" />
-        <activity android:name=".activity.test.T2Activity" />
-        <activity android:name=".activity.KeyStoreActivity" />
-        <activity android:name=".activity.SimulateGestureActivity" />
-        <activity android:name=".activity.CameraActivity" />
-        <activity android:name=".activity.ThreadActivity" />
-        <activity android:name=".activity.FragmentActivity" >
+        <activity android:name="com.yangyong.didi2.activity.test.T2Activity" />
+        <activity android:name="com.yangyong.didi2.activity.KeyStoreActivity" />
+        <activity android:name="com.yangyong.didi2.activity.SimulateGestureActivity" />
+        <activity android:name="com.yangyong.didi2.activity.CameraActivity" />
+        <activity android:name="com.yangyong.didi2.activity.ThreadActivity" />
+        <activity android:name="com.yangyong.didi2.activity.FragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PicActivity" />
-        <activity android:name=".activity.TuActivity" />
-        <activity android:name=".activity.RobotActivity" />
-        <activity android:name=".activity.SocketTestActivity"></activity>
-        <activity android:name=".activity.third.IjkPlayerActivity" />
+        <activity android:name="com.yangyong.didi2.activity.PicActivity" />
+        <activity android:name="com.yangyong.didi2.activity.TuActivity" />
+        <activity android:name="com.yangyong.didi2.activity.RobotActivity" />
+        <activity android:name="com.yangyong.didi2.activity.SocketTestActivity" />
+        <activity android:name="com.yangyong.didi2.activity.third.IjkPlayerActivity" />
 
         <service
-            android:name=".service.SendDataService"
+            android:name="com.yangyong.didi2.service.SendDataService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.two.TimetableActivity">
+        <activity android:name="com.yangyong.didi2.activity.two.TimetableActivity"></activity>
+        <activity android:name="com.yangyong.didi2.activity.two.FileActivity"></activity>
 
-        </activity>
-        <activity android:name=".activity.two.FileActivity">
+        <service
+            android:name="com.yangyong.didi2.service.ForegroundService"
+            android:enabled="true" />
+
+        <activity android:name="com.yangyong.didi2.fragment.ViewPageActivity">
 
         </activity>
     </application>

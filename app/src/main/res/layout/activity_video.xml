@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.activity.VideoActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.VideoActivity">
 
     <SurfaceView
         android:id="@+id/sv_video"

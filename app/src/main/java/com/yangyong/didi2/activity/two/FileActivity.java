@@ -2,7 +2,6 @@ package com.yangyong.didi2.activity.two;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.adapter.FileAdapter;
 import com.yangyong.didi2.util.AppUtil;
 
@@ -44,7 +43,7 @@ public class FileActivity extends AppCompatActivity implements View.OnClickListe
         lv_content.setAdapter(Adter);
         lv_content.setOnItemClickListener(this);
 //        String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String absolutePath = AppUtil.getInstance().getSdPath(this);
+        String absolutePath = AppUtil.getInstance().getSdPath();
         Adter.scanFiles(absolutePath);
         bt_up.setOnClickListener(this);
     }

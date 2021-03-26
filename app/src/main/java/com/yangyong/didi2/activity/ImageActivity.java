@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.yangyong.didi2.MyApp;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.service.TimerService;
 
 public class ImageActivity extends AppCompatActivity implements View.OnClickListener {

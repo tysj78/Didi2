@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bugtest/bugtest.iml" filepath="$PROJECT_DIR$/bugtest/bugtest.iml" />
       <module fileurl="file://$PROJECT_DIR$/guard/guard.iml" filepath="$PROJECT_DIR$/guard/guard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/huaweimdm/huaweimdm.iml" filepath="$PROJECT_DIR$/huaweimdm/huaweimdm.iml" />
     </modules>
   </component>
 </project>

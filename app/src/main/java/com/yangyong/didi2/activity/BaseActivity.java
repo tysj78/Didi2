@@ -1,15 +1,10 @@
 package com.yangyong.didi2.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import com.yangyong.didi2.activity.test.T1Activity;
-import com.yangyong.didi2.util.AppExitUtils;
-import com.yangyong.didi2.util.AppUtil;
+import com.yangyong.didi2.util.AppManager;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.SpUtils;
 
@@ -26,8 +21,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppExitUtils.getInstance().addActivity(this);
-        AppUtil.getInstance().setActivity(this);
+//        AppExitUtils.getInstance().addActivity(this);
+//        AppUtil.getInstance().setActivity(this);
+        AppManager.getAppManager().addActivity(this);
+//        PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new Consumer<Boolean>() {
+//            @Override
+//            public void accept(Boolean aBoolean) throws Exception {
+//
+//            }
+//        });
     }
 
 
@@ -35,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        //屏蔽检测页面
+       /* //屏蔽检测页面
         String curSimpleClassName = getClass().getSimpleName();
         if ("NewRegisterActivity".equals(curSimpleClassName)) {
 //                "LoadingActivity".equals(curSimpleClassName) ||
@@ -49,13 +51,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         LogUtils.e("onPause:save time");
 
         long currentTime = System.currentTimeMillis();
-        SpUtils.saveLongValue(this, SpUtils.SAVETIME, currentTime);
+        SpUtils.saveLongValue(this, SpUtils.SAVETIME, currentTime);*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppExitUtils.getInstance().removeActivity(this);
+//        AppExitUtils.getInstance().removeActivity(this);
+        AppManager.getAppManager().finishActivity(this);
     }
 
     @Override
@@ -102,7 +105,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         long tmp = 5 * 1000;
 
         long dff = currentTime - save;
-        LogUtils.e("save time:"+save);
+        LogUtils.e("save time:" + save);
         if (dff > tmp) {
             val = false;
         }

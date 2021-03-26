@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 //import com.tinkerpatch.sdk.TinkerPatch;
 

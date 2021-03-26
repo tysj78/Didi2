@@ -17,7 +17,7 @@ import android.view.SurfaceView;
 import android.widget.MediaController;
 
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.PermissionUtils;
 

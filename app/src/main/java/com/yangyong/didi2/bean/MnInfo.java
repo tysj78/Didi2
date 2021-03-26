@@ -1,8 +1,5 @@
 package com.yangyong.didi2.bean;
 
-import com.yangyong.didi2.MyApp;
-import com.yangyong.didi2.util.AppUtil;
-
 /**
  * Created by yangyong on 2019/12/20/0020.
  */

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 public class AActivity extends AppCompatActivity implements View.OnClickListener {
 

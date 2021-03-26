@@ -43,9 +43,18 @@ public class PermissionUtils {
 //                Manifest.permission.CAMERA,
 //                Manifest.permission.GET_ACCOUNTS
         };
-        RxPermissions permission = new RxPermissions(activity);
-        Observable<Boolean> request = permission.request(permissions);
-        request.subscribe(consumer);
+        if (activity == null) {
+            LogUtils.e("activity null==");
+            return;
+        }
+
+        try {
+            RxPermissions permission = new RxPermissions(activity);
+            Observable<Boolean> request = permission.request(permissions);
+            request.subscribe(consumer);
+        } catch (Exception e) {
+            LogUtils.e("动态权限Exception: " + e.toString());
+        }
     }
 
     /**

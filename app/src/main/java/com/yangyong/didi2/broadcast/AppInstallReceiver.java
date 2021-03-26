@@ -3,7 +3,6 @@ package com.yangyong.didi2.broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 

@@ -23,7 +23,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.OkHttpUtil;
 import com.yangyong.didi2.util.PermissionUtils;
 import com.yangyong.didi2.util.SpUtils;

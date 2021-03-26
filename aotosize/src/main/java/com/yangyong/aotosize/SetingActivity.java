@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.mobilewise.aotosize.R;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.security.MessageDigest;

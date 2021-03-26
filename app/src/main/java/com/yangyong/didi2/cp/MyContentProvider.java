@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 import com.yangyong.didi2.dbdao.DbHelper;
 import com.yangyong.didi2.util.LogUtils;
@@ -45,12 +44,12 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
         String key = extras.getString("key");
-        switch (key){
+        switch (key) {
             case "setPer":
-                LogUtils.e("设置策略成功："+arg);
+                LogUtils.e("设置策略成功：" + arg);
                 break;
             case "com.didi2.task":
-                Toast.makeText(getContext(),"你们好",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "接收到：" + arg, Toast.LENGTH_SHORT).show();
                 LogUtils.e("com.didi2.task");
                 break;
         }

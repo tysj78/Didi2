@@ -1,7 +1,5 @@
 package com.yangyong.didi2.bean;
 
-import android.support.annotation.NonNull;
-
 /**
  * Created by yangyong on 2019/12/2/0002.
  */

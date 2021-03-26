@@ -6,16 +6,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
-import com.yangyong.didi2.util.AppUtil;
-import com.yangyong.didi2.util.DownLoadUtils;
 import com.yangyong.didi2.util.LogUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class NetInfoReceiver extends BroadcastReceiver {

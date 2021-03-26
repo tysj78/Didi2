@@ -8,7 +8,7 @@
     android:id="@+id/ll_socket_test"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.yangyong.didi2.activity.SocketTestActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.SocketTestActivity">
 
     <Button
         android:id="@+id/bt_ping"

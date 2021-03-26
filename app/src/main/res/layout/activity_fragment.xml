@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yangyong.didi2.activity.FragmentActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.FragmentActivity">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ProgressBar
         android:id="@+id/pb_load"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -17,7 +20,8 @@
     <TextView
         android:id="@+id/tv_net_status"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="qq" />
 
     <FrameLayout
         android:id="@+id/fl_content"
@@ -38,12 +42,12 @@
         android:text="切换fg2" />
 
     <RadioGroup
-        android:visibility="gone"
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/rbProject"
@@ -97,6 +101,11 @@
         android:singleLine="true"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/tv_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/bt_down_app"
         android:layout_width="wrap_content"
@@ -114,4 +123,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="重置下载app" />
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

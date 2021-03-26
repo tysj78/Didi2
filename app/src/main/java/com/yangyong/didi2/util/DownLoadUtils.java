@@ -1,24 +1,21 @@
 package com.yangyong.didi2.util;
 
-import android.content.Context;
-import android.os.Handler;
-
-import com.yangyong.didi2.MyApp;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
+import com.yangyong.didi2.fileload.ReqApkDownObject;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -138,8 +135,14 @@ public class DownLoadUtils {
      * 这就是下载方法
      */
     private void downLoadFile(String path) {
+
+        //构建标准版应用商店app下载
+        String req = createReq();
+
+
         LogUtils.e("start download");
-        String name = path.substring(path.lastIndexOf("/") + 1);
+//        String name = path.substring(path.lastIndexOf("/") + 1);
+        String name="111.apk";
         ThreadInfo mThreadInfo;
         long totalSize;
         File file = null;
@@ -153,8 +156,7 @@ public class DownLoadUtils {
         //由文件判断改为数据库判断
         boolean select = mDownLoadDao.exists(path);
         try {
-
-            totalSize = getContentLength(path);//获取文件的大小
+            totalSize = getContentLength(path,req);//获取文件的大小
             if (!select) {
                 mThreadInfo = new ThreadInfo(path, 0, totalSize, 0);
                 mDownLoadDao.addThread(mThreadInfo);
@@ -193,8 +195,13 @@ public class DownLoadUtils {
 //                    .connectTimeout(10,TimeUnit.SECONDS)
 //                    .readTimeout(10,TimeUnit.SECONDS)
 //                    .writeTimeout(10,TimeUnit.SECONDS).build();
-            Request request = new Request.Builder().url(path).
-                    addHeader("Range", "bytes=" + downLoadSize + "-" + totalSize)
+
+            FormBody.Builder builder = new FormBody.Builder();
+            builder.add("json",req);
+
+            Request request = new Request.Builder().url(path)
+//                    addHeader("Range", "bytes=" + downLoadSize + "-" + totalSize)
+                    .post(builder.build())
                     .addHeader("Connection", "Keep-Alive")
                     .build();
             response = client.newCall(request).execute();
@@ -278,10 +285,33 @@ public class DownLoadUtils {
 
     }
 
+    public String createReq() {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+//        String[] temp = {timestamp, mFileInfo.token};
+//        Arrays.sort(temp);
+        //String signature = new SHA1Handler().getDigestOfString((temp[0]+temp[1]).getBytes());
+//        String signature = SM3Handler.getDigestOfString(temp[0] + temp[1]);
+//        List<NameValuePair2> pairs = new ArrayList<NameValuePair2>();
+        ReqApkDownObject req = new ReqApkDownObject();
+        req.signature = "e39da21a57f3b4edc3df90ce62edcab975405e6e29c83e362ac998bee6514be2";
+        req.timestamp = timestamp;
+        req.udid = "8813fc10c7af3abc01151c5424016f43a64dde77";
+        req.content.appid ="211";
+        req.content.startpoint = "0";
+        return (String)toJsonObject(req);
+    }
+
     //通过OkhttpClient获取文件的大小
-    public long getContentLength(String url) throws IOException {
+    public long getContentLength(String url,String par) throws IOException {
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
+
+
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("json",par);
+
+        Request request = new Request.Builder().url(url)
+                .post(builder.build())
+                .build();
         Response response = client.newCall(request).execute();
         long length = response.body().contentLength();
         LogUtils.e("获取到下载文件长度：" + length);
@@ -440,6 +470,13 @@ public class DownLoadUtils {
             }
         }
 
+    }
+
+    public Object toJsonObject(Object object) {
+        // TODO Auto-generated method stub
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
+        String obj = gson.toJson(object);
+        return obj;
     }
 
 }

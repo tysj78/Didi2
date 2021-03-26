@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yangyong.didi2.service.MyService;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.intf.TimeChangListener;
 import com.yangyong.didi2.util.SpUtils;
 

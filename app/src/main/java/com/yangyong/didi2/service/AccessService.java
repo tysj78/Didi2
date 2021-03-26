@@ -8,17 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Path;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.yangyong.didi2.activity.GestureActivity;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
 import com.yangyong.didi2.util.LogUtils;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

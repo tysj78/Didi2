@@ -12,7 +12,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.activity.TimeChangeActivity;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.SpUtils;

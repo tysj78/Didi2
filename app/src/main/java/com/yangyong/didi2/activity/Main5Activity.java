@@ -17,8 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.yangyong.didi2.MyApp;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.activity.test.T1Activity;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.dbdao.DownLoadDao;
@@ -76,7 +75,7 @@ public class Main5Activity extends BaseActivity implements View.OnClickListener 
         if (TextUtils.isEmpty(ServiceName)) {
             return false;
         }
-        ActivityManager myManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager myManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
         ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(1000);
         for (int i = 0; i < runningService.size(); i++) {
             if (runningService.get(i).service.getClassName().toString().equals(ServiceName)) {

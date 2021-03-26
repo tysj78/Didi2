@@ -1,8 +1,5 @@
 package com.yangyong.didi2.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * xxx class
  *

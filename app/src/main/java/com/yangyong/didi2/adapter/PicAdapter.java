@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.activity.TuActivity;
 import com.yangyong.didi2.bean.MeiTu;
 import com.yangyong.didi2.bean.MeiTuBean;

@@ -1,1 +1,1 @@
-include ':app', ':guard', ':bugtest', ':aotosize'
+include ':app', ':guard', ':bugtest', ':aotosize', ':huaweimdm'

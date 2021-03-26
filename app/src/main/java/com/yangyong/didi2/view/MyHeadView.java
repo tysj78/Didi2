@@ -12,9 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jwenfeng.library.pulltorefresh.view.HeadView;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
-import com.yangyong.didi2.util.LogUtils;
 
 /**
  * xxx class

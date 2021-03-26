@@ -7,13 +7,8 @@
 package com.yangyong.didi2.util;
 
 import android.app.Activity;
-import android.widget.Toast;
 
-import com.yangyong.didi2.MyApp;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * <p>

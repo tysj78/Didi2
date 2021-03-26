@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yangyong.didi2.activity.JmActivity">
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.JmActivity">
 <Button
     android:id="@+id/jm"
     android:layout_width="wrap_content"

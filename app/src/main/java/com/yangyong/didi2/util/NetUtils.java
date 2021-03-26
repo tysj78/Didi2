@@ -1,7 +1,6 @@
 package com.yangyong.didi2.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.yangyong.didi2.MyApp;

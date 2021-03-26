@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.thread.ServerThread;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;

@@ -19,7 +19,6 @@ import com.yangyong.didi2.util.LogUtils;
 
 public class NteWorkChangeReceive extends BroadcastReceiver {
     private static boolean isNetAvailable = false;  //声明布尔变量控制广播执行
-
     @Override
     public void onReceive(Context context, Intent intent) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

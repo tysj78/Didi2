@@ -3,17 +3,12 @@ package com.yangyong.didi2.activity;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +23,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.MustApp;
 import com.yangyong.didi2.bean.ThreadInfo;
 import com.yangyong.didi2.broadcast.AppInstallReceiver;
@@ -185,19 +179,6 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
         iv_tu.setOnClickListener(this);
         bt_login = (Button) findViewById(R.id.bt_login);
         bt_login.setOnClickListener(this);
-    }
-
-    private void openEmm() {
-        try {
-            Intent intent = new Intent();
-//            intent.setData(Uri.parse("emm://com.mobilewise.mobileware/setxiaomimdm?type=220"));
-            intent.setData(Uri.parse("emm://com.mobilewise.mobileware/sethuaweimdm?type=220"));
-//        intent.putExtra("", "");//这里Intent当然也可传递参数,但是一般情况下都会放到上面的URL中进行传递
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        } catch (Exception e) {
-            LogUtils.e("Exception打开设置页面异常: " + e.toString());
-        }
     }
 
     @Override
@@ -438,7 +419,7 @@ public class DuanDianActivity extends BaseActivity implements DownLoadUtils.IPro
     public static void exitApp(Context context) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+                ActivityManager activityManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
                 List<ActivityManager.AppTask> appTaskList = null;
                 appTaskList = activityManager.getAppTasks();
                 for (ActivityManager.AppTask appTask : appTaskList) {

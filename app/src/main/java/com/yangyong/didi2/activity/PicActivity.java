@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
 import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
 import com.yangyong.didi2.service.MyService;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.adapter.PicAdapter;
 import com.yangyong.didi2.bean.MeiTu;
 import com.yangyong.didi2.broadcast.NteWorkChangeReceive;

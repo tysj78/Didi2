@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.CallLogInfo;
 import com.yangyong.didi2.bean.ContactsInfo;
 import com.yangyong.didi2.bean.SmsHistory;

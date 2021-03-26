@@ -1,12 +1,6 @@
 package com.yangyong.didi2.service;
 
 import android.accessibilityservice.AccessibilityService;
-import android.annotation.TargetApi;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.os.Build;
-import android.os.SystemClock;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;

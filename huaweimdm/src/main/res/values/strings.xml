@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">hwmdm</string>
+    <string name="device_des">取消安全桌面移动设备管理，会导致设备屏幕锁定，如需要操作，请与管理员联系，获取锁屏密码。</string>
+
+</resources>

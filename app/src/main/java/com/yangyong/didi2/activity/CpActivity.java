@@ -10,8 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.yangyong.didi2.R;
-import com.yangyong.didi2.bean.Legion;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.service.MyIntentService;
 import com.yangyong.didi2.util.LogUtils;
 

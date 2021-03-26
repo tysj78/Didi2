@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.User;
 import com.yangyong.didi2.dbdao.UserDao;
 import com.yangyong.didi2.util.FileUtils;

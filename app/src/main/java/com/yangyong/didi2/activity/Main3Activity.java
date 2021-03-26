@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 import java.util.UUID;
 import java.util.regex.Matcher;

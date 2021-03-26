@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.mobilewise.guard.R;
+
 public class CpTestActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button bt_add;
@@ -19,6 +21,8 @@ public class CpTestActivity extends AppCompatActivity implements View.OnClickLis
     private ContentResolver contentResolver;
     private Uri uri;
     private Button bt_call;
+    private static final String AUTHORITY = "com.mobilewise.launcher.settings";
+    private Uri emmUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,7 @@ public class CpTestActivity extends AppCompatActivity implements View.OnClickLis
         initView();
         contentResolver = getContentResolver();
         uri = Uri.parse("content://com.yangyong.mycp/legion");
+        emmUri = Uri.parse("content://"+AUTHORITY);
     }
 
     private void initView() {
@@ -76,7 +81,8 @@ public class CpTestActivity extends AppCompatActivity implements View.OnClickLis
                 Bundle bundle = new Bundle();
 //                bundle.putString("key","setPer");
                 bundle.putString("key","com.didi2.task");
-                contentResolver.call(uri,"","传过去的数据super",bundle);
+//                contentResolver.call(uri,"","传过去的数据super",bundle);
+                contentResolver.call(emmUri,"","传过去的数据super",bundle);
                 break;
         }
     }

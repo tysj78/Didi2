@@ -9,7 +9,6 @@ import com.yangyong.didi2.util.LogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by wzl on 10/12/20.

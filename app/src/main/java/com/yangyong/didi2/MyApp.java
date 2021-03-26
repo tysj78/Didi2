@@ -1,18 +1,13 @@
 package com.yangyong.didi2;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 //import com.squareup.leakcanary.LeakCanary;
@@ -21,24 +16,18 @@ import com.tencent.mars.xlog.Xlog;
 //import com.tencent.tinker.entry.ApplicationLike;
 //import com.tinkerpatch.sdk.TinkerPatch;
 //import com.tinkerpatch.sdk.loader.TinkerPatchApplicationLike;
-import com.yangyong.didi2.BuildConfig;
 import com.yangyong.didi2.hook.HookProxy;
 import com.yangyong.didi2.hook.Hook_Drawable_draw;
-import com.yangyong.didi2.hook.ProxyWaterMark;
-import com.yangyong.didi2.util.CrashCollector;
 import com.yangyong.didi2.util.LogUtils;
-import com.yangyong.didi2.zlog.ZLog;
 
 //import net.sqlcipher.database.SQLiteDatabase;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.logging.Logger;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -62,20 +51,25 @@ public class MyApp extends MultiDexApplication {
     public static Activity mActivity;
     private String logPath = Environment.getExternalStorageDirectory().getPath() + "/xcrash";
 
+    static {
+        System.loadLibrary("c++_shared");
+        System.loadLibrary("marsxlog");
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
         Log.e(TAG, "MyApp_onCreate: ");
         loadJiaMi();
-        regActivity();
+//        regActivity();
 //        CrashCollector.getInstance().init(this);
 //        MyCrashHandler.getInstance().init(this);
 //        ZLog.Init(Environment.getExternalStorageDirectory().getPath()+"/emm_crashFolder");
 //        ZLog.openSaveToFile();
 
 
-//        initXlog();
+        initXlog();
 
 
 //        handleSSLHandshake();
@@ -89,7 +83,7 @@ public class MyApp extends MultiDexApplication {
 //        Debug.stopMethodTracing();
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return mContext;
     }
 
@@ -134,9 +128,11 @@ public class MyApp extends MultiDexApplication {
 
     private void initXlog() {
         String logPath = Environment.getExternalStorageDirectory().getPath() + "/logsample/xlog";
-        Log.d("test", logPath);
+        Log.d("yylog", logPath);
         Xlog.setConsoleLogOpen(true);
-        Xlog.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logPath, "LOGSAMPLE", 0, "");
+        Xlog.appenderOpen(Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logPath, "didi2", 0, "");
+        //1.调用此方法xlog才会写入日志
+        Log.setLogImp(new Xlog());
     }
 
     private void loadJiaMi() {

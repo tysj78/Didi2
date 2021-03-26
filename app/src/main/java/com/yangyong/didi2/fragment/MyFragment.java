@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.LogUtils;
 
 /**
@@ -23,21 +23,27 @@ public class MyFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LogUtils.e("onAttach");
+        LogUtils.e("MyFragment onAttach");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.e("onCreate");
+        LogUtils.e("MyFragment onCreate");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LogUtils.e("onCreateView");
+        LogUtils.e("MyFragment onCreateView");
 
         View view = inflater.inflate(R.layout.myfrag, null);
         return view;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtils.e("MyFragment onDetach");
     }
 }

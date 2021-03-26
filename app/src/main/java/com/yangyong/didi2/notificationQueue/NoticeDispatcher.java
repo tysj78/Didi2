@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.yangyong.didi2.MyApp;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.zlog.LogBean;
+import com.yangyong.didi2.zlog.LogType;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -18,6 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class NoticeDispatcher extends Thread {
     private static final Object LUCK = new Object();
+    private boolean isStop = false;
     /**
      * 存储日志的队列
      */
@@ -26,6 +28,9 @@ public class NoticeDispatcher extends Thread {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 0:
+                    Toast.makeText(MyApp.getContext(), "接收到停止命令", Toast.LENGTH_SHORT).show();
+                    break;
                 case 1:
                     String toa = (String) msg.obj;
                     Toast.makeText(MyApp.getContext(), toa, Toast.LENGTH_SHORT).show();
@@ -36,8 +41,17 @@ public class NoticeDispatcher extends Thread {
         }
     };
 
+
     NoticeDispatcher(LinkedBlockingQueue<LogBean> logQueue) {
         this.mLogQueue = logQueue;
+    }
+
+    public void startThread() {
+        isStop = false;
+    }
+
+    public void stopThread() {
+        isStop = true;
     }
 
     @Override
@@ -45,7 +59,7 @@ public class NoticeDispatcher extends Thread {
 
         try {
 //            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-            while (true) {
+            while (!isStop) {
                 try {
 //                    synchronized (LUCK) {
                     LogBean logBean;
@@ -60,7 +74,7 @@ public class NoticeDispatcher extends Thread {
                     Log.e("run: ", e.toString());
                 }
             }
-//            LogUtils.e("消费线程结束.");
+            LogUtils.e("消费线程结束.");
         } catch (Exception e) {
             Log.e("run: ", e.toString());
         }
@@ -69,15 +83,20 @@ public class NoticeDispatcher extends Thread {
     private void sendNotification(LogBean unReadNum) {
         LogUtils.e("消费任务");
         try {
-            Message obtain = Message.obtain();
-            obtain.what = 1;
-            obtain.obj = unReadNum.getLogText();
-            mHandler.sendMessage(obtain);
-            Thread.sleep(1000);
+            if (unReadNum.getLogType() == LogType.STOP) {
+                mHandler.sendEmptyMessage(0);
+            } else {
+                Message obtain = Message.obtain();
+                obtain.what = 1;
+                obtain.obj = unReadNum.getLogText();
+                mHandler.sendMessage(obtain);
+            }
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 //        LogUtils.e("更新未读数量" + unReadNum.toString());
     }
+
 
 }

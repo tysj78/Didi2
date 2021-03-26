@@ -14,7 +14,7 @@ import android.widget.Button;
 
 //import com.yangyong.striking_arithmetic.DiDiUtil;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

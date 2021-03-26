@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.MediaController;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 import java.util.Map;
 

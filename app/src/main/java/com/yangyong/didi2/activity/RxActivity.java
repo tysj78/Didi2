@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.RxTimer;
 
-public class RxActivity extends AppCompatActivity implements View.OnClickListener,RxTimer.RxAction{
+public class RxActivity extends AppCompatActivity implements View.OnClickListener,RxTimer.RxAction {
 
     private Button check_net;
     private TextView contents;

@@ -12,7 +12,6 @@ import com.yangyong.didi2.util.DataBaseHelper;
 import com.yangyong.didi2.util.LogUtils;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 

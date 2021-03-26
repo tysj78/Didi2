@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.LogUtils;
 
 import java.util.Date;

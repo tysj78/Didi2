@@ -9,9 +9,6 @@ import android.text.TextUtils;
 import com.yangyong.didi2.bean.CheckResult;
 
 import static android.content.Context.SENSOR_SERVICE;
-import static com.yangyong.didi2.bean.CheckResult.RESULT_EMULATOR;
-import static com.yangyong.didi2.bean.CheckResult.RESULT_MAYBE_EMULATOR;
-import static com.yangyong.didi2.bean.CheckResult.RESULT_UNKNOWN;
 
 /**
  * Created by yangyong on 2019/12/18/0018.
@@ -39,40 +36,40 @@ public class EmulatorCheckUtil {
         //检测硬件名称
         CheckResult hardwareResult = checkFeaturesByHardware();
         switch (hardwareResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
         //检测渠道
         CheckResult flavorResult = checkFeaturesByFlavor();
         switch (flavorResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
         //检测设备型号
         CheckResult modelResult = checkFeaturesByModel();
         switch (modelResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
         //检测硬件制造商
         CheckResult manufacturerResult = checkFeaturesByManufacturer();
         switch (manufacturerResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
 //                if (callback != null)
                 return true;
         }
@@ -80,30 +77,30 @@ public class EmulatorCheckUtil {
         //检测主板名称
         CheckResult boardResult = checkFeaturesByBoard();
         switch (boardResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
         //检测主板平台
         CheckResult platformResult = checkFeaturesByPlatform();
         switch (platformResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 ++suspectCount;
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
         //检测基带信息
         CheckResult baseBandResult = checkFeaturesByBaseBand();
         switch (baseBandResult.result) {
-            case RESULT_MAYBE_EMULATOR:
+            case CheckResult.RESULT_MAYBE_EMULATOR:
                 suspectCount += 2;//模拟器基带信息为null的情况概率相当大
                 break;
-            case RESULT_EMULATOR:
+            case CheckResult.RESULT_EMULATOR:
                 return true;
         }
 
@@ -131,7 +128,7 @@ public class EmulatorCheckUtil {
 
         //检测进程组信息
         CheckResult cgroupResult = checkFeaturesByCgroup();
-        if (cgroupResult.result == RESULT_MAYBE_EMULATOR) ++suspectCount;
+        if (cgroupResult.result == CheckResult.RESULT_MAYBE_EMULATOR) ++suspectCount;
 
         //嫌疑值大于3，认为是模拟器
         return suspectCount > 3;
@@ -155,7 +152,7 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByHardware() {
         String hardware = getProperty("ro.hardware");
-        if (null == hardware) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == hardware) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = hardware.toLowerCase();
         switch (tempValue) {
@@ -166,10 +163,10 @@ public class EmulatorCheckUtil {
             case "vbox":
             case "vbox86"://腾讯手游助手
             case "android_x86"://雷电模拟器
-                result = RESULT_EMULATOR;
+                result = CheckResult.RESULT_EMULATOR;
                 break;
             default:
-                result = RESULT_UNKNOWN;
+                result = CheckResult.RESULT_UNKNOWN;
                 break;
         }
         return new CheckResult(result, hardware);
@@ -182,12 +179,12 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByFlavor() {
         String flavor = getProperty("ro.build.flavor");
-        if (null == flavor) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == flavor) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = flavor.toLowerCase();
-        if (tempValue.contains("vbox")) result = RESULT_EMULATOR;
-        else if (tempValue.contains("sdk_gphone")) result = RESULT_EMULATOR;
-        else result = RESULT_UNKNOWN;
+        if (tempValue.contains("vbox")) result = CheckResult.RESULT_EMULATOR;
+        else if (tempValue.contains("sdk_gphone")) result = CheckResult.RESULT_EMULATOR;
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, flavor);
     }
 
@@ -198,13 +195,13 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByModel() {
         String model = getProperty("ro.product.model");
-        if (null == model) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == model) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = model.toLowerCase();
-        if (tempValue.contains("google_sdk")) result = RESULT_EMULATOR;
-        else if (tempValue.contains("emulator")) result = RESULT_EMULATOR;
-        else if (tempValue.contains("android sdk built for x86")) result = RESULT_EMULATOR;
-        else result = RESULT_UNKNOWN;
+        if (tempValue.contains("google_sdk")) result = CheckResult.RESULT_EMULATOR;
+        else if (tempValue.contains("emulator")) result = CheckResult.RESULT_EMULATOR;
+        else if (tempValue.contains("android sdk built for x86")) result = CheckResult.RESULT_EMULATOR;
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, model);
     }
 
@@ -215,12 +212,12 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByManufacturer() {
         String manufacturer = getProperty("ro.product.manufacturer");
-        if (null == manufacturer) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == manufacturer) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = manufacturer.toLowerCase();
-        if (tempValue.contains("genymotion")) result = RESULT_EMULATOR;
-        else if (tempValue.contains("netease")) result = RESULT_EMULATOR;//网易MUMU模拟器
-        else result = RESULT_UNKNOWN;
+        if (tempValue.contains("genymotion")) result = CheckResult.RESULT_EMULATOR;
+        else if (tempValue.contains("netease")) result = CheckResult.RESULT_EMULATOR;//网易MUMU模拟器
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, manufacturer);
     }
 
@@ -231,12 +228,12 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByBoard() {
         String board = getProperty("ro.product.board");
-        if (null == board) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == board) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = board.toLowerCase();
-        if (tempValue.contains("android")) result = RESULT_EMULATOR;
-        else if (tempValue.contains("goldfish")) result = RESULT_EMULATOR;
-        else result = RESULT_UNKNOWN;
+        if (tempValue.contains("android")) result = CheckResult.RESULT_EMULATOR;
+        else if (tempValue.contains("goldfish")) result = CheckResult.RESULT_EMULATOR;
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, board);
     }
 
@@ -247,11 +244,11 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByPlatform() {
         String platform = getProperty("ro.board.platform");
-        if (null == platform) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == platform) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
         String tempValue = platform.toLowerCase();
-        if (tempValue.contains("android")) result = RESULT_EMULATOR;
-        else result = RESULT_UNKNOWN;
+        if (tempValue.contains("android")) result = CheckResult.RESULT_EMULATOR;
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, platform);
     }
 
@@ -262,10 +259,10 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByBaseBand() {
         String baseBandVersion = getProperty("gsm.version.baseband");
-        if (null == baseBandVersion) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
+        if (null == baseBandVersion) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
         int result;
-        if (baseBandVersion.contains("1.0.0.0")) result = RESULT_EMULATOR;
-        else result = RESULT_UNKNOWN;
+        if (baseBandVersion.contains("1.0.0.0")) result = CheckResult.RESULT_EMULATOR;
+        else result = CheckResult.RESULT_UNKNOWN;
         return new CheckResult(result, baseBandVersion);
     }
 
@@ -324,7 +321,7 @@ public class EmulatorCheckUtil {
      */
     private CheckResult checkFeaturesByCgroup() {
         String filter = CommandUtil.getSingleInstance().exec("cat /proc/self/cgroup");
-        if (null == filter) return new CheckResult(RESULT_MAYBE_EMULATOR, null);
-        return new CheckResult(RESULT_UNKNOWN, filter);
+        if (null == filter) return new CheckResult(CheckResult.RESULT_MAYBE_EMULATOR, null);
+        return new CheckResult(CheckResult.RESULT_UNKNOWN, filter);
     }
 }

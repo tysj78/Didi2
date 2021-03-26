@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.CloseType;
 import com.yangyong.didi2.bean.FormFile;
 import com.yangyong.didi2.bean.Person;

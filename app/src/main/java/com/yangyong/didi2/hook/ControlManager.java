@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static com.yangyong.didi2.hook.CodeSet.FuncCode.F_SDK_SENSITIVE_INFO;
-
 
 /**
  * Created by uniking on 17-9-20.
@@ -123,7 +121,7 @@ public class ControlManager {
 
     public List<String> getSrcPath(){
         synchronized (m_roster_list){
-            return m_roster_list.get(F_SDK_SENSITIVE_INFO.ordinal());
+            return m_roster_list.get(CodeSet.FuncCode.F_SDK_SENSITIVE_INFO.ordinal());
         }
     }
 

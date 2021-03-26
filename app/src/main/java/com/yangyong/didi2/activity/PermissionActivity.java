@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 import java.io.BufferedReader;
 import java.io.File;

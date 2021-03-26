@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.hook.ProxyWaterMark;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;

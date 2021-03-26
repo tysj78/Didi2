@@ -14,5 +14,6 @@ public class LogUtils {
 
     public static void e(String content) {
         Log.e(TAG, content);
+//        com.tencent.mars.xlog.Log.e(TAG, content);
     }
 }

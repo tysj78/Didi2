@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobilewise.mobileware">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 华为权限 -->
+    <uses-permission android:name="com.huawei.permission.sec.MDM" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_BLUETOOTH" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_USB" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_CAPTURE_SCREEN" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_CONNECTIVITY" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_USB" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_DEVICE_MANAGER" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_APP_MANAGEMENT" />
+    <uses-permission android:name="com.huawei.permission.sec.SDK_LAUNCHER" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_NFC" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_NETWORK_MANAGER" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_PHONE_MANAGER" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_MMS" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_PHONE" />
+    <uses-permission android:name="com.huawei.permission.sec.MDM_TELEPHONY" />
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".DevicesAdminReceiver"
+            android:description="@string/device_des"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+
+            <intent-filter>
+
+                <!-- 激活动作 -->
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <!-- 取消激活动作 -->
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yangyong.didi2.ClipboardActivity">
+    tools:context="com.mobilewise.didi2.ClipboardActivity">
     <Button
         android:id="@+id/main_move"
         android:onClick="onMove1"

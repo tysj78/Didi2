@@ -12,15 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.bean.LocationModel;
 import com.yangyong.didi2.bean.OperationModel;
 import com.yangyong.didi2.util.LogUtils;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;

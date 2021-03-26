@@ -18,6 +18,8 @@ package com.yangyong.aotosize;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.mobilewise.aotosize.R;
+
 import me.jessyan.autosize.internal.CustomAdapt;
 
 /**

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.yangyong.didi2.constant.Constants;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.LogUtils;
 import com.yangyong.didi2.util.PermissionUtils;

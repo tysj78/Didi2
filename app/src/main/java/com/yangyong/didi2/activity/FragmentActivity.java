@@ -1,22 +1,26 @@
 package com.yangyong.didi2.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,27 +34,35 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
+import com.yangyong.aotosize.IMyAidlInterface;
+import com.yangyong.didi2.activity.test.T1Activity;
 import com.yangyong.didi2.bean.ThreadInfo;
+import com.yangyong.didi2.broadcast.MustInstallAppReceiver;
 import com.yangyong.didi2.broadcast.NteWorkChangeReceive;
 import com.yangyong.didi2.constant.Constants;
 import com.yangyong.didi2.dbdao.DownLoadDao;
+import com.yangyong.didi2.fanshe.CatInfo;
 import com.yangyong.didi2.fragment.HomeFragment;
 import com.yangyong.didi2.fragment.MyFragment;
 import com.yangyong.didi2.intf.ProgressCallBack;
+import com.yangyong.didi2.service.ForegroundService;
 import com.yangyong.didi2.util.AppUtil;
 import com.yangyong.didi2.util.DownLoadUtils;
 import com.yangyong.didi2.util.FileUtils;
 import com.yangyong.didi2.util.LogUtils;
-import com.yangyong.didi2.util.PermissionUtils;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.reactivex.functions.Consumer;
 
-public class FragmentActivity extends AppCompatActivity implements View.OnClickListener {
+public class FragmentActivity extends BaseActivity implements View.OnClickListener {
 
     private FragmentManager fragmentManager;
     private HomeFragment home;
@@ -62,12 +74,42 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
     private RadioButton rbMine;
     private RadioGroup radioGroup;
     private Button bt_alert;
+    private String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
                     AppUtil.getInstance().showDialog(FragmentActivity.this, "应用宝");
+                    break;
+                case 1:
+                    tv_net_status.setText("后台任务处理完成");
+                    Toast.makeText(FragmentActivity.this, "文件拷贝完成", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+//                    PermissionUtils.requestPermissions(FragmentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new Consumer<Boolean>() {
+//                        @Override
+//                        public void accept(Boolean aBoolean) throws Exception {
+//                            LogUtils.e("申请权限 ");
+//                            if (aBoolean) {
+//                                LogUtils.e("同意了权限");
+//                            }else {
+//                                LogUtils.e("未同意权限");
+//                            }
+//                        }
+//                    });
+                    if (!AppUtil.getInstance().isBackground(FragmentActivity.this)) {
+                        LogUtils.e("应用位于前台，请求权限");
+                        ActivityCompat.requestPermissions(FragmentActivity.this, permissions, 321);
+                    } else {
+                        LogUtils.e("应用位于后台，不请求权限");
+                    }
+                    break;
+                case 3:
+                    String data = (String) msg.obj;
+                    tv_sum.setText(data);
+                    break;
+                default:
                     break;
             }
         }
@@ -81,25 +123,47 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
     private TextView tv_net_status;
     private Button bt_down_app;
     private String downLoadPath1 = "https://imtt.dd.qq.com/16891/apk/7884ACB68E413A5B22A7FE044DD3BF3C.apk";
+    private String downLoadPath2 = "https://e.vipgz1.idcfengye.com/rest/mobile/appstore/app/appdownload";
     private Button bt_stop_app;
     private Button bt_reset_app;
     private int CORE_THREAD = 2;
     private ProgressBar pb_load;
     private static final String ID = "DIDI2";
     private static final CharSequence NAME = "下载进度更新";
-    private final int id=107;
+    private final int id = 107;
     private RemoteViews remoteViews;
+    private ExecutorService mExecutorService;
+    private int mCount = 0;
+    private EditText et_sumone;
+    private EditText et_sumtwo;
+    private TextView tv_sum;
 
+    // Used to load the 'native-lib' library on application startup.
+//    static {
+//        System.loadLibrary("c++_shared");
+//        System.loadLibrary("marsxlog");
+//        System.loadLibrary("native-lib");
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         initView();
+
+//        MyApp.mActivity=this;
         initEvent();
         setFg();
 
-//        regReceiver();
+        AppUtil.getInstance().setHandler(mHandler);
+        regReceiver();
         regCb();
+        initThreadPool();
+    }
+
+
+    private void initThreadPool() {
+        //初始化线程池
+        mExecutorService = Executors.newFixedThreadPool(3);
     }
 
     private void regCb() {
@@ -112,7 +176,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         AppUtil.getInstance().regProCallBack(new ProgressCallBack() {
             @Override
             public void updateProgress(int pro) {
-                LogUtils.e("回调进度："+pro);
+                LogUtils.e("回调进度：" + pro);
                 pb_load.setProgress(pro);
                 sendMsg(pro);
             }
@@ -244,6 +308,8 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         pb_load.setOnClickListener(this);
 
         remoteViews = new RemoteViews(getPackageName(), R.layout.progress_layout);
+        tv_sum = (TextView) findViewById(R.id.tv_sum);
+        tv_sum.setOnClickListener(this);
     }
 
     @Override
@@ -251,7 +317,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.bt_fg1:
                 setChoiceItem(0);
-                DownLoadDao.getInstance().deleteAll();
+                ActivityCompat.requestPermissions(FragmentActivity.this, permissions, 321);
                 break;
             case R.id.bt_fg2:
                 setChoiceItem(1);
@@ -264,24 +330,128 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
 //                }
                 break;
             case R.id.bt_down_app:
-                PermissionUtils.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new Consumer<Boolean>() {
+              /*  PermissionUtils.requestPermissions(AppManager.getAppManager().currentActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
                         if (aBoolean) {
-                            DownLoadUtils.getInstance().start(downLoadPath1);
+                            LogUtils.e("");
+//                            DownLoadUtils.getInstance().start(downLoadPath2);
+                          *//*  DownLoadThread downLoadThread = new DownLoadThread();
+                            mExecutorService.execute(downLoadThread);
+
+
+                            TestThread testThread = new TestThread();
+                            mExecutorService.execute(testThread);*//*
 //                            threadDown();
+
+//                            LogUtils.e(sdPath);
+
+//                            NoticeQueue.getInstance().start();
                         }
                     }
-                });
+                });*/
 //                processDownload(null,10159880,null);
+//                mHandler.sendEmptyMessageDelayed(2, 3000);
+
                 break;
             case R.id.bt_stop_app:
-                DownLoadUtils.getInstance().stop();
+//                DownLoadUtils.getInstance().stop();
+//                startActivity(new Intent(this, T1Activity.class));
+                Intent intent1 = new Intent(this, ForegroundService.class);
+                if (Build.VERSION.SDK_INT >= 26) {
+                    startForegroundService(intent1);
+                } else {
+                    startService(intent1);
+                }
+
+//                NoticeQueue.getInstance().stop();
                 break;
             case R.id.bt_reset_app:
-                DownLoadUtils.getInstance().reSet();
+                boolean b1 = checkTimeFence();
+                LogUtils.e("检测时间围栏：" + b1);
                 break;
         }
+    }
+
+    private void start() {
+//        LogUtils.e("start");
+//        Intent intent = new Intent("com.yangyong.didi2.EasyService");
+//        // 注意在 Android 5.0以后，不能通过隐式 Intent 启动 service，必须制定包名
+//        intent.setPackage("com.yangyong.aotosize");
+//        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+//
+//        aidlCallBack();
+        CopyThread copyThread = new CopyThread();
+        mExecutorService.execute(copyThread);
+    }
+
+    private void aidlCallBack() {
+        try {
+            if (mIEasyService != null) {
+//                        int i = mIEasyService.addSum(Integer.parseInt(s1), Integer.parseInt(s2));
+//                        tv_sum.setText("远程计算结果："+i);
+
+                String mesg = mIEasyService.getMesg();
+                tv_sum.setText(mesg);
+            }
+        } catch (Exception e) {
+            LogUtils.e("Exception: " + e.toString());
+        }
+    }
+
+    private IMyAidlInterface mIEasyService;
+
+
+    ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LogUtils.e("onServiceConnected");
+            mIEasyService = IMyAidlInterface.Stub.asInterface(service);
+            aidlCallBack();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            LogUtils.e("onServiceDisconnected");
+            mIEasyService = null;
+        }
+    };
+
+    private void reqper() {
+        new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        SystemClock.sleep(3000);
+                        boolean b = AppUtil.getInstance().checkPermission(FragmentActivity.this, permissions[0]);
+                        LogUtils.e("qunxian:" + b);
+                    }
+                }
+        ).start();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void setArm() {
+        Intent intent = new Intent(this, T1Activity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //设置当前时间
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        // 根据用户选择的时间来设置Calendar对象
+        c.set(Calendar.HOUR_OF_DAY, 15);
+        c.set(Calendar.MINUTE, 37);
+        // ②设置AlarmManager在Calendar对应的时间启动Activity
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+
+//        alarmManager.setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                SystemClock.elapsedRealtime(), pi);
+//        System.currentTimeMillis()+1000*60*3
+
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+//        LogUtils.e(c.getTimeInMillis() + "");   //这里的时间是一个unix时间戳
+        // 提示闹钟设置完毕:
+        Toast.makeText(this, "闹钟设置完毕~" + c.getTimeInMillis(), Toast.LENGTH_SHORT).show();
     }
 
     private void threadDown() {
@@ -290,7 +460,8 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 try {
                     LogUtils.e("开始多线程下载");
-                    long contentLength = DownLoadUtils.getInstance().getContentLength(downLoadPath1);
+                    String req = DownLoadUtils.getInstance().createReq();
+                    long contentLength = DownLoadUtils.getInstance().getContentLength(downLoadPath2, req);
                     File rootFile = FileUtils.getRootFile();
                     String name = downLoadPath1.substring(downLoadPath1.lastIndexOf("/") + 1);
                     File file = new File(rootFile, name); //很正常的File() 方法
@@ -317,18 +488,6 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
 //        AppUtil.getInstance().showDialog(this, "应用宝");
     }
 
-    private void submit() {
-        // validate
-        String input = et_input.getText().toString().trim();
-        if (TextUtils.isEmpty(input)) {
-            Toast.makeText(this, "输入", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // TODO validate success, do something
-
-
-    }
 
     private void test1(final int i) {
         new Thread(
@@ -411,38 +570,38 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private class MustInstallAppReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (TextUtils.equals(action, Constants.MUSTINSTALLAPP)) {
-//                int type = intent.getIntExtra("type", 3);
-//                List<MustAppInfo> applist = (List<MustAppInfo>) intent.getSerializableExtra("applist");
-
-//                LogUtils.e("未装应用数：" + count);
-//                List<String> pks = new ArrayList<>();
-//                pks.add("com.everhomes.android.jmrh");
-//                pks.add("com.netease.cloudmusic");
-//                pks.add("com.yangyong.didi2");
-//                if (applist == null || applist.size() == 0) {
-//                    return;
-//                }
-//                if (type == 0) {
-//                    InstallAppUtils.getInstance().showInstallDialog(Launcher.this, 0, applist);
-//                } else if (type == 1) {
-//                    InstallAppUtils.getInstance().showInstallDialog(Launcher.this, 1, applist);
-//                }
-                AppUtil.getInstance().showDialog(context, "应用宝");
-            }
-        }
-    }
+//    private class MustInstallAppReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            if (TextUtils.equals(action, Constants.MUSTINSTALLAPP)) {
+////                int type = intent.getIntExtra("type", 3);
+////                List<MustAppInfo> applist = (List<MustAppInfo>) intent.getSerializableExtra("applist");
+//
+////                LogUtils.e("未装应用数：" + count);
+////                List<String> pks = new ArrayList<>();
+////                pks.add("com.everhomes.android.jmrh");
+////                pks.add("com.netease.cloudmusic");
+////                pks.add("com.yangyong.didi2");
+////                if (applist == null || applist.size() == 0) {
+////                    return;
+////                }
+////                if (type == 0) {
+////                    InstallAppUtils.getInstance().showInstallDialog(Launcher.this, 0, applist);
+////                } else if (type == 1) {
+////                    InstallAppUtils.getInstance().showInstallDialog(Launcher.this, 1, applist);
+////                }
+//                AppUtil.getInstance().showDialog(context, "应用宝");
+//            }
+//        }
+//    }
 
     private void regReceiver() {
-//        mustInstallAppReceiver = new MustInstallAppReceiver();
-//        IntentFilter appFilter = new IntentFilter();
-//        appFilter.addAction(Constants.MUSTINSTALLAPP);
-//        registerReceiver(mustInstallAppReceiver, appFilter);
+        mustInstallAppReceiver = new MustInstallAppReceiver();
+        IntentFilter appFilter = new IntentFilter();
+        appFilter.addAction(Constants.MUSTINSTALLAPP);
+        registerReceiver(mustInstallAppReceiver, appFilter);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -455,6 +614,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         super.onDestroy();
 //        unregisterReceiver(mustInstallAppReceiver);
 //        unregisterReceiver(nteWorkChangeReceive);
+
     }
 
     private void processDownload(String url, long length, DownLoadUtils.IProgress callback) {
@@ -485,7 +645,7 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
                 manager.createNotificationChannel(channel);
 
 
-                remoteViews.setProgressBar(R.id.pb_down,100,pro,false);
+                remoteViews.setProgressBar(R.id.pb_down, 100, pro, false);
                 Notification notification = new Notification.Builder(this, ID)
                         .setContentTitle("下载app")
 //                        .setContentText("应用需保持运行")
@@ -495,7 +655,6 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
                         .build();
 
 
-
 //                notification.contentView=remoteViews;
 
                 manager.notify(id, notification);
@@ -503,5 +662,137 @@ public class FragmentActivity extends AppCompatActivity implements View.OnClickL
         } catch (Exception e) {
             LogUtils.e("Exception: " + e.toString());
         }
+    }
+
+    private class DownLoadThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            LogUtils.e("启动下载线程：" + Thread.currentThread().getId());
+            synchronized (AppUtil.getInstance().object) {
+                try {
+                    AppUtil.getInstance().object.wait();
+                } catch (InterruptedException e) {
+                    LogUtils.e(e.toString());
+                }
+                LogUtils.e("测试线程运行接收，下载线程继续");
+                mCount = mCount + 1;
+            }
+        }
+    }
+
+    private class CopyThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            LogUtils.e("启动拷贝线程：" + Thread.currentThread().getId());
+            FileUtils.getDataFile(FragmentActivity.this, mHandler);
+        }
+    }
+
+    private class TestThread extends Thread {
+
+        @Override
+        public void run() {
+            super.run();
+            LogUtils.e("启动测试线程：" + Thread.currentThread().getId());
+//            synchronized (object) {
+            mCount = mCount + 20;
+            SystemClock.sleep(5000);
+            //恢复下载线程,通知唤醒对象，释放锁
+            synchronized (AppUtil.getInstance().object) {
+                AppUtil.getInstance().object.notify();
+            }
+//            }
+        }
+    }
+
+    void test() {
+        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00")); //设置时区
+        int curYear = calendar.get(Calendar.YEAR);//年
+        int curMonth = calendar.get(Calendar.MONTH) + 1;//月要加1
+        int curDay = calendar.get(Calendar.DAY_OF_MONTH);//日
+
+        int curHour = calendar.get(Calendar.HOUR_OF_DAY);//时
+        int curMinute = calendar.get(Calendar.MINUTE);//分
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1; //周几需要减一
+//        int week_day = Calendar.getInstance(Locale.CHINA).get(Calendar.DAY_OF_WEEK) - 1;//当前星期 {1-7}
+        LogUtils.e("当前年：" + curYear);
+        LogUtils.e("当前月：" + curMonth);
+        LogUtils.e("当前日：" + curDay);
+        LogUtils.e("当前时：" + curHour);
+        LogUtils.e("当前分：" + curMinute);
+        LogUtils.e("当前星期几：" + curWeek);
+
+    }
+
+    /**
+     * 检测是否在时间围栏范围内
+     *
+     * @return
+     */
+    private boolean checkTimeFence() {
+//        MLimitTime limitTime = mRestrictInfo.time;
+//        MLimitTime.LimitTime scope = limitTime.getScope();
+
+        Calendar calendar = Calendar.getInstance();
+        int curYear = calendar.get(Calendar.YEAR);//年
+        int curMonth = calendar.get(Calendar.MONTH) + 1;//月
+        int curDay = calendar.get(Calendar.DAY_OF_MONTH);//日
+        int curHour = calendar.get(Calendar.HOUR_OF_DAY);//时
+        int curMinute = calendar.get(Calendar.MINUTE);//分
+        int curWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+//        int week_day = Calendar.getInstance(Locale.CHINA).get(Calendar.DAY_OF_WEEK) - 1;//当前星期 {1-7}
+
+        //判断是永久有效还是自定义时间段有效
+//        if ("0".equals(limitTime.getValid())) {//永久有效
+        if (false) {//永久有效
+            LogUtils.e("永久有效");
+            return true;
+//        } else if ("1".equals(limitTime.getValid())) {//自定义
+        } else if (true) {//自定义
+            String month = "";
+            String day = "";
+            if (curMonth < 10) {
+                month = "0" + curMonth;
+            } else {
+                month = curMonth + "";
+            }
+            if (curDay < 10) {
+                day = "0" + curDay;
+            } else {
+                day = curDay + "";
+            }
+
+            int nowDate = Integer.parseInt(curYear + month + day);//当前日期 20210324
+//            int serverStartDate = Integer.parseInt(limitTime.getStart().replaceAll("-", ""));//开始日期
+//            int serverEndDate = Integer.parseInt(limitTime.getEnd().replaceAll("-", ""));//结束日期
+
+            int serverStartDate = 20210324;//开始日期
+            int serverEndDate = 20210424;//结束日期
+
+            String weekdays = "1,2,3,4,5,6,0";//周几执行
+            String startTime = "00:00";//几点开始执行
+            String endTime = "19:00";//几点结束执行
+            //将后台时间段转化为18:00--->1800 这种形式
+            int scopeStart = Integer.parseInt(startTime.replaceAll(":", ""));//首次执行时间
+            int scopeEnd = Integer.parseInt(endTime.replaceAll(":", ""));
+            int curTime = 0;
+            if (curMinute < 10) {
+                curTime = Integer.parseInt(curHour + "0" + curMinute);
+            } else {
+                curTime = Integer.parseInt(curHour + "" + curMinute);
+            }
+
+            if (nowDate >= serverStartDate && nowDate <= serverEndDate) {//判断日期范围
+                if (weekdays.contains(curWeek + "")) {//判断星期范围
+                    if (curTime >= scopeStart && curTime <= scopeEnd) {//判断时间范围
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

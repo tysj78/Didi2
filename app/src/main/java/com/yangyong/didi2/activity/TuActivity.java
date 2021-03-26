@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.yangyong.didi2.R;
+import com.mobilewise.didi2.R;
 
 public class TuActivity extends AppCompatActivity {
 

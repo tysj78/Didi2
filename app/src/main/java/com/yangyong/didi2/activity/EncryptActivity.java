@@ -1,7 +1,5 @@
 package com.yangyong.didi2.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
@@ -16,14 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.yangyong.didi2.R;
-import com.yangyong.didi2.util.PermissionUtils;
+import com.mobilewise.didi2.R;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 public class EncryptActivity extends AppCompatActivity implements View.OnClickListener {
     private Context mContext = null;
