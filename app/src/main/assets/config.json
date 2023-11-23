@@ -1,0 +1,12 @@
+{
+  "type": "0",
+  "use": "true",
+  "encryptCode": "ZW1tX3N1bmluZm9fY29tX2VuY3J5cHRf",
+  "blueToothStr": [
+    "12:34:56:23:65:47",
+    "23:65:47:89:89:87"
+  ],
+  "adb":"dumpsys window w |findstr \/ |findstr name=",
+  "signal": "97F6556B775119E0DE09E7314F64021D"
+}
+

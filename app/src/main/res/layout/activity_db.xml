@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.DbActivity">
+
+
+    <Button
+        android:id="@+id/initdb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="初始化加密数据库对象" />
+
+    <Button
+        android:id="@+id/adduser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加" />
+
+    <Button
+        android:id="@+id/queryuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询" />
+    <Button
+        android:id="@+id/queryuserexclude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="排除查询1" />
+
+    <Button
+        android:id="@+id/deleteuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除" />
+
+    <Button
+        android:id="@+id/newqueryuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新版本查询" />
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传" />
+
+    <Button
+        android:id="@+id/jsontest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="模拟器check" />
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="模拟器检测：" />
+</LinearLayout>

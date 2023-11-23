@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.naruto.didi2.activity.LocationActivity">
+
+    <TextView
+        android:id="@+id/tv_model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="高德定位"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/location_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="隐式合规申请" />
+
+    <Button
+        android:id="@+id/bt_Hight_Accuracy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="高精度模式" />
+
+    <Button
+        android:id="@+id/bt_Battery_Saving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="低功耗模式" />
+
+    <Button
+        android:id="@+id/bt_Device_Sensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="仅用设备模式" />
+
+    <Button
+        android:id="@+id/location_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发起单次定位" />
+</LinearLayout>

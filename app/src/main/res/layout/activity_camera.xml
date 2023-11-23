@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bgp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.naruto.didi2.activity.CameraActivity">
+
+    <com.naruto.didi2.view.LiveCameraView
+        android:id="@+id/sv_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/white" />
+    <!--android:background="@color/white"-->
+    <ImageView
+        android:id="@+id/iv_capture"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_save_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启" />
+</LinearLayout>

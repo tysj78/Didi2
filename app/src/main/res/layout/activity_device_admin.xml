@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobilewise.didi2.DeviceAdminActivity">
+
+    <Button
+        android:id="@+id/jin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="禁用相机" />
+
+    <Button
+        android:id="@+id/tiao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="跳到a" />
+
+    <Button
+        android:id="@+id/jinyong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="禁用wifi" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时代大厦所多" />
+
+    <CheckBox
+        android:id="@+id/ck_agree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="我已阅读并同意隐私政策"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">naruto</string>
+    <string name="device_des">取消EMM移动设备管理，会导致设备屏幕锁定，如需要操作，请与管理员联系，获取锁屏密码。</string>
+    <string name="device">设备管理器</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="bell_tips">请长按设置按钮5秒钟，听到语音提示后点击下一步进行操作！</string>
+    <string name="device_id">设备ID:</string>
+    <string name="wifi_ssid">WIFI-SSID:</string>
+    <string name="wifi_pwd">WIFI密码:</string>
+    <string name="next">下一步</string>
+    <string name="sure">确定</string>
+    <string name="input_pwd_hint">请输入密码</string>
+    <string name="wait_moment">操作进行中，请稍后</string>
+    <string name="fangxiezai">一款防止应用卸载的服务</string>
+    <string name="moni">一款模拟手势的服务</string>
+    <string name="classesdex_crc">251154365</string>
+
+    <string name="generate">Generate New Key</string>
+    <string name="delete">Delete key</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="key_alias">Key Alias</string>
+    <string name="initial_text">Initial Text</string>
+    <string name="final_text">Encrypted Text</string>
+    <string name="decrypt_result">Decrypted Text</string>
+    <string name="current_key">当前key列表</string>
+    <string name="encrypt_content">原文</string>
+    <string name="decrypt_content">密文</string>
+    <string name="plaintext">明文1111111111111</string>
+
+    <string name="N_A">N/A</string>
+    <string name="close">Close</string>
+    <string name="exit">Exit</string>
+    <string name="sample">Sample</string>
+    <string name="recent">Recent</string>
+    <string name="settings">Settings</string>
+    <string name="tracks">Tracks</string>
+    <string name="toggle_player">Player</string>
+    <string name="toggle_render">Render</string>
+    <string name="toggle_ratio">Scale</string>
+    <string name="show_info">Info</string>
+    <string name="vdec">vdec</string>
+    <string name="fps">fps</string>
+    <string name="v_cache">v-cache</string>
+    <string name="a_cache">a-cache</string>
+
+    <string name="media_information">Media Information</string>
+    <string name="mi_player">Player</string>
+    <string name="mi_media">Media</string>
+    <string name="mi_profile_level">Profile level</string>
+    <string name="mi_pixel_format">Pixel format</string>
+    <string name="mi_resolution">Resolution</string>
+    <string name="mi_length">Length</string>
+    <string name="mi_stream_fmt1">Stream #%d</string>
+    <string name="mi_type">Type</string>
+    <string name="mi_language">Language</string>
+    <string name="mi_codec">Codec</string>
+    <string name="mi_frame_rate">Frame rate</string>
+    <string name="mi_bit_rate">Bit rate</string>
+    <string name="mi_sample_rate">Sample rate</string>
+    <string name="mi_channels">Channels</string>
+    <string name="mi__selected_video_track">*</string>
+    <string name="mi__selected_audio_track">*</string>
+
+    <string name="TrackType_video">Video</string>
+    <string name="TrackType_audio">Audio</string>
+    <string name="TrackType_subtitle">Subtitle</string>
+    <string name="TrackType_timedtext">Timed text</string>
+    <string name="TrackType_metadata">Meta data</string>
+    <string name="TrackType_unknown">Unknown</string>
+
+    <string name="VideoView_error_text_invalid_progressive_playback">Invalid progressive playback</string>
+    <string name="VideoView_error_text_unknown">Unknown</string>
+    <string name="VideoView_error_button">OK</string>
+
+    <string name="VideoView_ar_aspect_fit_parent">Aspect / Fit parent</string>
+    <string name="VideoView_ar_aspect_fill_parent">Aspect / Fill parent</string>
+    <string name="VideoView_ar_aspect_wrap_content">Aspect / Wrap content</string>
+    <string name="VideoView_ar_match_parent">Free / Fill parent</string>
+    <string name="VideoView_ar_16_9_fit_parent">16:9 / Fit parent</string>
+    <string name="VideoView_ar_4_3_fit_parent">4:3 / Fit parent</string>
+
+    <string name="VideoView_render_none">Render: None</string>
+    <string name="VideoView_render_surface_view">Render: SurfaceView</string>
+    <string name="VideoView_render_texture_view">Render: TextureView</string>
+
+    <string name="VideoView_player_none">Player: None</string>
+    <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
+    <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
+    <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
+
+    <string name="txtText1">%1$d</string>
+    <string name="txtText2">%1$f</string>
+    <string name="txtText3">%1$s</string>
+    <string name="txtText4">%1$d\t%2$f\t%3$s</string>
+    <string name="txtText5">%1$b</string>
+</resources>

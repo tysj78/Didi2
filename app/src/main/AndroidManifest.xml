@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.naruto.didi2">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.OVERRIDE_WIFI_CONFIG" />
+    <uses-permission android:name="android.permission.TETHER_PRIVILEGED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <!-- 高德定位权限 -->
+    <!-- 允许访问网络，必选权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 允许获取精确位置，精准定位必选 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 允许获取粗略位置，粗略定位必选 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 允许获取设备和运营商信息，用于问题排查和网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 允许获取网络状态，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 允许获取wifi网络信息，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- 允许获取wifi状态改变，用于网络定位（无gps情况下的定位），若需网络定位功能则必选 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- 后台获取位置信息，若需后台定位则必选 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- 用于申请调用A-GPS模块,卫星定位加速 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <!-- 允许写设备缓存，用于问题排查 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!-- 允许写入扩展存储，用于写入缓存定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 允许读设备等信息，用于问题排查 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- <uses-permission -->
+    <!-- android:name="android.permission.WRITE_SETTINGS" -->
+    <!-- tools:ignore="ProtectedPermissions" /> -->
+    <uses-permission
+        android:name="android.permission.ACCESS_MOCK_LOCATION"
+        tools:ignore="MockLocation,ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 访问网络，进行地图相关业务数据请求，包括地图数据，路线规划，POI检索等 -->
+    <uses-permission
+        android:name="android.permission.MODIFY_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="com.cn.customview.permissions.MY_BROADCAST" />
+
+    <permission
+        android:name="com.yangyong.permission.myprovider"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="com.mobilewise.permission"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="didi2.permission"
+        android:protectionLevel="normal" />
+
+    <uses-permission android:name="didi2.permission" />
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/naruto"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/naruto"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.KongActivity"
+            android:theme="@style/MyTransparent" />
+        <activity android:name=".activity.UIActivity" />
+        <activity android:name=".activity.InstanceActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.Main2Activity" />
+        <activity android:name=".activity.Main3Activity" />
+        <activity android:name=".activity.Main5Activity" />
+        <activity android:name=".activity.Main6Activity" />
+        <activity android:name=".activity.ClipboardActivity" />
+        <activity android:name=".activity.HookActivity" />
+        <activity android:name=".activity.DeviceAdminActivity" />
+        <activity android:name=".activity.Main9Activity" />
+        <activity android:name=".activity.RequestActivity" />
+        <activity android:name=".activity.IoActivity" />
+        <activity android:name=".activity.Main10Activity" />
+        <activity android:name=".activity.LeakActivity" />
+        <activity android:name=".activity.DownActivity" />
+        <activity android:name=".activity.JylyActivity" />
+        <activity android:name=".activity.GbActivity" />
+        <activity android:name=".activity.Main12Activity" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="5BVfZ8IzlLaYh6GTKlR3fGLFmj2zTgi8" />
+
+        <!-- 设置key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="e4fd13361c9e2138b8f58268575c043b" />
+
+        <!-- 定位需要的服务 适配Android Q需要加上android:foregroundServiceType="location" -->
+        <service
+            android:name="com.amap.api.location.APSService"
+            android:foregroundServiceType="location" />
+
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="${applicationId}.provider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/provider_paths" /> -->
+        <!-- </provider> -->
+        <!--
+            <provider
+            android:name=".TestContentProvider"
+            android:authorities="com.yangyong.TestContentProvider"
+            android:exported="false" />
+        -->
+
+        <receiver
+            android:name=".broadcast.EMMDeviceAdminReceiver"
+            android:description="@string/device_des"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/device"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <intent-filter>
+
+                <!-- 激活动作 -->
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <!-- 取消激活动作 -->
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/emm_device_admin" />
+        </receiver>
+        <!-- <receiver android:name=".broadcast.NetInfoReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <service
+            android:name=".service.MyService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".testactivity.AActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+        <activity android:name=".testactivity.BActivity" />
+        <activity android:name=".activity.ConnectWifiActivity" />
+        <activity android:name=".activity.ImeiActivity" />
+        <activity android:name=".activity.CodingActivity" />
+        <activity android:name=".activity.WifiConnectActivity" />
+        <activity android:name=".activity.TimerActivity" />
+
+        <receiver
+            android:name=".broadcast.TimeChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.TIME_TICK" />
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
+
+        <!-- <service -->
+        <!-- android:name=".service.DidiService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" -->
+        <!-- android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.accessibilityservice.AccessibilityService" /> -->
+        <!-- </intent-filter> -->
+
+
+        <!-- <meta-data -->
+        <!-- android:name="android.accessibilityservice" -->
+        <!-- android:resource="@xml/didi_service" /> -->
+        <!-- </service> -->
+
+        <activity android:name=".activity.OpenFuZhuActivity" />
+        <activity android:name=".activity.ExceptionActivity" />
+        <activity android:name=".activity.QueryCallActivity" />
+        <activity android:name=".activity.DateActivity" />
+        <activity android:name=".activity.TimeChangeActivity" />
+        <activity android:name=".activity.AlarmActivity" />
+
+        <receiver android:name=".broadcast.DidiAlarmReceiver">
+            <intent-filter>
+                <action android:name="com.didi.yangyong.alarm" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.PermissionActivity" />
+        <activity android:name=".activity.JmActivity" />
+        <activity android:name=".activity.RxActivity" />
+        <activity android:name=".activity.SendDataActivity" />
+        <activity android:name=".activity.RegActivity" />
+        <activity android:name=".activity.MmCheckActivity" />
+        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.DbActivity" />
+        <activity android:name=".activity.CheckActivity" />
+        <activity android:name=".activity.JiamiActivity" />
+        <activity android:name=".activity.ZlogActivity" />
+        <activity android:name=".activity.ZcActivity" />
+        <activity android:name=".activity.Main7Activity" />
+        <activity android:name=".activity.DeBugActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.appfileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".activity.EncryptActivity" />
+        <activity android:name=".activity.ImageActivity" />
+
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.AppInstallReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_ADDED" /> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REMOVED" /> -->
+        <!-- <action android:name="android.intent.action.PACKAGE_REPLACED" /> -->
+
+
+        <!-- <data android:scheme="package" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
+        <service
+            android:name=".service.TimerService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activity.ScreenActivity" />
+
+        <service
+            android:name=".service.Bind1Service"
+            android:enabled="true"
+            android:exported="true" />
+
+        <provider
+            android:name=".cp.MyContentProvider"
+            android:authorities="com.yangyong.mycp"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.yangyong.permission.myprovider" />
+
+        <activity android:name=".activity.CpActivity" />
+
+        <service
+            android:name=".service.MyIntentService"
+            android:exported="false" />
+
+        <activity android:name=".activity.BroadcastActivity" />
+
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.LocalReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.yangyong.local"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".broadcast.NetInfoReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.net.conn.CONNECTIVITY_CHANGE" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <activity android:name=".activity.RecordActivity" />
+        <activity android:name=".activity.DuanDianActivity" />
+        <activity android:name=".activity.JiaKeActivity" />
+        <activity android:name=".activity.InstallActivity" />
+        <activity android:name=".activity.GestureActivity" />
+
+        <service
+            android:name=".service.AccessService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility" />
+        </service>
+
+        <activity android:name=".activity.ServerSocketActivity" />
+        <activity android:name=".activity.EventActivity" />
+        <activity android:name=".activity.SocketActivity" />
+        <activity android:name=".socket.ServerActivity" />
+        <activity android:name=".activity.HtmlActivity" />
+        <activity android:name=".activity.NewActivity" />
+
+        <!--android:taskAffinity="com.screen.activity"-->
+        <activity android:name=".activity.test.T1Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:clearTaskOnLaunch="true"
+            android:name=".activity.DownLoadActivity" />
+
+        <activity
+            android:name=".activity.test.T2Activity"
+            />
+        <activity android:name=".activity.KeyStoreActivity" />
+        <activity android:name=".activity.SimulateGestureActivity" />
+        <activity android:name=".activity.CameraActivity" />
+        <activity android:name=".activity.ThreadActivity" />
+        <activity android:name=".activity.FragmentActivity" />
+        <activity android:name=".activity.PicActivity" />
+        <activity android:name=".activity.TuActivity" />
+        <activity android:name=".activity.RobotActivity" />
+        <activity android:name=".activity.SocketTestActivity" />
+        <!-- <activity android:name=".activity.third.IjkPlayerActivity" /> -->
+
+        <service
+            android:name=".service.SendDataService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activity.two.TimetableActivity" />
+        <activity android:name=".activity.two.FileActivity" />
+
+        <service
+            android:name=".service.ForegroundService"
+            android:enabled="true" />
+
+        <activity android:name=".fragment.ViewPageActivity" />
+        <activity android:name=".dbdao.GreenDaoActivity" />
+        <activity android:name=".database.StudentActivity" />
+        <activity android:name=".hook.HookActivity" />
+        <!-- <meta-data -->
+        <!-- android:name="xposedmodule" -->
+        <!-- android:value="true" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="xposeddescription" -->
+        <!-- android:value="你猜猜" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="xposedminversion" -->
+        <!-- android:value="54" /> -->
+        <activity android:name=".activity.two.TestActivity" />
+        <activity android:name=".activity.test.ScrollActivity" />
+        <activity android:name=".activity.third.GeoFenceActivity" />
+        <activity android:name=".activity.test.ThreadTestActivity" />
+
+        <service android:name=".service.TtsService" />
+
+        <activity android:name=".activity.test.TtsActivity" />
+        <activity android:name=".activity.test.LoadViewActivity" />
+        <activity android:name=".activity.test.EncryptActivity" />
+        <activity android:name=".activity.test.DbTestActivity" />
+        <activity android:name=".activity.test.FanSheActivity" />
+        <activity android:name=".activity.third.MnActivity" />
+        <activity android:name=".activity.third.WebActivity" />
+        <activity android:name=".activity.LocationActivity" />
+        <activity android:name=".activity.X5Activity" />
+        <activity android:name=".activity.SplashActivity" />
+
+        <service
+            android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
+            android:label="dexopt"
+            android:process=":dexopt" />
+        <service android:name=".service.LocationForcegroundService" />
+
+        <activity android:name=".activity.third.ApkCopyActivity"></activity>
+        <activity android:name=".activity.MyDiyViewActivity" />
+        <activity android:name=".activity.third.ClockActivity" >
+
+        </activity>
+
+        <receiver
+            android:name="com.naruto.func.ClockUpdateReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="naruto.intent.clockupdate" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+
+        <!-- 定义权限，意为发送方需要申请权限 -->
+        <receiver
+            android:name=".broadcast.PermissionReceiver"
+            android:exported="true"
+            android:permission="didi2.permission">
+            <intent-filter>
+                <action android:name="naruto.intent.permission" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".broadcast.TestReceiver"
+            android:enabled="true"
+            android:exported="false">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="didi2.test" /> -->
+            <!-- </intent-filter> -->
+        </receiver>
+
+        <activity android:name=".activity.third.HandlerActivity" />
+        <activity android:name=".activity.third.TestDemo"></activity>
+
+        <receiver android:name=".broadcast.NetWorkReceiver">
+            <intent-filter>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.DownLoadFileService"
+            android:enabled="true"
+            android:exported="true"></service>
+    </application>
+
+</manifest>

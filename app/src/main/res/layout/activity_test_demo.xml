@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.naruto.didi2.activity.third.TestDemo">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_writeObject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="写对象到文件"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_readFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="读文件为对象"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_listdelrepeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="集合数据去重"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_getwifiip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置使用情况权限" />
+
+    <Button
+        android:id="@+id/bt_regtest1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册test1广播"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/bt_sendtest1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送test1广播"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="660dp"
+        android:layout_height="600dp" />
+
+</LinearLayout>

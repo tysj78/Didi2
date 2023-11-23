@@ -1,0 +1,16 @@
+# Android Studio
+*.iml
+.idea/
+
+# Gradle files
+build/
+.gradle/
+
+# Local configuration file (e.g., proguard-rules.pro)
+proguard-rules.pro
+
+# Android build output
+app/build/
+
+# Ignore .externalNativeBuild directory CMake 缓存
+.externalNativeBuild/

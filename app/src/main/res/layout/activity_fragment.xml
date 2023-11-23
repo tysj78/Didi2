@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.naruto.didi2.activity.FragmentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/pb_load"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100" />
+
+        <TextView
+            android:id="@+id/tv_net_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="qq" />
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/bt_fg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换fg1" />
+
+        <Button
+            android:id="@+id/bt_fg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="切换fg2" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/rbProject"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/selector_project"
+                android:gravity="center"
+                android:visibility="gone" />
+            <!-- 数据分析-->
+            <!--<RadioButton-->
+            <!--android:id="@+id/rbData"-->
+            <!--android:text="数据分析"-->
+            <!--android:button="@null"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="12sp"-->
+            <!--android:drawablePadding="2dp"-->
+            <!--android:padding="7dp"-->
+            <!--android:drawableTop="@drawable/selector_message"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content" />-->
+            <!-- 我的-->
+            <RadioButton
+                android:id="@+id/rbMine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_mine"
+                android:gravity="center" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/bt_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="弹窗"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="32"
+            android:visibility="visible" />
+
+        <!--android:imeOptions="actionSearch"-->
+        <TextView
+            android:id="@+id/tv_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/bt_down_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下载app" />
+
+        <Button
+            android:id="@+id/bt_stop_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂停下载app" />
+
+        <Button
+            android:id="@+id/bt_reset_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重置下载app" />
+
+        <Button
+            android:id="@+id/bt_add_memory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="增加堆内存" />
+
+        <Button
+            android:id="@+id/bt_clear_memory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除堆内存" />
+    </LinearLayout>
+</ScrollView>

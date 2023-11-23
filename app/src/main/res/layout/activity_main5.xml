@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.Main5Activity">
+
+    <TextView
+        android:id="@+id/tv_current_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/main_ss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启前台服务" />
+
+    <Button
+        android:id="@+id/main_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查询时间_" />
+
+    <Button
+        android:id="@+id/bt_tiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转_" />
+
+    <Button
+        android:id="@+id/bt_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退出_" />
+
+    <Button
+        android:id="@+id/bt_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除_" />
+
+    <Button
+        android:id="@+id/bt_handler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="handler" />
+</LinearLayout>

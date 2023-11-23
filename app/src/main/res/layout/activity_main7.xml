@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.Main7Activity">
+
+    <Spinner
+        android:id="@+id/spn_classes"
+        android:layout_width="200dip"
+        android:layout_height="40dip"
+        android:spinnerMode="dropdown"
+        android:textSize="16sp" />
+
+    <Button
+        android:text="上传图片"
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="安装"
+        android:id="@+id/btn_install"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

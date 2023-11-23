@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.naruto.didi2.activity.test.FanSheActivity">
+
+    <Button
+        android:id="@+id/call_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="有参构造" />
+
+    <Button
+        android:id="@+id/call_method_none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="无参构造" />
+
+    <Button
+        android:id="@+id/get_attribute_public"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="公共属性" />
+
+    <Button
+        android:id="@+id/get_attribute_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="所有属性" />
+
+    <Button
+        android:id="@+id/get_construction_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="所有构造" />
+
+    <Button
+        android:id="@+id/call_method_private"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="私有方法" />
+
+    <Button
+        android:id="@+id/close_hot_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="关闭热点" />
+    <Button
+        android:id="@+id/close_hot_point1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="关闭热点1" />
+
+    <Button
+        android:id="@+id/call_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打电话" />
+</LinearLayout>

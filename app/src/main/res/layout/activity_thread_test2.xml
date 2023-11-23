@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.naruto.didi2.activity.test.ThreadTestActivity">
+
+    <ScrollView
+        android:id="@+id/sv_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/methodlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方法锁" />
+
+            <Button
+                android:id="@+id/method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="方法" />
+
+            <Button
+                android:id="@+id/lock_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="锁屏" />
+
+            <Button
+                android:id="@+id/set_lock_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置锁屏密码" />
+
+            <Button
+                android:id="@+id/recover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="恢复出厂设置" />
+
+            <Button
+                android:id="@+id/close_bluetooth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关闭蓝牙" />
+
+            <Button
+                android:id="@+id/close_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="断开wifi" />
+
+            <Button
+                android:id="@+id/stop_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关闭wifi" />
+
+            <Button
+                android:id="@+id/stop_hot_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关闭移动热点" />
+
+            <Button
+                android:id="@+id/query_flow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.获取移动流量" />
+
+            <Button
+                android:id="@+id/connect_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6.连接指定wifi" />
+
+            <Button
+                android:id="@+id/query_sdcard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.sd卡挂载" />
+
+            <Button
+                android:id="@+id/query_Battery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8.手机电量" />
+
+            <Button
+                android:id="@+id/query_datasize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9.存储空间" />
+
+            <Button
+                android:background="@color/blue"
+                android:id="@+id/appusertime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10.应用使用时长" />
+
+            <Button
+                android:id="@+id/apppackegname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11.应用包名" />
+
+            <Button
+                android:id="@+id/appuserflow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12.应用流量" />
+
+            <EditText
+                android:text="欧了赛附加按实际佛更氨基酸迪欧更案件搜房静安寺·少更·熬时间覅时间佛·欧塞金佛·奥is就覅OA升级覅欧艾斯·if骄傲is福建傲is就"
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

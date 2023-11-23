@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.two.TimetableActivity">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone">
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text=" " />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="5.0dip"
+                android:text="一"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="5.0dip"
+                android:text="二"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="5.0dip"
+                android:text="三"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="5.0dip"
+                android:text="四"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="5.0dip"
+                android:text="五"
+                android:textColor="@color/black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="1"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="2"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="体" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="3"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="政" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="4"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="体" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="体" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="地" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+
+            <TextView
+                android:padding="5.0dip"
+                android:text="午休" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="5"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="历" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="音" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="英" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="政" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="6"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="语" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="美" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="生" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="生" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1.0"
+                android:text="7"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="班" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="地" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="数" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="历" />
+
+            <TextView
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:padding="15.0dip"
+                android:text="电"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15.0dip"
+        android:layout_marginRight="15.0dip"
+        android:text="by.yang"
+        android:textSize="25.0sp"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/bt_storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="insert" />
+
+    <Button
+        android:layout_below="@id/bt_storage"
+        android:id="@+id/bt_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="select" />
+
+</RelativeLayout>

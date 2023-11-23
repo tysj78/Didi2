@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mobilewise.didi2.com.yangyong.didi2.activity.ScreenActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_makelog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="制log" />
+
+            <Button
+                android:id="@+id/btn_sendnotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发通知" />
+
+            <TextView
+                android:id="@+id/tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_sendhandler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发handler" />
+
+            <Button
+                android:id="@+id/btn_blockingqueue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="blockingqueue" />
+
+            <TextView
+                android:id="@+id/tx_zbiao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_moveing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="移动" />
+
+            <Button
+                android:id="@+id/btn_addtodeque"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加队列数据" />
+
+            <Button
+                android:id="@+id/btn_tc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小部件权限" />
+
+            <TextView
+                android:id="@+id/tv_emui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="emui" />
+
+            <Button
+                android:id="@+id/btn_getemui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="读取emui" />
+
+            <Button
+                android:id="@+id/btn_booth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="禁用/开启蓝牙" />
+
+            <Button
+                android:id="@+id/btn_create_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Error" />
+
+            <Button
+                android:id="@+id/btn_install"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="安装apk" />
+
+            <Button
+                android:id="@+id/btn_bindService"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bind服务" />
+
+            <Button
+                android:id="@+id/btn_getCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取count" />
+
+            <Button
+                android:id="@+id/btn_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="停止服务" />
+
+            <Button
+                android:id="@+id/btn_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="播放音乐" />
+
+            <Button
+                android:id="@+id/btn_stp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="停止音乐" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
