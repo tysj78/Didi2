@@ -55,4 +55,10 @@
         android:layout_height="wrap_content"
         android:text="序列化测试" />
 
+    <Button
+        android:id="@+id/bt_ser_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新增测试按钮" />
+
 </LinearLayout>
